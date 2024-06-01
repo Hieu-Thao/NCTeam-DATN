@@ -20471,16 +20471,16 @@ ul {
     text-decoration: none;
 } */
 
-.d-parent>a{
+.d-parent>a {
     color: gray;
 }
 
-.d-child>a{
+.d-child>a {
     color: #5D87FF;
     margin-left: 5px;
 }
 
-.container{
+.container {
     margin-top: 10px;
 }
 
@@ -20557,12 +20557,13 @@ html {
 
 /* Animation load trang */
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     height: 100%;
     /* overflow: hidden;  */
-    }
+}
 
 .loader-background {
     position: fixed;
@@ -20570,7 +20571,8 @@ body, html {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #fff; /* Nền màu đen với độ mờ */
+    background-color: #fff;
+    /* Nền màu đen với độ mờ */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20617,7 +20619,8 @@ body, html {
 
 
 .content {
-    display: none; /* Ẩn nội dung chính khi loader hiển thị */
+    display: none;
+    /* Ẩn nội dung chính khi loader hiển thị */
 }
 
 .xem-anh:hover {
@@ -20625,33 +20628,36 @@ body, html {
     color: red;
 }
 
-.btn-cn{
+.btn-cn {
     color: white;
 }
 
-.btn-cn:hover{
+.btn-cn:hover {
     text-decoration: none !important;
     color: white;
 }
 
 /* Ẩn biểu tượng sắp xếp chỉ trên cột đầu tiên */
-.table.dataTable thead > tr > th:first-child.dt-ordering-asc span.dt-column-order {
+.table.dataTable thead>tr>th:first-child.dt-ordering-asc span.dt-column-order {
     display: none;
 }
 
 .swal2-popup {
-    font-size: 14px; /* Điều chỉnh kích thước font chữ */
+    font-size: 14px;
+    /* Điều chỉnh kích thước font chữ */
 }
 
 .swal2-title {
-    font-size: 16px; /* Điều chỉnh kích thước tiêu đề */
+    font-size: 16px;
+    /* Điều chỉnh kích thước tiêu đề */
 }
 
 .swal2-content {
-    font-size: 15px; /* Điều chỉnh kích thước nội dung */
+    font-size: 15px;
+    /* Điều chỉnh kích thước nội dung */
 }
 
-.roww{
+/* .roww{
     display: flex;
     gap: 40px;
     justify-content: center;
@@ -20672,10 +20678,12 @@ body, html {
     height: 30px;
 }
 
-.td-input{
-    font-weight: 600;
-    margin: 0 !important;
+.coll>textarea{
+    width: 1070px;
+    height: 50px;
 }
+
+
 
 @media screen and (max-width: 1300px) {
     .coll>input{
@@ -20684,5 +20692,72 @@ body, html {
 
     .coll>select{
         width: 275px !important;
+    }
+
+    .coll>textarea{
+        width: 900px;
+        height: 50px;
+    }
+} */
+
+
+.td-input {
+    font-weight: 600;
+    margin: 0 !important;
+}
+
+.roww {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.coll {
+    flex: 1 1 100%;
+    /* Default to full width */
+    padding: 10px;
+}
+
+.coll input[type="text"],
+.coll input[type="password"],
+.coll input[type="email"],
+.coll textarea,
+.coll select {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    resize: vertical;
+    /* Allow textarea to be resizable vertically */
+    border: 1px solid #bbbbbb;
+}
+
+.btn {
+    padding: 10px 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+@media (min-width: 600px) {
+    .coll {
+        flex: 1;
+        /* Grow to fill available space equally */
+    }
+
+    .coll input[type="text"],
+    .coll textarea,
+    .coll select {
+        flex: 1;
     }
 }

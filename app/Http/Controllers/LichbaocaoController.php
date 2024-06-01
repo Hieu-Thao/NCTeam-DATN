@@ -27,7 +27,8 @@ class LichbaocaoController extends Controller
      */
     public function create()
     {
-        //
+        $lichbaocao = Lichbaocao::all();
+        return view('admin.lich-bao-cao.create', compact('lichbaocao'));
     }
 
     /**

@@ -20,6 +20,7 @@ Route::get('/index', function () {
     return view('admin/index');
 });
 
+
 Route::get('/login', function () {
     return view('login');
 });
@@ -37,7 +38,7 @@ Route::get('/nhom', [NhomController::class, 'nhom']);
 Route::post('/nhom/store', [NhomController::class, 'store']);
 Route::post('/nhom/update', [NhomController::class, 'update']);
 
-// routes/web.php
+// Thành viên
 Route::prefix('/thanhvien')->group(function () {
     Route::get('/', [ThanhvienController::class, 'thanhvien']);
     Route::get('/create-thanhvien', [ThanhvienController::class, 'create']);
@@ -49,6 +50,7 @@ Route::prefix('/thanhvien')->group(function () {
     Route::post('/delete-multiple', [ThanhVienController::class, 'deleteMultiple']);
 });
 
+// Công trình
 Route::prefix('/congtrinh')->group(function () {
     Route::get('/', [CongtrinhController::class, 'congtrinh']);
     Route::get('/create', [CongtrinhController::class, 'create']);
@@ -57,18 +59,15 @@ Route::prefix('/congtrinh')->group(function () {
     Route::put('/edit/{ma_cong_trinh}', [CongtrinhController::class, 'update'])->name('congtrinh.update');
     Route::post('/delete-multiple', [CongtrinhController::class, 'deleteMultiple']);
     Route::delete('/{ma_cong_trinh}', [CongtrinhController::class, 'destroy'])->name('congtrinh.destroy');
-
-    // Route::get('/loaicongtrinh', [LoaicongtrinhController::class, 'loaicongtrinh']);
-    // Route::post('/loaicongtrinh/store', [LoaicongtrinhController::class, 'store']);
-    // Route::post('/loaicongtrinh/update', [LoaicongtrinhController::class, 'update']);
 });
 
+// Lịch báo cáo
 
-// Route::get('/create-thanhvien', function () {
-//     return view('thanhvien/create-thanhvien');
-// });
+Route::prefix('/lichbaocao')->group(function () {
+    Route::get('/', [LichbaocaoController::class, 'lichbaocao']);
+    Route::get('/create', [LichbaocaoController::class, 'create']);
+});
 
-// Route::get('/thanhvien', [ThanhvienController::class, 'thanhvien']);
 
 
 Route::get('/baibaocao', [BaibaocaoController::class, 'baibaocao']);
@@ -82,16 +81,11 @@ Route::get('/ytuongmoi/{id}', [YtuongmoiController::class, 'getYtuongmoi']);
 Route::put('/ytuongmoi/update/{id}', [YtuongmoiController::class, 'update']);
 
 
-
-
-
-
 Route::get('/tintuc', [TintucController::class, 'tintuc']);
 
 
 
 
-Route::get('/lichbaocao', [LichbaocaoController::class, 'lichbaocao']);
-Route::post('/lichbaocao/store', [LichbaocaoController::class, 'store']);
+
 
 

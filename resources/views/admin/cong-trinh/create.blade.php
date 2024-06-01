@@ -67,7 +67,7 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Loại công trình</label>
+                            <label class="td-input">Loại công trình:</label>
                             <select name="loai_cong_trinh" id="loai_cong_trinh">
                                 <option value="" disabled selected hidden>-- Chọn loại công trình --</option>
                                 @foreach ($loaicongtrinh as $lct)
@@ -76,39 +76,34 @@
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input">Tên công trình</label>
+                            <label class="td-input">Tên công trình:</label>
                             <input type="text" name="ten_cong_trinh" id="ten_cong_trinh" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">Năm</label>
+                            <label class="td-input">Năm:</label>
                             <input type="text" name="nam" id="nam" />
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Thuộc tạp chí</label>
-                            <input type="text" name="thuoc_tap_chi" id="thuoc_tap_chi"
-                                value="{{ $congtrinh->thuoc_tap_chi }}" />
+                            <label class="td-input">Thuộc tạp chí:</label>
+                            <input type="text" name="thuoc_tap_chi" id="thuoc_tap_chi" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">Tình trạng</label>
+                            <label class="td-input">Tình trạng:</label>
                             <select name="tinh_trang" id="tinh_trang">
-                                <option value="" disabled>-- Chọn tình trạng --</option>
-                                <option value="Đã xuất bản" {{ $congtrinh->tinh_trang == 'Đã xuất bản' ? 'selected' : '' }}>
-                                    Đã xuất bản</option>
-                                <option value="Chưa xuất bản"
-                                    {{ $congtrinh->tinh_trang == 'Chưa xuất bản' ? 'selected' : '' }}>Chưa xuất bản</option>
+                                <option value="" disabled selected hidden>-- Chọn tình trạng --</option>
+                                <option value="Đã xuất bản">Đã xuất bản</option>
+                                <option value="Chưa xuất bản">Chưa xuất bản</option>
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input" for="trang_thai">Trạng thái</label>
+                            <label class="td-input" for="trang_thai">Trạng thái:</label>
                             <select name="trang_thai" id="trang_thai">
-                                <option value="" disabled>-- Chọn trạng thái --</option>
-                                <option value="1" {{ $congtrinh->trang_thai == 1 ? 'selected' : '' }}>Công khai
-                                </option>
-                                <option value="0" {{ $congtrinh->trang_thai == 0 ? 'selected' : '' }}>Không công khai
-                                </option>
+                                <option value="" disabled selected hidden>-- Chọn trạng thái --</option>
+                                <option value="1">Công khai</option>
+                                <option value="0">Không công khai</option>
                             </select>
                         </div>
                     </div>

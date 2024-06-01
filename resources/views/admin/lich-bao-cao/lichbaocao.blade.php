@@ -13,10 +13,8 @@
             <h4>Danh sách lịch báo cáo</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
-            <button type="button" class="btn btn-success btn-sm" id="btnz" data-bs-toggle="modal"
-                data-bs-target="#addGroupModal">
-                <img src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">Thêm
-            </button>
+            <a href="/lichbaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
+                src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
             <button type="button" class="btn btn-danger btn-sm" id="btnz">
@@ -67,43 +65,6 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addGroupModalLabel">Thêm lịch báo cáo mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addGroupForm">
-                        @csrf
-                        {{-- <div class="mb-3">
-                            <label for="ma_nhom" class="form-label">Mã nhóm</label>
-                            <input type="text" class="form-control" id="ma_nhom" name="ma_nhom" readonly>
-                        </div> --}}
-                        <div class="mb-3">
-                            <label for="ten_lich" class="form-label">Tên lịch báo cáo:</label>
-                            <input type="text" class="form-control" id="ten_lich" name="ten_lich" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ngaybaocao" class="form-label">Ngày báo cáo:</label>
-                            <input type="text" class="form-control" id="ngaybaocao" name="ngaybaocao" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="thoi_gian_bat_dau" class="form-label">Thời gian bắt đầu:</label>
-                            <input type="text" class="form-control" id="thoi_gian_bat_dau" name="thoi_gian_bat_dau" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="thoi_gian_ket_thuc" class="form-label">Thời gian kết thúc:</label>
-                            <input type="text" class="form-control" id="thoi_gian_ket_thuc" name="thoi_gian_ket_thuc" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
 @endsection
@@ -137,11 +98,10 @@
                     "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
                 },
                 "pageLength": 10,
-                //"searching":false
                 "columnDefs": [{
                         "orderable": false,
                         "targets": 0
-                    }, // Disable sorting on the first column (checkbox column)
+                    },
                 ]
             });
         });
@@ -164,52 +124,5 @@
             });
         });
 
-        // Xử lý form thêm nhóm
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        function callAlert(title, icon, timer, text) {
-            Swal.fire({
-                position: "center",
-                icon: `${icon}`,
-                title: `${title}`,
-                text: `${text}`,
-                showConfirmButton: false,
-                timer: `${timer}`,
-                animation: false
-            });
-        }
-
-        $('#addGroupForm').on('submit', function(e) {
-            e.preventDefault();
-            var formData = $(this).serialize();
-
-            $.ajax({
-                type: 'POST',
-                url: '/lichbaocao/store',
-                data: formData,
-                success: function(response) {
-                    $('#addGroupModal').modal('hide');
-                    if (response.duplicate) {
-                        callAlert('Tên lịch báo cáo đã tồn tại trong cơ sở dữ liệu, vui lòng chọn tên khác!',
-                            'error', 1500, '');
-                    } else if (response.success) {
-                        callAlert('Thêm lịch báo cáo thành công!', 'success', 1500, '');
-                        setTimeout(function() {
-                            window.location.reload();
-                        }, 1000);
-                    } else {
-                        callAlert('Tên lịch báo cáo này đã được sử dụng!', 'error', 2500, '');
-                    }
-                },
-                error: function(response) {
-                    // Hiển thị thông báo lỗi bằng SweetAlert
-                    callAlert('Có lỗi xảy ra, vui lòng thử lại!', 'error', 1500, '');
-                }
-            });
-        });
     </script>
 @endpush
