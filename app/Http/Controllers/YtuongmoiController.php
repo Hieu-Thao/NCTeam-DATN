@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Baibaocao;
 use Illuminate\Http\Request;
 use App\Models\Ytuongmoi;
+use Illuminate\Support\Facades\Validator;
 
 class YtuongmoiController extends Controller
 {
@@ -31,7 +32,8 @@ class YtuongmoiController extends Controller
      */
     public function create()
     {
-        //
+        $baibaocao = Baibaocao::all();
+        return view('admin.y-tuong-moi.create', compact('baibaocao'));
     }
 
     // app/Http/Controllers/YtuongmoiController.php
@@ -55,30 +57,33 @@ class YtuongmoiController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            Ytuongmoi::create($request->all());
+        // Validate dữ liệu từ form
+        $validator = Validator::make($request->all(), [
+            'bai_bao_cao' => 'required',
+            'noi_dung' => 'required|string',
+            'hinh_anh' => 'required|string|max:255',
+            'trang_thai' => 'required|string|max:255',
+        ]);
 
-            return response()->json(['success' => true]); // Trả về kết quả thành công
-        } catch (\Exception $e) {
-            // \Log::error($e->getMessage());
-            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                return response()->json(['duplicate' => true]); // Trả về kết quả trùng lặp
-            }
-            return response()->json(['error' => true]); // Trả về kết quả lỗi chung
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
         }
+
+        // Tạo mới công trình
+        $ytuongmoi = new Ytuongmoi([
+            'ma_bai_bao_cao' => $request->bai_bao_cao,
+            'noi_dung' => $request->noi_dung,
+            'hinh_anh' => $request->hinh_anh,
+            'trang_thai' => $request->trang_thai,
+        ]);
+
+        // Lưu công trình vào cơ sở dữ liệu
+        $ytuongmoi->save();
+
+        // Trả về response sau khi lưu thành công
+        return response()->json('success', 200);
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -86,39 +91,74 @@ class YtuongmoiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($ma_y_tuong_moi)
     {
-        //
+        $ytuongmoi = Ytuongmoi::find($ma_y_tuong_moi);
+        $baibaocao = Baibaocao::all();
+
+        return view('admin.y-tuong-moi.edit', compact('ytuongmoi', 'baibaocao'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-{
-    try {
-        $ytuongmoi = Ytuongmoi::findOrFail($id);
 
-        $ytuongmoi->update($request->only(['ma_bai_bao_cao', 'noi_dung', 'hinh_anh', 'trang_thai']));
-
-        return response()->json(['success' => true]);
-    } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => $e->getMessage()]);
-    }
-}
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    public function update(Request $request, $ma_y_tuong_moi)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'bai_bao_cao' => 'required|integer',
+            'noi_dung' => 'required|string',
+            'hinh_anh' => 'required|string|max:255',
+            'trang_thai' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $ytuongmoi = Ytuongmoi::find($ma_y_tuong_moi);
+
+        if (!$ytuongmoi) {
+            return response()->json('Ý tưởng mới không tồn tại.', 404);
+        }
+
+        $ytuongmoi->ma_bai_bao_cao = $request->bai_bao_cao;
+        $ytuongmoi->noi_dung = $request->noi_dung;
+        $ytuongmoi->hinh_anh = $request->hinh_anh;
+        $ytuongmoi->trang_thai = $request->trang_thai;
+
+        $ytuongmoi->save();
+
+        return response()->json('success', 200);
+    }
+
+
+    public function destroy($ma_y_tuong_moi)
+    {
+        // Tìm thành viên cần xóa
+        $ytuongmoi = Ytuongmoi::findOrFail($ma_y_tuong_moi);
+
+        // Thực hiện xóa
+        $ytuongmoi->delete();
+
+        // Trả về thông báo xóa thành công hoặc gì đó nếu cần
+        return response()->json('Xóa ý tưởng thành công', 200);
+    }
+
+
+    public function deleteMultiple(Request $request)
+    {
+        $maytuongmoiArray = $request->input('ma_y_tuong_moi');
+
+        if (!empty($maytuongmoiArray)) {
+            Ytuongmoi::whereIn('ma_y_tuong_moi', $maytuongmoiArray)->delete();
+            return response()->json('Xóa ý tưởng mới thành công', 200);
+        } else {
+            return response()->json('Không có ý tưởng mới nào được chọn', 400);
+        }
+    }
+
+    public function show($ma_y_tuong_moi)
+    {
+        $ytuongmoi = Ytuongmoi::with(['baibaocao'])->findOrFail($ma_y_tuong_moi);
+
+        return response()->json($ytuongmoi);
     }
 }

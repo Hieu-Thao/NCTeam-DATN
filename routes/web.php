@@ -11,6 +11,7 @@ use App\Http\Controllers\LoaicongtrinhController;
 use App\Http\Controllers\LichbaocaoController;
 use App\Models\Congtrinh;
 use App\Models\Lichbaocao;
+use App\Models\Ytuongmoi;
 
 // Route::get('/', function () {
 //     retphp artisan serveurn view('welcome');
@@ -74,16 +75,23 @@ Route::prefix('/lichbaocao')->group(function () {
 });
 
 
+// Ý tưởng mới
+Route::prefix('/ytuongmoi')->group(function () {
+    Route::get('/', [YtuongmoiController::class, 'ytuongmoi']);
+    Route::get('/create', [YtuongmoiController::class, 'create']);
+    Route::post('/create', [YtuongmoiController::class, 'store']);
+    Route::get('/edit/{ma_y_tuong_moi}', [YtuongmoiController::class, 'edit'])->name('ytuongmoi.edit');
+    Route::put('/{ma_y_tuong_moi}', [YtuongmoiController::class, 'update'])->name('ytuongmoi.update');
+    Route::post('/delete-multiple', [YtuongmoiController::class, 'deleteMultiple']);
+    Route::delete('/{ma_y_tuong_moi}', [YtuongmoiController::class, 'destroy'])->name('ytuongmoi.destroy');
+    Route::get('/{ma_y_tuong_moi}', [YtuongmoiController::class, 'show']);
+});
 
 Route::get('/baibaocao', [BaibaocaoController::class, 'baibaocao']);
 
 
 
-Route::get('/ytuongmoi', [YtuongmoiController::class, 'ytuongmoi']);
-Route::post('/ytuongmoi/store', [YtuongmoiController::class, 'store']);
-Route::get('/ytuongmoi/{id}', [YtuongmoiController::class, 'getYtuongmoi']);
-// routes/web.php
-Route::put('/ytuongmoi/update/{id}', [YtuongmoiController::class, 'update']);
+
 
 
 Route::get('/tintuc', [TintucController::class, 'tintuc']);

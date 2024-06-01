@@ -10,10 +10,11 @@ class Ytuongmoi extends Model
     use HasFactory;
 
     public $timestamps = false;
-    
+
     protected $table = 'y_tuong_moi';
 
     protected $primaryKey = 'ma_y_tuong_moi';
+
     protected $fillable = [
         'ma_bai_bao_cao',
         'noi_dung',

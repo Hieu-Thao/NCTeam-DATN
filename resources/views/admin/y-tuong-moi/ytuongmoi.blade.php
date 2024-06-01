@@ -7,18 +7,33 @@
     <a href="/thanhvien"> Danh sách ý tưởng mới</a>
 @endsection
 @section('content')
+
+    <style>
+        div:where(.swal2-container).swal2-center>.swal2-popup {
+            grid-column: 2;
+            grid-row: 2;
+            place-self: center center;
+            width: 880px !important;
+            text-align: justify;
+        }
+
+        div:where(.swal2-container) .swal2-html-container {
+            text-align: left;
+        }
+
+    </style>
+
     <div class="container">
         <div class="card-title">
             <h4>Danh sách ý tưởng mới</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
-            <button type="button" class="btn btn-success btn-sm" id="btnz" data-bs-toggle="modal"
-                data-bs-target="#addGroupModal">
-                <img src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">Thêm
-            </button>
+            <a href="/ytuongmoi/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
+                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
-            <button type="button" class="btn btn-danger btn-sm" id="btnz"><img
-                    src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px">Xóa</button>
+            <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
+                <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
+            </button>
         </div>
         <div class="tb">
             <div class="table-responsive">
@@ -50,7 +65,6 @@
                                         Xem ảnh
                                     </a>
                                 </td>
-
                                 <td>
                                     @if ($ytm->trang_thai == 1)
                                         <button type="button" class="btn btn-outline-success btn-sm" id="#">Đã hoàn
@@ -60,17 +74,21 @@
                                     @endif
                                 </td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
-                                    <button type="button" class="btn btn-primary btn-sm edit-btn"
-                                        data-ytuong-id="{{ $ytm->ma_y_tuong_moi }}">
+                                    <a href="{{ route('ytuongmoi.edit', $ytm->ma_y_tuong_moi) }}"
+                                        class="btn btn-primary btn-sm" id="btnz">
                                         <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
                                             height="15px">
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm" id="btnz"
+                                        onclick="deleteYTM('{{ $ytm->ma_y_tuong_moi }}')">
+                                        <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
+                                            height="15px">
                                     </button>
-                                    <button type="button" class="btn btn-danger btn-sm" id="btnz"><img
-                                            src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
-                                            height="15px"></button>
-                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"><img
-                                            src="../assets/css/icons/tabler-icons/img/id-badge-2.png" width="15px"
-                                            height="15px"></button>
+                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"
+                                        onclick="showMemberInfo('{{ $ytm->ma_y_tuong_moi }}')">
+                                        <img src="../assets/css/icons/tabler-icons/img/id-badge-2.png" width="15px"
+                                            height="15px">
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -79,103 +97,6 @@
             </div>
         </div>
     </div>
-
-
-    <!-- Modal -->
-    <div class="modal fade" id="addGroupModal" tabindex="-1" aria-labelledby="addGroupModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addGroupModalLabel">Thêm ý tưởng mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addGroupForm">
-                        @csrf
-                        {{-- <div class="mb-3">
-                            <label for="ma_nhom" class="form-label">Mã nhóm</label>
-                            <input type="text" class="form-control" id="ma_nhom" name="ma_nhom" readonly>
-                        </div> --}}
-                        <div class="mb-3">
-                            <label for="ma_bai_bao_cao" class="form-label">Tên ý tưởng</label>
-                            <select class="form-select" id="ma_bai_bao_cao" name="ma_bai_bao_cao" required>
-                                @foreach ($baibaocao as $bbc)
-                                    <option value="" disabled selected hidden>-- Chọn bài báo cáo --</option>
-                                    <option value="{{ $bbc->ma_bai_bao_cao }}">{{ $bbc->ten_bai_bao_cao }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="noi_dung" class="form-label">Nội dung</label>
-                            <textarea type="text" class="form-control" id="noi_dung" name="noi_dung" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="hinh_anh" class="form-label">Hình ảnh</label>
-                            <input type="text" class="form-control" id="hinh_anh" name="hinh_anh" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="trang_thai" class="form-label">Trạng thái</label>
-                            <select class="form-select" id="trang_thai" name="trang_thai" required>
-                                <option value="1">Đã hoàn thành</option>
-                                <option value="0">Chưa hoàn thành</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <!-- Modal chỉnh sửa -->
-    <div class="modal fade" id="editGroupModal" tabindex="-1" aria-labelledby="editGroupModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editGroupModalLabel">Chỉnh sửa ý tưởng mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editGroupForm">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <label for="ma_y_tuong_moi" class="form-label">Mã ý tưởng</label>
-                            <input type="text" class="form-control" id="ma_y_tuong_moi" name="ma_y_tuong_moi" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="ma_bai_bao_cao" class="form-label">Tên bài báo cáo</label>
-                            <select class="form-select" id="ma_bai_bao_cao" name="ma_bai_bao_cao" required>
-                                @foreach ($baibaocao as $bbc)
-                                    <option value="{{ $bbc->ma_bai_bao_cao }}">{{ $bbc->ten_bai_bao_cao }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="noi_dung" class="form-label">Nội dung</label>
-                            <textarea type="text" class="form-control" id="noi_dung" name="noi_dung" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label for="hinh_anh" class="form-label">Hình ảnh</label>
-                            <input type="text" class="form-control" id="hinh_anh" name="hinh_anh" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="trang_thai" class="form-label">Trạng thái</label>
-                            <select class="form-select" id="trang_thai" name="trang_thai" required>
-                                <option value="1">Đã hoàn thành</option>
-                                <option value="0">Chưa hoàn thành</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
 
 
 @endsection
@@ -236,14 +157,6 @@
             });
         });
 
-
-        // Xử lý form thêm nhóm
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
         function callAlert(title, icon, timer, text) {
             Swal.fire({
                 position: "center",
@@ -256,92 +169,120 @@
             });
         }
 
-        $('#addGroupForm').on('submit', function(e) {
-            e.preventDefault();
 
-            var formData = $(this).serialize();
-
-            $.ajax({
-                type: 'POST',
-                url: '/ytuongmoi/store',
-                data: formData,
-                success: function(response) {
-                    $('#addGroupModal').modal('hide');
-                    if (response.duplicate) {
-                        callAlert('Tên ý tưởng đã tồn tại trong cơ sở dữ liệu, vui lòng chọn tên khác!',
-                            'error', 1500, '');
-                    } else if (response.success) {
-                        callAlert('Thêm ý tưởng thành công!', 'success', 1500, '');
-                        setTimeout(function() {
-                            window.location.reload();
-                        }, 1000);
-                    } else {
-                        callAlert('Tên ý tưởng này đã được sử dụng!', 'error', 2500, '');
-                    }
-                },
-                error: function(response) {
-                    // Hiển thị thông báo lỗi bằng SweetAlert
-                    callAlert('Có lỗi xảy ra, vui lòng thử lại!', 'error', 1500, '');
+        // Hàm xóa ý tưởng mới
+        function deleteYTM(ma_y_tuong_moi) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/ytuongmoi/" + ma_y_tuong_moi,
+                        type: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            callAlert('Xóa ý tưởng mới thành công', 'success', '1500', '');
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1500);
+                        },
+                        error: function(xhr, status, error) {
+                            callAlert('Xóa ý tưởng mới không thành công!', 'error', '1500', '');
+                        }
+                    });
                 }
             });
-        });
-
-
-
-
-        $(document).ready(function() {
-    // Sự kiện khi nhấn nút "Update"
-    $('.edit-btn').on('click', function() {
-        var ytuongId = $(this).data('ytuong-id'); // Lấy mã ý tưởng từ thuộc tính data
-
-        $.ajax({
-            url: '/ytuongmoi/' + ytuongId,
-            type: 'GET',
-            success: function(response) {
-                // Đưa dữ liệu vào modal chỉnh sửa
-                $('#editGroupModal').find('#ma_y_tuong_moi').val(response.ytuongmoi.id);
-                $('#editGroupModal').find('#ma_bai_bao_cao').val(response.ytuongmoi.ma_bai_bao_cao);
-                $('#editGroupModal').find('#noi_dung').val(response.ytuongmoi.noi_dung);
-                $('#editGroupModal').find('#hinh_anh').val(response.ytuongmoi.hinh_anh);
-                $('#editGroupModal').find('#trang_thai').val(response.ytuongmoi.trang_thai);
-
-                // Hiển thị modal
-                $('#editGroupModal').modal('show');
-            }
-        });
-    });
-
-    // Sự kiện khi nhấn nút "Lưu" trong modal chỉnh sửa
-    $('#editGroupForm').on('submit', function(event) {
-    event.preventDefault();
-
-    var ytuongId = $('#editGroupModal').find('#ma_y_tuong_moi').val();
-    var formData = $(this).serialize();
-
-    $.ajax({
-        url: '/ytuongmoi/update/' + ytuongId,
-        type: 'PUT', // Sử dụng phương thức PUT hoặc PATCH
-        data: formData,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            if (response.success) {
-                alert('Cập nhật thành công');
-                location.reload(); // Tải lại trang để cập nhật danh sách
-            } else {
-                alert('Có lỗi xảy ra: ' + response.message);
-            }
-        },
-        error: function(xhr) {
-            alert('Có lỗi xảy ra: ' + xhr.responseText);
         }
-    });
-});
-});
 
 
+        // Hàm xóa nhiều ý tưởng
+        function deleteSelectedMembers() {
+            var selected = [];
+            $('input[name="checkbox[]"]:checked').each(function() {
+                selected.push($(this).val());
+            });
 
+            if (selected.length > 0) {
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa các công trình đã chọn?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/ytuongmoi/delete-multiple",
+                            type: "POST",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                ma_y_tuong_moi: selected
+                            },
+                            success: function(response) {
+                                callAlert('Xóa ý tưởng mới thành công', 'success', '1500', '');
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1500);
+                            },
+                            error: function(xhr, status, error) {
+                                callAlert('Xóa ý tưởng mới không thành công!', 'error', '1500', '');
+                            }
+                        });
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Vui lòng chọn ít nhất một công trình để xóa!',
+                    icon: 'warning',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            }
+        }
 
+        //Hàm hiển thị thông tin thành viên
+        function showMemberInfo(ma_y_tuong_moi) {
+            $.ajax({
+                url: "/ytuongmoi/" + ma_y_tuong_moi,
+                type: "GET",
+                success: function(response) {
+                    var memberInfoHtml = `
+                <div>
+                    <p><strong>Mã ý tưởng:</strong> ${response.ma_y_tuong_moi}</p>
+                    <p><strong>Tên bài báo cáo:</strong> ${response.baibaocao.ten_bai_bao_cao}</p>
+                    <p style='text-align:justify;'><strong>Nội dung:</strong> ${response.noi_dung}</p>
+                    <p><strong>Hình ảnh:</strong> ${response.hinh_anh}</p>
+                    <p><strong>Trạng thái:</strong> ${response.trang_thai}</p>
+                </div>
+            `;
+
+                    Swal.fire({
+                        title: 'Thông tin ý tưởng mới',
+                        html: memberInfoHtml,
+                        // icon: 'info',
+                        showConfirmButton: false
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: 'Không thể lấy thông tin ý tưởng mới!',
+                        icon: 'error',
+                        timer: 1500,
+                    });
+                }
+            });
+        }
     </script>
 @endpush

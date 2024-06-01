@@ -108,7 +108,7 @@
                             </a>
                         </li>
                         <li class="sidebar-item">
-                            <a class="sidebar-link" href="./ytuongmoi" aria-expanded="false">
+                            <a class="sidebar-link" href="/ytuongmoi" aria-expanded="false">
                                 <span>
                                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/bulb.png') }}"
                                         width="21px" height="21px" alt="Bulb Icon">
