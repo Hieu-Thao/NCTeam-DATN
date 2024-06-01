@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="{{ asset('/assets/css/tabler-icons.min.css') }}" />
     <!-- Thêm tài nguyên CSS của SweetAlert -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
 
 
@@ -241,6 +242,7 @@
     <script src="{{ asset('/assets/js/dataTables.responsive.js') }}"></script>
     <script src="{{ asset('/assets/js/responsive.bootstrap4.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
 
     <script>

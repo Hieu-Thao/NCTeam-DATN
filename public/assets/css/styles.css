@@ -20721,6 +20721,7 @@ html {
 .coll input[type="text"],
 .coll input[type="password"],
 .coll input[type="email"],
+.coll input[type="date"],
 .coll textarea,
 .coll select {
     width: 100%;
@@ -20756,6 +20757,9 @@ html {
     }
 
     .coll input[type="text"],
+    .coll input[type="password"],
+    .coll input[type="email"],
+    .coll input[type="date"],
     .coll textarea,
     .coll select {
         flex: 1;

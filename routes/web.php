@@ -66,6 +66,11 @@ Route::prefix('/congtrinh')->group(function () {
 Route::prefix('/lichbaocao')->group(function () {
     Route::get('/', [LichbaocaoController::class, 'lichbaocao']);
     Route::get('/create', [LichbaocaoController::class, 'create']);
+    Route::post('/create', [LichbaocaoController::class, 'store']);
+    Route::get('/edit/{ma_lich}', [LichbaocaoController::class, 'edit'])->name('lichbaocao.edit');
+    Route::put('/edit/{ma_lich}', [LichbaocaoController::class, 'update'])->name('lichbaocao.update');
+    Route::post('/delete-multiple', [LichbaocaoController::class, 'deleteMultiple']);
+    Route::delete('/{ma_lich}', [LichbaocaoController::class, 'destroy'])->name('lichbaocao.destroy');
 });
 
 

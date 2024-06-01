@@ -12,6 +12,7 @@ class Lichbaocao extends Model
     protected $table = 'lich_bao_cao';
 
     public $timestamps = false;
+    
     protected $primaryKey = 'ma_lich';
 
     protected $fillable = [

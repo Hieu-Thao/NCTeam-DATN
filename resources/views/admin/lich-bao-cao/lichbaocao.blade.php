@@ -14,11 +14,12 @@
         </div>
         <div class="card-btn btn-btnn" style="#">
             <a href="/lichbaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
-                src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
+                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
-            <button type="button" class="btn btn-danger btn-sm" id="btnz">
-                <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px">Xóa</button>
+            <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
+                <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
+            </button>
         </div>
         <div class="tb">
             <div class="table-responsive">
@@ -43,19 +44,23 @@
                                         class="edit-checkbox"></td>
                                 <td>{{ $lbc->ma_lich }}</td>
                                 <td>{{ $lbc->ten_lich_bao_cao }}</td>
-                                <td>{{ $lbc->ngay_bao_cao }}</td>
+                                <td>{{ \Carbon\Carbon::parse($lbc->ngay_bao_cao)->format('d/m/Y') }}</td>
                                 <td>{{ $lbc->thoi_gian_bat_dau }}</td>
                                 <td>{{ $lbc->thoi_gian_ket_thuc }}</td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
-                                    <button type="button" class="btn btn-primary btn-sm" id="btnz"><img
-                                            src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
+                                    <a href="{{ route('lichbaocao.edit', $lbc->ma_lich) }}" class="btn btn-primary btn-sm"
+                                        id="btnz">
+                                        <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
+                                            height="15px">
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm" id="btnz"
+                                        onclick="deleteLBC('{{ $lbc->ma_lich }}')">
+                                        <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
+                                            height="15px">
+                                    </button>
+                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"><img
+                                            src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
                                             height="15px"></button>
-                                    <button type="button" class="btn btn-danger btn-sm" id="btnz"><img
-                                            src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
-                                            height="15px"></button>
-                                            <button type="button" class="btn btn-warning btn-sm" id="btnz"><img
-                                                src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
-                                                height="15px"></button>
                                 </td>
                             </tr>
                         @endforeach
@@ -99,12 +104,23 @@
                 },
                 "pageLength": 10,
                 "columnDefs": [{
-                        "orderable": false,
-                        "targets": 0
-                    },
-                ]
+                    "orderable": false,
+                    "targets": 0
+                }, ]
             });
         });
+
+        function callAlert(title, icon, timer, text) {
+            Swal.fire({
+                position: "center",
+                icon: `${icon}`,
+                title: `${title}`,
+                text: `${text}`,
+                showConfirmButton: false,
+                timer: `${timer}`,
+                animation: false
+            });
+        }
 
         //Xử lý checkbox
         $(document).ready(function() {
@@ -124,5 +140,86 @@
             });
         });
 
+
+        // Hàm xóa nhiều công trình
+        function deleteSelectedMembers() {
+            var selected = [];
+            $('input[name="checkbox[]"]:checked').each(function() {
+                selected.push($(this).val());
+            });
+            if (selected.length > 0) {
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa các lịch báo cáo đã chọn?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/lichbaocao/delete-multiple",
+                            type: "POST",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                ma_lich: selected // Thay vì ma_cong_trinh
+                            },
+                            success: function(response) {
+                                callAlert('Xóa lịch báo cáo thành công', 'success', '1500', '');
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1500);
+                            },
+                            error: function(xhr, status, error) {
+                                callAlert('Xóa lịch báo cáo không thành công!', 'error', '1500', '');
+                            }
+                        });
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Vui lòng chọn ít nhất một lịch báo cáo để xóa!',
+                    icon: 'warning',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            }
+        }
+
+
+        // Hàm xóa thành viên
+        function deleteLBC(ma_lich) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/lichbaocao/" + ma_lich,
+                        type: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            callAlert('Xóa lịch báo cáo thành công', 'success', '1500', '');
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1500);
+                        },
+                        error: function(xhr, status, error) {
+                            callAlert('Xóa lịch báo không thành công!', 'error', '1500', '');
+                        }
+                    });
+                }
+            });
+        }
     </script>
 @endpush
