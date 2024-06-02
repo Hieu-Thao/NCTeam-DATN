@@ -9,9 +9,11 @@ use App\Http\Controllers\TintucController;
 use App\Http\Controllers\CongtrinhController;
 use App\Http\Controllers\LoaicongtrinhController;
 use App\Http\Controllers\LichbaocaoController;
+use App\Http\Controllers\UploadController;
 use App\Models\Baibaocao;
 use App\Models\Congtrinh;
 use App\Models\Lichbaocao;
+use App\Models\Tintuc;
 use App\Models\Ytuongmoi;
 
 // Route::get('/', function () {
@@ -99,11 +101,17 @@ Route::prefix('/baibaocao')->group(function () {
     Route::get('/{ma_bai_bao_cao}', [BaibaocaoController::class, 'show']);
 });
 
+Route::prefix('/tintuc')->group(function () {
+    Route::get('/', [TintucController::class, 'tintuc']);
+    Route::get('/create', [TintucController::class, 'create']);
+    Route::post('/create', [TintucController::class, 'store']);
+    Route::get('/{ma_tin_tuc}', [TintucController::class, 'show']);
+});
 
 
+Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
 
 
-Route::get('/tintuc', [TintucController::class, 'tintuc']);
 
 
 

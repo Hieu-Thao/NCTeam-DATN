@@ -11,12 +11,15 @@ class Tintuc extends Model
 
     protected $table = 'tin_tuc';
 
+    public $timestamps = false;
+
+    protected $primaryKey = 'ma_tin_tuc';
+
     protected $fillable = [
-        'ma_tin_tuc',
         'ma_thanh_vien',
         'ten_tin_tuc',
         'noi_dung',
-        'hinh_anhh',
+        'hinh_anh',
         'trang_thai',
     ];
 
