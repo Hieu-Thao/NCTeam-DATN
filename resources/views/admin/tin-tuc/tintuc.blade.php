@@ -8,20 +8,19 @@
 @endsection
 @section('content')
 
-<style>
-    div:where(.swal2-container).swal2-center>.swal2-popup {
-        grid-column: 2;
-        grid-row: 2;
-        place-self: center center;
-        width: 1000px !important;
-        text-align: justify;
-    }
+    <style>
+        div:where(.swal2-container).swal2-center>.swal2-popup {
+            grid-column: 2;
+            grid-row: 2;
+            place-self: center center;
+            width: 1000px !important;
+            text-align: justify;
+        }
 
-    div:where(.swal2-container) .swal2-html-container {
-        text-align: left;
-    }
-
-</style>
+        div:where(.swal2-container) .swal2-html-container {
+            text-align: left;
+        }
+    </style>
 
     <div class="container">
         <div class="card-title">
@@ -31,8 +30,9 @@
             <a href="/tintuc/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
                         src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
-            <button type="button" class="btn btn-danger btn-sm" id="btnz"><img
-                    src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px">Xóa</button>
+            <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
+                <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
+            </button>
         </div>
         <div class="tb">
             <div class="table-responsive">
@@ -73,12 +73,16 @@
                                     @endif
                                 </td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
-                                    <button type="button" class="btn btn-primary btn-sm" id="btnz"><img
-                                            src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
-                                            height="15px"></button>
-                                    <button type="button" class="btn btn-danger btn-sm" id="btnz"><img
-                                            src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
-                                            height="15px"></button>
+                                    <a href="{{ route('tintuc.edit', $tt->ma_tin_tuc) }}" class="btn btn-primary btn-sm"
+                                        id="btnz">
+                                        <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
+                                            height="15px">
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm" id="btnz"
+                                        onclick="deleteTT('{{ $tt->ma_tin_tuc }}')">
+                                        <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
+                                            height="15px">
+                                    </button>
                                     <button type="button" class="btn btn-warning btn-sm" id="btnz"
                                         onclick="showMemberInfo('{{ $tt->ma_tin_tuc }}')">
                                         <img src="../assets/css/icons/tabler-icons/img/id-badge-2.png" width="15px"
@@ -96,6 +100,20 @@
 @endsection
 @push('scripts')
     <script>
+
+        function callAlert(title, icon, timer, text) {
+            Swal.fire({
+                position: "center",
+                icon: `${icon}`,
+                title: `${title}`,
+                text: `${text}`,
+                showConfirmButton: false,
+                timer: `${timer}`,
+                animation: false
+            });
+        }
+
+
         $(document).ready(function() {
             $('#tintuc').DataTable({
                 language: {
@@ -187,5 +205,88 @@
                 }
             });
         }
+
+        // Hàm xóa tin tức
+        function deleteTT(ma_tin_tuc) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: "/tintuc/" + ma_tin_tuc,
+                        type: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            callAlert('Xóa tin tức thành công', 'success', '1500', '');
+                            setTimeout(() => {
+                                window.location.reload();
+                            }, 1500);
+                        },
+                        error: function(xhr, status, error) {
+                            callAlert('Xóa tin tức không thành công!', 'error', '1500', '');
+                        }
+                    });
+                }
+            });
+        }
+
+
+        // Hàm xóa nhiều ý tưởng
+        function deleteSelectedMembers() {
+            var selected = [];
+            $('input[name="checkbox[]"]:checked').each(function() {
+                selected.push($(this).val());
+            });
+
+            if (selected.length > 0) {
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn xóa các tin tức đã chọn?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Xóa',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/tintuc/delete-multiple",
+                            type: "POST",
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: {
+                                ma_tin_tuc: selected
+                            },
+                            success: function(response) {
+                                callAlert('Xóa tin tức thành công', 'success', '1500', '');
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 1500);
+                            },
+                            error: function(xhr, status, error) {
+                                callAlert('Xóa tin tức không thành công!', 'error', '1500', '');
+                            }
+                        });
+                    }
+                });
+            } else {
+                Swal.fire({
+                    title: 'Vui lòng chọn ít nhất một tin tức để xóa!',
+                    icon: 'warning',
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            }
+        }
+
     </script>
 @endpush

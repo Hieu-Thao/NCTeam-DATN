@@ -101,11 +101,17 @@ Route::prefix('/baibaocao')->group(function () {
     Route::get('/{ma_bai_bao_cao}', [BaibaocaoController::class, 'show']);
 });
 
+
+// Tin tức
 Route::prefix('/tintuc')->group(function () {
     Route::get('/', [TintucController::class, 'tintuc']);
     Route::get('/create', [TintucController::class, 'create']);
     Route::post('/create', [TintucController::class, 'store']);
     Route::get('/{ma_tin_tuc}', [TintucController::class, 'show']);
+    Route::get('/edit/{ma_tin_tuc}', [TintucController::class, 'edit'])->name('tintuc.edit');
+    Route::put('/edit/{ma_tin_tuc}', [TintucController::class, 'update'])->name('tintuc.update');
+    Route::delete('/{ma_tin_tuc}', [TintucController::class, 'destroy'])->name('tintuc.destroy');
+    Route::post('/delete-multiple', [TintucController::class, 'deleteMultiple']);
 });
 
 
