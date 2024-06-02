@@ -9,6 +9,7 @@ use App\Http\Controllers\TintucController;
 use App\Http\Controllers\CongtrinhController;
 use App\Http\Controllers\LoaicongtrinhController;
 use App\Http\Controllers\LichbaocaoController;
+use App\Models\Baibaocao;
 use App\Models\Congtrinh;
 use App\Models\Lichbaocao;
 use App\Models\Ytuongmoi;
@@ -81,14 +82,22 @@ Route::prefix('/ytuongmoi')->group(function () {
     Route::get('/create', [YtuongmoiController::class, 'create']);
     Route::post('/create', [YtuongmoiController::class, 'store']);
     Route::get('/edit/{ma_y_tuong_moi}', [YtuongmoiController::class, 'edit'])->name('ytuongmoi.edit');
-    Route::put('/{ma_y_tuong_moi}', [YtuongmoiController::class, 'update'])->name('ytuongmoi.update');
+    Route::put('edit/{ma_y_tuong_moi}', [YtuongmoiController::class, 'update'])->name('ytuongmoi.update');
     Route::post('/delete-multiple', [YtuongmoiController::class, 'deleteMultiple']);
     Route::delete('/{ma_y_tuong_moi}', [YtuongmoiController::class, 'destroy'])->name('ytuongmoi.destroy');
     Route::get('/{ma_y_tuong_moi}', [YtuongmoiController::class, 'show']);
 });
 
-Route::get('/baibaocao', [BaibaocaoController::class, 'baibaocao']);
 
+// Bài báo cáo
+Route::prefix('/baibaocao')->group(function () {
+    Route::get('/', [BaibaocaoController::class, 'baibaocao']);
+    Route::get('/create', [BaibaocaoController::class, 'create']);
+    Route::post('/create', [BaibaocaoController::class, 'store']);
+    Route::get('/edit/{ma_bai_bao_cao}', [BaibaocaoController::class, 'edit'])->name('baibaocao.edit');
+    Route::put('/edit/{ma_bai_bao_cao}', [BaibaocaoController::class, 'update'])->name('baibaocao.update');
+    Route::get('/{ma_bai_bao_cao}', [BaibaocaoController::class, 'show']);
+});
 
 
 

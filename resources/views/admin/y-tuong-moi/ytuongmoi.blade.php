@@ -13,7 +13,7 @@
             grid-column: 2;
             grid-row: 2;
             place-self: center center;
-            width: 880px !important;
+            width: 900px !important;
             text-align: justify;
         }
 
@@ -254,35 +254,39 @@
 
         //Hàm hiển thị thông tin thành viên
         function showMemberInfo(ma_y_tuong_moi) {
-            $.ajax({
-                url: "/ytuongmoi/" + ma_y_tuong_moi,
-                type: "GET",
-                success: function(response) {
-                    var memberInfoHtml = `
+    $.ajax({
+        url: "/ytuongmoi/" + ma_y_tuong_moi,
+        type: "GET",
+        success: function(response) {
+            // Thay thế các ký tự xuống dòng bằng thẻ <br>
+            var noidung = response.noi_dung.replace(/\n/g, '<br>');
+
+            var memberInfoHtml = `
                 <div>
                     <p><strong>Mã ý tưởng:</strong> ${response.ma_y_tuong_moi}</p>
                     <p><strong>Tên bài báo cáo:</strong> ${response.baibaocao.ten_bai_bao_cao}</p>
-                    <p style='text-align:justify;'><strong>Nội dung:</strong> ${response.noi_dung}</p>
-                    <p><strong>Hình ảnh:</strong> ${response.hinh_anh}</p>
+                    <p style='text-align:justify;'><strong>Nội dung:</strong> ${noidung}</p>
+                    <p><strong>Hình ảnh:</strong> <a href="${response.hinh_anh}" target="_blank">${response.hinh_anh}</a></p>
                     <p><strong>Trạng thái:</strong> ${response.trang_thai}</p>
                 </div>
             `;
 
-                    Swal.fire({
-                        title: 'Thông tin ý tưởng mới',
-                        html: memberInfoHtml,
-                        // icon: 'info',
-                        showConfirmButton: false
-                    });
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        title: 'Không thể lấy thông tin ý tưởng mới!',
-                        icon: 'error',
-                        timer: 1500,
-                    });
-                }
+            Swal.fire({
+                title: 'Thông tin ý tưởng mới',
+                html: memberInfoHtml,
+                // icon: 'info',
+                showConfirmButton: false
+            });
+        },
+        error: function(xhr, status, error) {
+            Swal.fire({
+                title: 'Không thể lấy thông tin ý tưởng mới!',
+                icon: 'error',
+                timer: 1500,
             });
         }
+    });
+}
+
     </script>
 @endpush

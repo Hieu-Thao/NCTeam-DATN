@@ -11,8 +11,11 @@ class Baibaocao extends Model
 
     protected $table = 'bai_bao_cao';
 
+    public $timestamps = false;
+
+    protected $primaryKey = 'ma_bai_bao_cao';
+
     protected $fillable = [
-        'ma_bai_bao_cao',
         'ma_thanh_vien',
         'ten_bai_bao_cao',
         'ngay_bao_cao',
