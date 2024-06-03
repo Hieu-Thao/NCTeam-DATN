@@ -86,7 +86,7 @@
                                     </button>
                                     <button type="button" class="btn btn-warning btn-sm" id="btnz"
                                         onclick="showMemberInfo('{{ $ytm->ma_y_tuong_moi }}')">
-                                        <img src="../assets/css/icons/tabler-icons/img/id-badge-2.png" width="15px"
+                                        <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png" width="15px"
                                             height="15px">
                                     </button>
                                 </td>

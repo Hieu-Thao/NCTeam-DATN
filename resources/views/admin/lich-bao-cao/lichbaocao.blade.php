@@ -17,18 +17,18 @@
                         src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
-            <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
+            {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
                 <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
-            </button>
+            </button> --}}
         </div>
         <div class="tb">
             <div class="table-responsive">
                 <table id="lichbaocao" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
-                            <th>
+                            {{-- <th>
                                 <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
-                            </th>
+                            </th> --}}
                             <th>Mã lịch</th>
                             <th>Tên lịch báo cáo</th>
                             <th>Ngày báo cáo</th>
@@ -40,8 +40,8 @@
                     <tbody>
                         @foreach ($lichbaocao as $lbc)
                             <tr>
-                                <td><input type="checkbox" name="checkbox[]" value="{{ $lbc->ma_lich }}"
-                                        class="edit-checkbox"></td>
+                                {{-- <td><input type="checkbox" name="checkbox[]" value="{{ $lbc->ma_lich }}"
+                                        class="edit-checkbox"></td> --}}
                                 <td>{{ $lbc->ma_lich }}</td>
                                 <td>{{ $lbc->ten_lich_bao_cao }}</td>
                                 <td>{{ \Carbon\Carbon::parse($lbc->ngay_bao_cao)->format('d/m/Y') }}</td>
@@ -53,12 +53,12 @@
                                         <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
                                             height="15px">
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" id="btnz"
+                                    {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"
                                         onclick="deleteLBC('{{ $lbc->ma_lich }}')">
                                         <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
                                             height="15px">
-                                    </button>
-                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"><img
+                                    </button> --}}
+                                    <button type="button" class="btn btn-success btn-sm" id="btnz"><img
                                             src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
                                             height="15px"></button>
                                 </td>

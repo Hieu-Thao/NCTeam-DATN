@@ -6,6 +6,7 @@
 @section('child')
     <a href="/nhom">Danh sách công trình</a>
 @endsection
+
 @section('content')
 
     <div class="container">
@@ -17,26 +18,30 @@
                         src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
-            <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
+            {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
                 <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
-            </button>
+            </button> --}}
             <button type="button" class="btn btn-info btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/clipboard-list.png" width="15px" height="15px"><a
                     class="btn-cn" href="/congtrinh/loaicongtrinh">Loại công trình</a></button>
+
+            <button type="button" class="btn btn-danger btn-sm" id="btnz">
+                <img src="../assets/css/icons/tabler-icons/img/device-laptop.png" width="15px" height="15px"><a
+                    class="btn-cn" href="/thamgia/create">Tham gia công trình</a></button>
         </div>
         <div class="tb">
             <div class="table-responsive">
                 <table id="congtrinh" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
-                            <th width="5%">
+                            {{-- <th width="5%">
                                 <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
-                            </th>
+                            </th> --}}
                             <th>Mã CT</th>
                             <th>Loại công trình</th>
                             <th>Tên công trình</th>
                             <th>Năm</th>
-                            <th>Thuộc tạp chí</th>
+                            {{-- <th>Thuộc tạp chí</th> --}}
                             <th>Tình trạng</th>
                             <th>Trạng thái</th>
                             <th></th>
@@ -45,13 +50,15 @@
                     <tbody>
                         @foreach ($congtrinh as $ct)
                             <tr>
-                                <td><input type="checkbox" name="checkbox[]" value="{{ $ct->ma_cong_trinh }}"
-                                        class="edit-checkbox"></td>
+                                {{-- <td><input type="checkbox" name="checkbox[]" value="{{ $ct->ma_cong_trinh }}"
+                                        class="edit-checkbox"></td> --}}
                                 <td>{{ $ct->ma_cong_trinh }}</td>
                                 <td>{{ $ct->LoaiCongTrinh->ten_loai }}</td>
-                                <td>{{ $ct->ten_cong_trinh }}</td>
+                                {{-- <td>{{ $ct->ten_cong_trinh }}</td> --}}
+                                <td>{{ Str::limit($ct->ten_cong_trinh, 50, '...') }}</td>
                                 <td>{{ $ct->nam }}</td>
-                                <td>{{ $ct->thuoc_tap_chi }}</td>
+                                {{-- <td>{{ Str::limit($ct->thuoc_tap_chi, 50, '...') }}</td> --}}
+                                {{-- <td>{{ $ct->thuoc_tap_chi }}</td> --}}
                                 <td>{{ $ct->tinh_trang }}</td>
                                 <td>
                                     @if ($ct->trang_thai == 1)
@@ -67,14 +74,22 @@
                                         <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
                                             height="15px">
                                     </a>
-                                            <button type="button" class="btn btn-danger btn-sm" id="btnz"
-                                            onclick="deleteCT('{{ $ct->ma_cong_trinh }}')">
-                                            <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
-                                                height="15px">
-                                        </button>
-                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"><img
-                                            src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
-                                            height="15px"></button>
+                                    {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"
+                                        onclick="deleteCT('{{ $ct->ma_cong_trinh }}')">
+                                        <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
+                                            height="15px">
+                                    </button> --}}
+                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"
+                                        onclick="showMemberInfo('{{ $ct->ma_cong_trinh }}')">
+                                        <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png"
+                                            width="15px" height="15px">
+                                    </button>
+                                    <button type="button" class="btn btn-success btn-sm" id="btnz"
+                                        onclick="viewThamGia('{{ $ct->ma_cong_trinh }}')">
+                                        <img src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
+                                            height="15px">
+                                    </button>
+
                                 </td>
                             </tr>
                         @endforeach
@@ -135,106 +150,11 @@
                 ]
             });
         });
+    </script>
 
-        //Xử lý checkbox
-        $(document).ready(function() {
-            $('#check-all').change(function() {
-                var isChecked = $(this).prop('checked');
-                $('input[name="checkbox[]"]').prop('checked', isChecked);
-            });
-            $('input[name="checkbox[]"]').change(function() {
-                var allChecked = true;
-                $('input[name="checkbox[]"]').each(function() {
-                    if (!$(this).prop('checked')) {
-                        allChecked = false;
-                        return false;
-                    }
-                });
-                $('#check-all').prop('checked', allChecked);
-            });
-        });
-
-
-        // Hàm xóa nhiều công trình
-        function deleteSelectedMembers() {
-            var selected = [];
-            $('input[name="checkbox[]"]:checked').each(function() {
-                selected.push($(this).val());
-            });
-
-            if (selected.length > 0) {
-                Swal.fire({
-                    title: 'Bạn có chắc chắn muốn xóa các công trình đã chọn?',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#d33',
-                    cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Xóa',
-                    cancelButtonText: 'Hủy'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "/congtrinh/delete-multiple",
-                            type: "POST",
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            data: {
-                                ma_cong_trinh: selected
-                            },
-                            success: function(response) {
-                                callAlert('Xóa công trình thành công', 'success', '1500', '');
-                                setTimeout(() => {
-                                    window.location.reload();
-                                }, 1500);
-                            },
-                            error: function(xhr, status, error) {
-                                callAlert('Xóa công trình không thành công!', 'error', '1500', '');
-                            }
-                        });
-                    }
-                });
-            } else {
-                Swal.fire({
-                    title: 'Vui lòng chọn ít nhất một công trình để xóa!',
-                    icon: 'warning',
-                    timer: 1500,
-                    showConfirmButton: false
-                });
-            }
-        }
-
-
-        // Hàm xóa thành viên
-        function deleteCT(ma_cong_trinh) {
-            Swal.fire({
-                title: 'Bạn có chắc chắn muốn xóa?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: "/congtrinh/" + ma_cong_trinh,
-                        type: "DELETE",
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(response) {
-                            callAlert('Xóa công trình thành công', 'success', '1500', '');
-                            setTimeout(() => {
-                                window.location.reload();
-                            }, 1500);
-                        },
-                        error: function(xhr, status, error) {
-                            callAlert('Xóa công trình không thành công!', 'error', '1500', '');
-                        }
-                    });
-                }
-            });
+    <script>
+        function viewThamGia(ma_cong_trinh) {
+            window.location.href = '/thamgia?ma_cong_trinh=' + ma_cong_trinh;
         }
     </script>
 @endpush

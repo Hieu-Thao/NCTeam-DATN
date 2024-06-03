@@ -81,7 +81,7 @@
                                     {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"></button> --}}
                                     <button type="button" class="btn btn-warning btn-sm" id="btnz"
                                         onclick="showMemberInfo('{{ $bbc->ma_bai_bao_cao }}')">
-                                        <img src="../assets/css/icons/tabler-icons/img/id-badge-2.png" width="15px"
+                                        <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png" width="15px"
                                             height="15px">
                                     </button>
                                 </td>

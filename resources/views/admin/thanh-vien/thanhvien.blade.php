@@ -70,7 +70,7 @@
 
                                     <button type="button" class="btn btn-warning btn-sm" id="btnz"
                                         onclick="showMemberInfo('{{ $tv->ma_thanh_vien }}')">
-                                        <img src="../assets/css/icons/tabler-icons/img/id-badge-2.png" width="15px"
+                                        <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png" width="15px"
                                             height="15px">
                                     </button>
 

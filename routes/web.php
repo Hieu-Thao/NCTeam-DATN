@@ -10,11 +10,38 @@ use App\Http\Controllers\CongtrinhController;
 use App\Http\Controllers\LoaicongtrinhController;
 use App\Http\Controllers\LichbaocaoController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\ThamgiaController;
 use App\Models\Baibaocao;
 use App\Models\Congtrinh;
 use App\Models\Lichbaocao;
 use App\Models\Tintuc;
 use App\Models\Ytuongmoi;
+use App\Http\Controllers\AuthController;
+use App\Models\LoaiCongTrinh;
+use App\Models\Thamgia;
+
+// Route để hiển thị form đăng nhập
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->withoutMiddleware('auth');
+
+// Route để xử lý yêu cầu đăng nhập
+Route::post('/login', [AuthController::class, 'login'])->withoutMiddleware('auth');
+
+// Nhóm route yêu cầu phải đăng nhập
+Route::middleware('auth')->group(function () {
+    Route::get('/index', function () {
+        return view('index');
+    })->name('index');
+
+    Route::get('/trangchu', function () {
+        return view('trangchu');
+    })->name('trangchu');
+});
+
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+
+
 
 // Route::get('/', function () {
 //     retphp artisan serveurn view('welcome');
@@ -25,9 +52,9 @@ Route::get('/index', function () {
 });
 
 
-Route::get('/login', function () {
-    return view('login');
-});
+// Route::get('/login', function () {
+//     return view('login');
+// });
 
 Route::get('/thongke', function () {
     return view('admin/thongke');
@@ -36,6 +63,15 @@ Route::get('/thongke', function () {
 Route::get('/thanhvien/edit-thanhvien', function () {
     return view('admin/thanhvien/edit-thanhvien');
 });
+
+
+
+// Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+// Route::post('/login', [AuthController::class, 'login']);
+
+Route::get('/congtrinh/loaicongtrinh', [LoaicongtrinhController::class, 'loaicongtrinh']);
+Route::post('/congtrinh/loaicongtrinh/store', [LoaicongtrinhController::class, 'store']); // Đảm bảo rằng tên controller và phương thức xử lý đúng
+Route::post('/congtrinh/loaicongtrinh/update', [LoaicongtrinhController::class, 'update']); // Đảm bảo rằng tên controller và phương thức xử lý đúng
 
 
 Route::get('/nhom', [NhomController::class, 'nhom']);
@@ -118,10 +154,13 @@ Route::prefix('/tintuc')->group(function () {
 Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
 
 
+// Tham gia
+Route::prefix('/thamgia')->group(function () {
+    Route::get('/', [ThamgiaController::class, 'thamgia']);
+    Route::get('/create', [ThamgiaController::class, 'create']);
+    Route::get('/create', [ThamgiaController::class, 'store']);
 
-
-
-
+});
 
 
 
