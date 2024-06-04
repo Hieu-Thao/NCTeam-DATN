@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Models\Congtrinh;
 use App\Models\Thamgia;
 use App\Models\Thanhvien;
@@ -55,15 +56,25 @@ class ThamgiaController extends Controller
             'thanh_vien' => 'required',
         ]);
 
-        // Tạo mới tham gia công trình
-        $thamGia = new ThamGia();
-        $thamGia->ma_thanh_vien = $request->input('thanh_vien');
-        $thamGia->ma_cong_trinh = $request->input('cong_trinh');
-        $thamGia->save();
+        try {
+            // Tạo mới tham gia công trình
+            $thamGia = new ThamGia();
+            $thamGia->ma_thanh_vien = $request->input('thanh_vien');
+            $thamGia->ma_cong_trinh = $request->input('cong_trinh');
+            $thamGia->save();
 
-        // Redirect hoặc trả về thông báo thành công
-        return redirect('/congtrinh')->with('success', 'Thêm mới tham gia công trình thành công');
+            // Return success response
+            return response()->json('success', 200);
+
+        } catch (\Exception $e) {
+            // Log the exception and return an error response
+            \Log::error('Error creating participation: ' . $e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
+
+
+
 
     /**
      * Display the specified resource.

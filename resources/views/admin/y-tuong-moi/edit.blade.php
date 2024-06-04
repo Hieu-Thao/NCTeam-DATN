@@ -58,7 +58,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Chỉnh sửa ý tưởng mới</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật ý tưởng mới</h4>
         </div>
         <div style="padding-top: 20px;">
             <form method="post" name="edit" action="{{ route('ytuongmoi.update', $ytuongmoi->ma_y_tuong_moi) }}">
@@ -92,11 +92,11 @@
                         </div>
                         <div class="coll">
                             <label class="td-input">Trạng thái:</label>
-                            <select name="trang_thai" id="trang_thai" required>
-                                <option value="" disabled selected hidden>-- Chọn trạng thái --</option>
-                                <option value="1" {{ $ytuongmoi->trang_thai == 1 ? 'selected' : '' }}>Đã hoàn thành
-                                </option>
-                                <option value="0" {{ $ytuongmoi->trang_thai == 0 ? 'selected' : '' }}>Chưa hoàn thành
+                            <select name="trang_thai" id="trang_thai">
+                                <option value="" disabled hidden>-- Chọn trạng thái --</option>
+                                <option value="Đã hoàn thành" {{ $ytuongmoi->trang_thai == 'Đã hoàn thành' ? 'selected' : '' }}>Đã hoàn thành</option>
+                                <option value="Chưa hoàn thành"
+                                    {{ $ytuongmoi->trang_thai == 'Chưa hoàn thành' ? 'selected' : '' }}>Chưa hoàn thành
                                 </option>
                             </select>
                         </div>

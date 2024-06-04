@@ -93,8 +93,8 @@
                             <label class="td-input">Trạng thái:</label>
                             <select name="trang_thai" id="trang_thai">
                                 <option value="" disabled selected hidden>-- Chọn trạng thái --</option>
-                                <option value="1">Đã hoàn thành</option>
-                                <option value="0">Chưa hoàn thành</option>
+                                <option value="Đã hoàn thành">Đã hoàn thành</option>
+                                <option value="Chưa hoàn thành">Chưa hoàn thành</option>
                             </select>
                         </div>
                     </div>

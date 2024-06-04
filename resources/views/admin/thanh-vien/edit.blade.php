@@ -81,7 +81,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Chỉnh sửa thành viên</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật thành viên</h4>
         </div>
         <div style="padding-top: 20px;">
             <form method="post" name="edit-thanhvien" action="{{ route('thanhvien.update', $thanhvien->ma_thanh_vien) }}">

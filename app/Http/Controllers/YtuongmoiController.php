@@ -106,7 +106,7 @@ class YtuongmoiController extends Controller
             'bai_bao_cao' => 'required|integer',
             'noi_dung' => 'required|string',
             'hinh_anh' => 'required|string|max:255',
-            'trang_thai' => 'required|boolean',
+            'trang_thai' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {

@@ -66,10 +66,10 @@
                                     </a>
                                 </td>
                                 <td>
-                                    @if ($ytm->trang_thai == 1)
+                                    @if ($ytm->trang_thai == 'Đã hoàn thành')
                                         <button type="button" class="btn btn-outline-success btn-sm" id="#">Đã hoàn
                                             thành</button>
-                                    @elseif($ytm->trang_thai == 0)
+                                    @elseif($ytm->trang_thai == 'Chưa hoàn thành')
                                         <button type="button" class="btn btn-secondary btn-sm">Chưa hoàn thành</button>
                                     @endif
                                 </td>

@@ -58,7 +58,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Chỉnh sửa thành viên</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật bài báo cáo</h4>
         </div>
         <div style="padding-top: 20px;">
             <form method="post" name="edit" action="{{ route('baibaocao.update', $baibaocao->ma_bai_bao_cao) }}">

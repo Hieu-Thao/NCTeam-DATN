@@ -58,7 +58,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Chỉnh sửa tin tức</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật tin tức</h4>
         </div>
         <div style="padding-top: 20px;">
             <form method="post" name="edit" action="{{ route('tintuc.update', $tintuc->ma_tin_tuc) }}">

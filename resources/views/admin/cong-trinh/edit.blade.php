@@ -58,7 +58,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Chỉnh sửa thành viên</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật công trình</h4>
         </div>
         <div style="padding-top: 20px;">
             <form method="post" name="edit" action="{{ route('congtrinh.update', $congtrinh->ma_cong_trinh) }}">
@@ -77,15 +77,17 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        <div class="coll">
-                            <label class="td-input">Tên công trình</label>
-                            <input type="text" name="ten_cong_trinh" id="ten_cong_trinh"
-                                value="{{ $congtrinh->ten_cong_trinh }}" />
-                        </div>
                         <div class="coll">
                             <label class="td-input">Năm</label>
                             <input type="text" name="nam" id="nam" value="{{ $congtrinh->nam }}" />
+                        </div>
+                    </div>
+
+                    <div class="roww">
+                        <div class="coll">
+                            <label class="td-input">Tên công trình</label>
+                            <input type="text" name="ten_cong_trinh" id="ten_cong_trinh"
+                                value="{{ $congtrinh->ten_cong_trinh }}"></input>
                         </div>
                     </div>
 
@@ -95,6 +97,9 @@
                             <input type="text" name="thuoc_tap_chi" id="thuoc_tap_chi"
                                 value="{{ $congtrinh->thuoc_tap_chi }}" />
                         </div>
+                    </div>
+
+                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Tình trạng</label>
                             <select name="tinh_trang" id="tinh_trang">

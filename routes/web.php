@@ -158,7 +158,7 @@ Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
 Route::prefix('/thamgia')->group(function () {
     Route::get('/', [ThamgiaController::class, 'thamgia']);
     Route::get('/create', [ThamgiaController::class, 'create']);
-    Route::get('/create', [ThamgiaController::class, 'store']);
+    Route::post('/create', [ThamgiaController::class, 'store']);
 
 });
 
