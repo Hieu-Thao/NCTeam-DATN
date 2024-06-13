@@ -4,14 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Auth\Authenticatable;
 
-class Thanhvien extends Model
+class Thanhvien extends Model implements AuthenticatableContract
 {
-    use HasFactory;
+    use HasFactory, Authenticatable;
 
     protected $table = 'thanh_vien';
-
     protected $primaryKey = 'ma_thanh_vien';
+
     protected $fillable = [
         'ho_ten',
         'ma_quyen',
@@ -24,15 +27,24 @@ class Thanhvien extends Model
         'mat_khau',
     ];
 
-    public $timestamps = false; // Thêm dòng này để vô hiệu hóa timestamps
+    public $timestamps = false;
 
+    // Để đảm bảo rằng Laravel sử dụng trường 'mat_khau' của bạn thay vì 'password'
+    public function getAuthPassword()
+    {
+        return $this->mat_khau;
+    }
+
+    // Quan hệ với bảng 'nhom'
     public function nhom()
     {
         return $this->belongsTo(Nhom::class, 'ma_nhom', 'ma_nhom');
     }
 
+    // Quan hệ với bảng 'quyen'
     public function quyen()
     {
         return $this->belongsTo(Quyen::class, 'ma_quyen', 'ma_quyen');
     }
 }
+

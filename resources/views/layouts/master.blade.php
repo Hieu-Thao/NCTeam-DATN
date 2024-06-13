@@ -177,8 +177,11 @@
                                     aria-labelledby="drop2">
                                     <div class="message-body">
                                         <div class="d-flex align-items-center gap-2 dropdown-item border-bottom">
-                                            <p class="mb-0 fs-3" style="color: black; font-weight:600;">
-                                                srcfreen98@gmail.com</p>
+                                            {{-- <p class="mb-0 fs-3" style="color: black; font-weight:600;">
+                                                srcfreen98@gmail.com</p> --}}
+                                                <p class="mb-0 fs-3" style="color: black; font-weight: 600;">
+                                                    {{ $userEmail }}
+                                                </p>
                                         </div>
                                         <a href="javascript:void(0)"
                                             class="d-flex align-items-center gap-2 dropdown-item">
@@ -195,8 +198,12 @@
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">Lịch báo cáo</p>
                                         </a>
-                                        <a href="/login" class="btn btn-outline-primary mx-3 mt-2 d-block">Đăng
-                                            xuất</a>
+                                        {{-- <a href="/login" class="btn btn-outline-primary mx-3 mt-2 d-block">Đăng
+                                            xuất</a> --}}
+                                            <form action="{{ route('logout') }}" method="POST">
+                                                @csrf
+                                                <button type="submit">Logout</button>
+                                            </form>
                                     </div>
                                 </div>
                             </li>

@@ -7,6 +7,8 @@ use App\Models\Thanhvien;
 use App\Models\Nhom;
 use App\Models\Quyen;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 
 class ThanhvienController extends Controller
@@ -18,8 +20,7 @@ class ThanhvienController extends Controller
      */
     public function thanhvien()
     {
-        // $thanhvien = Thanhvien::all();
-        $thanhviens = ThanhVien::with('nhom')->get();
+        $thanhviens = Thanhvien::with('nhom')->get();
 
         // Truyền dữ liệu đến view
         return view('admin.thanh-vien.thanhvien', compact('thanhviens'));
@@ -71,7 +72,7 @@ class ThanhvienController extends Controller
             'email' => $request->email,
             'noi_cong_tac' => $request->noi_cong_tac,
             'vai_tro' => $request->vai_tro,
-            'mat_khau' => bcrypt($request->mat_khau), // Mã hóa mật khẩu trước khi lưu
+            'mat_khau' => Hash::make($request->mat_khau),
             'ma_quyen' => $request->quyen
         ]);
 
@@ -129,7 +130,7 @@ class ThanhvienController extends Controller
 
         // Cập nhật mật khẩu nếu có
         if ($request->has('mat_khau')) {
-            $thanhVien->mat_khau = bcrypt($request->mat_khau);
+            $thanhVien->mat_khau = Hash::make($request->mat_khau);
         }
 
         // Cập nhật các thông tin khác

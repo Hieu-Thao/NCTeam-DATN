@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // Chia sẻ biến $userEmail với tất cả các view
+        view()->composer('*', function ($view) {
+            $view->with('userEmail', Auth::check() ? Auth::user()->email : null);
+        });
     }
 }

@@ -35,12 +35,21 @@ return [
     |
     */
 
+    // 'guards' => [
+    //     'web' => [
+    //         'driver' => 'session',
+    //         'provider' => 'users',
+    //     ],
+    // ],
+
+
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'thanhviens',
         ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -59,16 +68,17 @@ return [
     |
     */
 
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
+    // 'providers' => [
+    //     'users' => [
+    //         'driver' => 'eloquent',
+    //         'model' => App\Models\User::class,
+    //     ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+    'providers' => [
+        'thanhviens' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Thanhvien::class,
+        ],
     ],
 
     /*
