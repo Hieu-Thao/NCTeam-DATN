@@ -61,16 +61,18 @@
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                             <span class="hide-menu">QUẢN LÝ</span>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/nhom" aria-expanded="false">
-                                <span>
-                                    {{-- <i class="ti ti-brand-teams"></i> --}}
-                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/brand-teams.png') }}"
-                                        width="21px" height="21px" alt="Brand Teams Icon">
-                                </span>
-                                <span class="hide-menu">Nhóm nghiên cứu</span>
-                            </a>
-                        </li>
+                        @if (Auth::user()->ma_quyen == 1)
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/nhom" aria-expanded="false">
+                                    <span>
+                                        {{-- <i class="ti ti-brand-teams"></i> --}}
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/brand-teams.png') }}"
+                                            width="21px" height="21px" alt="Brand Teams Icon">
+                                    </span>
+                                    <span class="hide-menu">Nhóm nghiên cứu</span>
+                                </a>
+                            </li>
+                        @endif
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/thanhvien" aria-expanded="false">
                                 <span>
@@ -116,29 +118,30 @@
                                 <span class="hide-menu">Ý tưởng mới</span>
                             </a>
                         </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/tintuc" aria-expanded="false">
-                                <span>
-                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/news.png') }}"
-                                        width="21px" height="21px" alt="News Icon">
-                                </span>
-                                <span class="hide-menu">Tin tức</span>
-                            </a>
-                        </li>
-                        <li class="nav-small-cap">
-                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">THỐNG KÊ</span>
-                        </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="\thongke" aria-expanded="false">
-                                <span>
-                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/chart-bar.png') }}"
-                                        width="21px" height="21px" alt="Chart Bar Icon">
-                                </span>
-                                <span class="hide-menu">Thống kê báo cáo</span>
-                            </a>
-                        </li>
+                        @if (Auth::user()->ma_quyen == 1)
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/tintuc" aria-expanded="false">
+                                    <span>
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/news.png') }}"
+                                            width="21px" height="21px" alt="News Icon">
+                                    </span>
+                                    <span class="hide-menu">Tin tức</span>
+                                </a>
+                            </li>
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">THỐNG KÊ</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="\thongke" aria-expanded="false">
+                                    <span>
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/chart-bar.png') }}"
+                                            width="21px" height="21px" alt="Chart Bar Icon">
+                                    </span>
+                                    <span class="hide-menu">Thống kê báo cáo</span>
+                                </a>
+                            </li>
+                        @endif
                         {{-- <li class="sidebar-item">
                             <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
                                 <span>
@@ -163,47 +166,65 @@
                             <li class="nav-item">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)">
                                     {{-- <i class="ti ti-bell-ringing"></i> --}}
-                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/bell-ringing.png') }}" width="21px" height="21px" alt="bell-ringing Icon">
+                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/bell-ringing.png') }}"
+                                        width="21px" height="21px" alt="bell-ringing Icon">
                                     <div class="notification bg-primary rounded-circle"></div>
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="{{ asset('/assets/images/profile/ava.jpg') }}" alt="" width="35"
-                    height="35" class="rounded-circle">
+                                    {{-- <img src="{{ asset('/assets/images/profile/ava.jpg') }}" alt="" width="35"
+                    height="35" class="rounded-circle"> --}}
+
+                                    @if (Auth::check() && Auth::user()->anh_dai_dien)
+                                        <img src="{{ asset('storage/' . Auth::user()->anh_dai_dien) }}"
+                                            alt="Avatar" width="35" height="35" class="rounded-circle">
+                                    @else
+                                        <img src="{{ asset('/assets/images/default-avatar.jpg') }}"
+                                            alt="Default Avatar" width="35" height="35"
+                                            class="rounded-circle">
+                                    @endif
+
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up"
                                     aria-labelledby="drop2">
                                     <div class="message-body">
-                                        <div class="d-flex align-items-center gap-2 dropdown-item border-bottom">
+                                        <div class="dp-email">
                                             {{-- <p class="mb-0 fs-3" style="color: black; font-weight:600;">
                                                 srcfreen98@gmail.com</p> --}}
-                                                <p class="mb-0 fs-3" style="color: black; font-weight: 600;">
-                                                    {{ $userEmail }}
-                                                </p>
+                                            {{-- <p class="mb-0 fs-3" style="color: black; font-weight: 600;">
+                                                {{ $userEmail }}
+                                            </p> --}}
+                                            <p class="mb-0 fs-3" style="color: black; font-weight: 600;">
+                                                {{ Auth::user()->email }}
+                                            </p>
                                         </div>
-                                        <a href="javascript:void(0)"
+                                        <div class="dp-items-top">
+                                        <a href="/thanhvien/canhan"
                                             class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-user fs-6"></i>
+                                            <img src="{{ asset('/assets/css/icons/tabler-icons/img/user.png') }}"
+                                        width="15px" height="15px" alt="User Icon">
                                             <p class="mb-0 fs-3">Tài khoản của tôi</p>
                                         </a>
                                         <a href="javascript:void(0)"
                                             class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-mail fs-6"></i>
+                                            <img src="{{ asset('/assets/css/icons/tabler-icons/img/bell.png') }}"
+                                        width="15px" height="15px" alt="User Icon">
                                             <p class="mb-0 fs-3">Thông báo</p>
                                         </a>
-                                        <a href="javascript:void(0)"
+                                        {{-- <a href="javascript:void(0)"
                                             class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">Lịch báo cáo</p>
-                                        </a>
+                                        </a> --}}
                                         {{-- <a href="/login" class="btn btn-outline-primary mx-3 mt-2 d-block">Đăng
                                             xuất</a> --}}
-                                            <form action="{{ route('logout') }}" method="POST">
-                                                @csrf
-                                                <button type="submit">Logout</button>
-                                            </form>
+                                        </div>
+                                        <form action="{{ route('logout') }}" method="POST" style="display: flex; justify-content: center;">
+                                            @csrf
+                                            <button style="display: flex; width: 90%; justify-content: center;" type="submit" class="btn btn-outline-primary">Đăng xuất</button>
+                                        </form>
                                     </div>
                                 </div>
                             </li>

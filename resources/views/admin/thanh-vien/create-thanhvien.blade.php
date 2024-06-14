@@ -88,7 +88,7 @@
         </div>
         <div style="padding-top: 20px;">
             <form name="create-thanhvien" onsubmit="return kiemtra();" method="post"
-                action="{{ url('/thanhvien/create-thanhvien') }}">
+                action="{{ url('/thanhvien/create-thanhvien') }}" enctype="multipart/form-data">>
                 @csrf
 
                 {{-- @if ($errors->any())
@@ -168,6 +168,12 @@
                             </select>
                         </div>
                     </div>
+                    <div class="roww">
+                        <div class="coll">
+                            <label class="td-input">Ảnh đại diện:</label>
+                            <input type="file" name="anh_dai_dien" id="anh_dai_dien"></input>
+                        </div>
+                    </div>
 
                     {{-- <div class="roww">
 
@@ -208,37 +214,45 @@
         }
 
         $(document).ready(function() {
-            $('form[name="create-thanhvien"]').on('submit', function(e) {
-                e.preventDefault();
-                if (!kiemtra()) {
-                    return false;
+    $('form[name="create-thanhvien"]').on('submit', function(e) {
+        e.preventDefault();
+        if (!kiemtra()) {
+            return false;
+        }
+
+        var formData = new FormData(this);
+        formData.append('_token', '{{ csrf_token() }}'); // Thêm CSRF token vào FormData
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ url('/thanhvien/create-thanhvien') }}',
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Đảm bảo header X-CSRF-TOKEN
+            },
+            success: function(response) {
+                if (response === "success") {
+                    callAlert('Thành công!', 'success', '1500', '');
+                    setTimeout(() => {
+                        window.location.href = '/thanhvien';
+                    }, 1000);
                 }
-                var formData = $(this).serialize();
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ url('/thanhvien/create-thanhvien') }}',
-                    data: formData,
-                    success: function(response) {
-                        if (response === "success") {
-                            callAlert('Thành công!', 'success', '1500', '');
-                            setTimeout(() => {
-                                window.location.href = '/thanhvien';
-                            }, 1000);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.so_dien_thoai) {
-                            callAlert('Số điện thoại đã tồn tại!', 'error', '1500', '');
-                        } else if (response.email) {
-                            callAlert('Email đã tồn tại!', 'error', '1500', '');
-                        } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', '1500',
-                                '');
-                        }
-                    }
-                });
-            });
+            },
+            error: function(xhr, status, error) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.so_dien_thoai) {
+                    callAlert('Số điện thoại đã tồn tại!', 'error', '1500', '');
+                } else if (response.email) {
+                    callAlert('Email đã tồn tại!', 'error', '1500', '');
+                } else {
+                    callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', '1500', '');
+                }
+            }
         });
+    });
+});
+
     </script>
 @endpush

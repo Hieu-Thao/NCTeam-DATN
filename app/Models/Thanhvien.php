@@ -25,6 +25,7 @@ class Thanhvien extends Model implements AuthenticatableContract
         'vai_tro',
         'email',
         'mat_khau',
+        'anh_dai_dien',
     ];
 
     public $timestamps = false;

@@ -26,6 +26,11 @@ class ThanhvienController extends Controller
         return view('admin.thanh-vien.thanhvien', compact('thanhviens'));
     }
 
+    public function canhan()
+    {
+        return view('admin.thanh-vien.canhan');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -56,31 +61,46 @@ class ThanhvienController extends Controller
             'so_dien_thoai' => 'required|string|max:10|unique:thanh_vien,so_dien_thoai',
             'email' => 'required|string|email|max:255|unique:thanh_vien,email',
             'mat_khau' => 'required|string|min:3',
-            'quyen' => 'required|exists:quyen,ma_quyen'
+            'quyen' => 'required|exists:quyen,ma_quyen',
+            'anh_dai_dien' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        // Tạo mới thành viên
-        $ThanhVien = new Thanhvien([
-            'ho_ten' => $request->ho_ten,
-            'ma_nhom' => $request->nhom,
-            'so_dien_thoai' => $request->so_dien_thoai,
-            'hoc_ham_hoc_vi' => $request->hoc_ham_hoc_vi,
-            'email' => $request->email,
-            'noi_cong_tac' => $request->noi_cong_tac,
-            'vai_tro' => $request->vai_tro,
-            'mat_khau' => Hash::make($request->mat_khau),
-            'ma_quyen' => $request->quyen
-        ]);
+        try {
+            // Xử lý upload file
+            if ($request->hasFile('anh_dai_dien')) {
+                $file = $request->file('anh_dai_dien');
+                $path = $file->store('avartas', 'public'); // Lưu file vào thư mục public/uploads
 
-        // Lưu thành viên vào cơ sở dữ liệu
-        $ThanhVien->save();
+            }
 
-        // Trả về response sau khi lưu thành công
-        return response()->json('success', 200);
+            // Tạo mới thành viên
+            $ThanhVien = new Thanhvien([
+                'ho_ten' => $request->ho_ten,
+                'ma_nhom' => $request->nhom,
+                'so_dien_thoai' => $request->so_dien_thoai,
+                'hoc_ham_hoc_vi' => $request->hoc_ham_hoc_vi,
+                'email' => $request->email,
+                'noi_cong_tac' => $request->noi_cong_tac,
+                'vai_tro' => $request->vai_tro,
+                'mat_khau' => Hash::make($request->mat_khau),
+                'ma_quyen' => $request->quyen,
+                'anh_dai_dien' => $path ?? null,
+            ]);
+
+            // Lưu thành viên vào cơ sở dữ liệu
+            $ThanhVien->save();
+
+            // Trả về response sau khi lưu thành công
+            return response()->json('success', 200);
+        } catch (\Exception $e) {
+            // Log lỗi chi tiết
+            \Log::error('Error in storing thành viên: ' . $e->getMessage());
+            return response()->json(['error' => 'Đã có lỗi xảy ra. Vui lòng thử lại!'], 500);
+        }
     }
 
     public function show($ma_thanh_vien)
