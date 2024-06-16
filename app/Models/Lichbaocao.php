@@ -12,7 +12,7 @@ class Lichbaocao extends Model
     protected $table = 'lich_bao_cao';
 
     public $timestamps = false;
-    
+
     protected $primaryKey = 'ma_lich';
 
     protected $fillable = [
@@ -21,5 +21,12 @@ class Lichbaocao extends Model
         'thoi_gian_bat_dau',
         'thoi_gian_ket_thuc',
     ];
+
+
+    public function thanhvien()
+    {
+        return $this->belongsToMany(User::class, 'tham_du', 'ma_lich', 'ma_thanh_vien')
+                    ->withPivot('vai_tro');
+    }
 
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Thanhvien;
 use App\Models\Nhom;
+use App\Models\Lichbaocao;
 use App\Models\Quyen;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -28,8 +29,12 @@ class ThanhvienController extends Controller
 
     public function canhan()
     {
-        return view('admin.thanh-vien.canhan');
+        $user = Auth::user();
+        $user->load(['nhom', 'lichbaocao']);  // Tải thông tin nhóm liên quan cho người dùng hiện tại
+
+        return view('admin.thanh-vien.canhan', compact('user'));
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -47,5 +47,13 @@ class Thanhvien extends Model implements AuthenticatableContract
     {
         return $this->belongsTo(Quyen::class, 'ma_quyen', 'ma_quyen');
     }
+
+    public function lichbaocao()
+    {
+        return $this->belongsToMany(lichbaocao::class, 'tham_du', 'ma_thanh_vien', 'ma_lich')
+                    ->withPivot('vai_tro')
+                    ->orderByDesc('ngay_bao_cao'); // Sắp xếp theo ngày báo cáo giảm dần
+    }
+
 }
 

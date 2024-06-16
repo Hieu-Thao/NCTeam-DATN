@@ -20789,25 +20789,33 @@ html {
     height: 200px;
     }
 
-.ava>img{
-    position: absolute;
-    top: 255px;
-    /* left: 15%; */
-    transform: translateX(62%);
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    border: 3px solid white;
-    object-fit: fill;
-}
+    .ava {
+        position: absolute;
+        top: 255px;
+        transform: translateX(62%);
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 3px solid white;
+        object-fit: fill;
+    }
 
-.cn-ten{
+    .ava img {
+        cursor: pointer; /* Hiển thị con trỏ tay khi di chuột lên ảnh */
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+
+.cn-ten {
     display: flex;
     justify-content: center;
     padding-top: 20px;
-    font-size: 20px;
-    transform: translateX(88%);
-    /* left: 285px; */
+    font-size: 21px;
+    /* transform: translateX(84%); */
+    left: 290px;
     font-weight: 600;
     position: absolute;
 }
@@ -20831,11 +20839,207 @@ html {
 .two-columns {
     display: flex;
     padding-top: 45px;
+    padding-bottom: 5px;
     background: #fff;
+
 }
 
-.column {
+.column-3 {
+    flex: 3;
+    /* height: 50px; */
+    height: auto;
+    border-radius: 10px;
+    margin: 0px 20px;
+}
+
+.column-7 {
+    flex: 7;
+    /* height: 50px; */
+}
+
+.ttcn{
+    display: flex;
+    gap: 10px;
+}
+
+.ttcn>p{
+    margin-bottom: 0px !important;
+}
+
+.ttcn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+.ttcn-td {
+    text-align: left;
+    padding-left: 10px;
+    font-weight: 600;
+    flex: 2;
+}
+
+.ttcn-nd {
+    text-align: left;
+    padding-right: 5px;
+    flex: 3;
+}
+
+.td{
+    text-align: left;
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #5d87ff;
+    border-radius: 5px;
+    color: white;
+}
+
+.td-bbc{
+    padding: 5px 10px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #5d87ff;
+    border-radius: 5px;
+    color: white;
+    margin-right: 15px;
+}
+
+.ttbbc{
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ttbbc-mb{
+    display: flex;
+    margin-bottom: 10px;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.ttbbc-td{
+    /* flex: 1; */
+    display: flex;
+}
+
+.ttbbc-nd{
+    flex: 25;
+    display: flex;
+}
+
+.ttbbc-tt{
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 40px;
+    padding-bottom: 10px;
+}
+
+.trt-dbbc{
+    background: #28a745;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.trt-cbbc{
+    background: #dc3545;
+    font-weight: 600;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 12px;
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.ttbbc-tenbbc {
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 700;
+    padding-top: 10px;
+    color: #5d87ff;
     flex: 1;
-
+    padding-right: 20px;
 }
 
+.bbcct{
+    display: flex;
+    background: #ebebeb63;
+    flex-direction: column;
+    padding: 0px 15px;
+    border-radius: 5px;
+    margin-right: 15px;
+    margin-top: 20px;
+}
+
+.ttbbc>a:hover{
+    color: red !important;
+}
+
+.ttbbc-td>img{
+    margin-right: 5px;
+}
+
+.btn-xemthem{
+    display: flex;
+    align-items: center;
+    background: #1b1b1b1a;
+    width: 100px;
+    justify-content: center;
+    margin: 20px auto;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.vt-tk{
+    font-size: 14px;
+    font-weight: 500;
+    background: #ffc107;
+    padding: 0px 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.vt-ntg{
+    font-size: 14px;
+    font-weight: 500;
+    background: #919191;
+    padding: 0px 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.vt-nbc{
+    font-size: 14px;
+    font-weight: 500;
+    background: #25cff2;
+    padding: 0px 5px;
+    border-radius: 5px;
+    color: #fff;
+}
+
+.vt-km{
+    font-size: 14px;
+    font-weight: 500;
+    background: #ff6d00;
+    padding: 0px 5px;
+    border-radius: 5px;
+    color: #fff;
+}
