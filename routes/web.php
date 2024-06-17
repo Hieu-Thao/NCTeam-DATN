@@ -173,7 +173,15 @@ Route::prefix('/thamgia')->group(function () {
 
 
 Route::get('/', function () {
-    return view('welcome'); // Trang chủ, đảm bảo rằng bạn có file view 'welcome.blade.php'
+    return view('/trangchu/welcome');
+});
+
+Route::get('/gioithieu', function () {
+    return view('/trangchu/gioi-thieu');
+});
+
+Route::get('/lienhe', function () {
+    return view('/trangchu/lien-he');
 });
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');

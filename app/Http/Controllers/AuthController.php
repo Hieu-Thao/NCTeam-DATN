@@ -31,7 +31,7 @@ class AuthController extends Controller
         if ($user && Hash::check($credentials['password'], $user->mat_khau)) {
             Auth::login($user);
             $request->session()->regenerate();
-            return redirect('/index');  // Chuyển hướng đến /index sau khi đăng nhập thành công
+            return redirect('/index');
         }
 
         return back()->withErrors([
