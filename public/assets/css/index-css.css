@@ -32,14 +32,30 @@
     font-size: 15px;
 }
 
-.menu {
+/* .menu {
     background: #003285;
-    /* padding: 10px 12px; */
     height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* gap: 50px; */
+} */
+
+.menu {
+    background: #003285;
+    display: flex;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    position: absolute;
+    top: 250px;
+    width: 100%;
+}
+
+.menu.fixed {
+    position: fixed;
+    top: 0;
+    z-index: 1000;
 }
 
 .menu>a {
@@ -51,7 +67,7 @@
 
 .menu>a:hover {
     background: #ffffff;
-    height: 40px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -61,4 +77,128 @@
     margin: -10px 0;
     padding: 0 10px;
     font-weight: 600;
+}
+
+.ct{
+    display: flex;
+    margin-top: 60px;
+    gap: 25px;
+}
+
+.ct-left{
+    /* background: #c9c9c9; */
+    height: auto;
+    flex: 2;
+}
+
+.ct-right{
+
+    height: 50px;
+    flex: 1;
+}
+
+.ct-intro{
+    margin-left: 15px;
+}
+
+.ct-nd{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+}
+
+.ttnb{
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.ct-tt{
+    padding-right: 7px;
+}
+
+.td-ttnb{
+    font-size: 13px;
+    font-weight: 600;
+    text-align: justify;
+    padding-right: 20px;
+    padding-top: 5px;
+}
+
+.btn-xemthem{
+    font-size: 12px;
+    color: #ef5c2c;
+    font-weight: 500;
+    margin-top: 10px;
+    text-align: end;
+    margin-right: 20px;
+}
+
+
+#backToTop {
+    display: none;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    z-index: 100;
+    border: none;
+    outline: none;
+    background-color: #ef5c2c;
+    color: white;
+    cursor: pointer;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: opacity 0.3s ease;
+}
+
+.contact-buttons {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 1000;
+}
+
+.contact-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #009c4f;
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.contact-button:hover {
+    background-color: #009c4f;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+}
+
+.contact-button.zalo {
+    background-color: #ffffff;
+}
+
+.contact-button.zalo:hover {
+    background-color: #f0f0f0;
+}
+
+.menu-option{
+    width: 100%;
+    background: #ececec;
+    height: 100px;
+}
+
+.footer{
+    /* background: #003285; */
+    height: 200px;
 }

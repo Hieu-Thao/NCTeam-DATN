@@ -20658,50 +20658,6 @@ html {
     /* Điều chỉnh kích thước nội dung */
 }
 
-/* .roww{
-    display: flex;
-    gap: 40px;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.coll{
-    display: flex;
-    flex-direction: column;
-}
-
-.coll>input{
-    width: 330px;
-    height: 30px;
-}
-.coll>select{
-    width: 330px;
-    height: 30px;
-}
-
-.coll>textarea{
-    width: 1070px;
-    height: 50px;
-}
-
-
-
-@media screen and (max-width: 1300px) {
-    .coll>input{
-        width: 275px !important;
-    }
-
-    .coll>select{
-        width: 275px !important;
-    }
-
-    .coll>textarea{
-        width: 900px;
-        height: 50px;
-    }
-} */
-
-
 .td-input {
     font-weight: 600;
     margin: 0 !important;
