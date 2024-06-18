@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Loaitintuc;
 use Illuminate\Http\Request;
 use App\Models\Tintuc;
 use App\Models\Thanhvien;
@@ -23,6 +24,17 @@ class TintucController extends Controller
         return view('admin.tin-tuc.tintuc', compact('tintuc'));
     }
 
+    public function index()
+    {
+        $tintuc = Tintuc::where('noi_bat', 1)
+            ->orderBy('ngay', 'desc')
+            ->take(5)
+            ->get();
+
+        // Truyền dữ liệu đến view
+        return view('trangchu.welcome', compact('tintuc'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -31,7 +43,8 @@ class TintucController extends Controller
     public function create()
     {
         $thanhvien = Thanhvien::all();
-        return view('admin.tin-tuc.create', compact('thanhvien'));
+        $loaitintuc = Loaitintuc::all();
+        return view('admin.tin-tuc.create', compact('thanhvien','loaitintuc'));
     }
 
 
@@ -40,10 +53,13 @@ class TintucController extends Controller
         // Validate dữ liệu từ form
         $validator = Validator::make($request->all(), [
             'thanh_vien' => 'required',
+            'loai_tin_tuc' => 'required',
             'ten_tin_tuc' => 'required|string|max:255|unique:tin_tuc,ten_tin_tuc',
+            'ngay' => 'required|date',
             'noi_dung' => 'required|string',
             'hinh_anh' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
             'trang_thai' => 'required|string|max:255',
+            'noi_bat' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -60,10 +76,13 @@ class TintucController extends Controller
             // Tạo mới tin tức
             $tintuc = new Tintuc([
                 'ma_thanh_vien' => $request->thanh_vien,
+                'ma_loai_tt' => $request->loai_tin_tuc,
                 'ten_tin_tuc' => $request->ten_tin_tuc,
+                'ngay' => $request->ngay,
                 'noi_dung' => $request->noi_dung,
                 'hinh_anh' => $path ?? null,
                 'trang_thai' => $request->trang_thai,
+                'noi_bat' => $request->noi_bat,
             ]);
 
             // Lưu tin tức vào cơ sở dữ liệu

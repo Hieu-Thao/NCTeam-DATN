@@ -17,14 +17,22 @@ class Tintuc extends Model
 
     protected $fillable = [
         'ma_thanh_vien',
+        'ma_loai_tt',
         'ten_tin_tuc',
+        'ngay',
         'noi_dung',
         'hinh_anh',
         'trang_thai',
+        'noi_bat',
     ];
 
     public function ThanhVien()
     {
         return $this->belongsTo(Thanhvien::class, 'ma_thanh_vien', 'ma_thanh_vien');
+    }
+
+    public function LoaiTinTuc()
+    {
+        return $this->belongsTo(Loaitintuc::class, 'ma_loai_tt', 'ma_loai_tt');
     }
 }

@@ -31,7 +31,7 @@
     <div class="menu" id="menu">
         <a href="{{ url('/') }}">Trang chủ</a>
         <a href="{{ url('/gioithieu') }}">Giới thiệu</a>
-        <a href="#">Tin tức</a>
+        <a href="{{ url('/tttintuc') }}">Tin tức</a>
         <a href="{{ url('/lienhe') }}">Liên hệ</a>
         <a href="{{ url('/login') }}">Đăng nhập</a>
     </div>

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KyZXEAg3QhqLMpG8r+8fhAXLRz9k7+gh5hsn/sTr4lN7A/J4SbR5gX/6C7V/q3VY8UP2eOaSGUz5vdrVKnP9Mg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Liên hệ</title>
+    <title>Tin tức</title>
     <style>
         .mySlides {
             display: none;
@@ -37,18 +37,8 @@
     </div>
 
     <div>
-        <div
-            style="margin-top: 50px; margin-bottom: 30px; display: flex; flex-direction: column; align-items: center;">
-            {{-- <label style="color: #ef5c2c; font-weight: 700;font-size: 20px; margin-bottom: 5px;">THÔNG TIN LIÊN HỆ</label> --}}
-            <label style="">Mọi thắc mắc xin vui lòng liên hệ</label>
-            <div class="tt-ll">
-                <label style="color: #003285; font-size: 20px; font-weight: 700;">RESEARCHES TEAM</label>
-                <label>Số 126 Nguyễn Thiện Thành - Khóm 4, Phường 5, Thành phố Trà Vinh, tỉnh Trà Vinh</label>
-                <label>Điện thoại: (+84).2555.855.963</label>
-                <label>Email: researchersteam@tvu.edu.vn</label>
-            </div>
 
-        </div>
+        <h2>Hiiiiiiiiiiiiiiiiii</h2>
 
 
 

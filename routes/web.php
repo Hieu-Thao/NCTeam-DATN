@@ -184,6 +184,12 @@ Route::get('/lienhe', function () {
     return view('/trangchu/lien-he');
 });
 
+Route::get('/tttintuc', function () {
+    return view('/trangchu/tt-tin-tuc');
+});
+
+Route::get('/', [TinTucController::class, 'index']);
+
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

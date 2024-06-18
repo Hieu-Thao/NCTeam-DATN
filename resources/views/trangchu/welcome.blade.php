@@ -32,7 +32,7 @@
         <div class="menu" id="menu">
             <a href="{{ url('/') }}">Trang chủ</a>
             <a href="{{ url('/gioithieu') }}">Giới thiệu</a>
-            <a href="#">Tin tức</a>
+            <a href="{{ url('/tttintuc') }}">Tin tức</a>
             <a href="{{ url('/lienhe') }}">Liên hệ</a>
             <a href="{{ url('/login') }}">Đăng nhập</a>
         </div>
@@ -93,20 +93,20 @@
                         nổi bật</label>
 
                     {{-- Tin 1 --}}
-                    <div class="ttnb">
-                        <img style="width: 150px; height: 100px; border-radius: 5px;"
-                            src="{{ asset('/assets\images\backgrounds\htkh.jpg') }}">
-                        <div style="display: flex; flex-direction: column;">
-                            <label class="td-ttnb">Giảng viên Khoa Kỹ thuật và Công nghệ - Trường Đại học Trà Vinh dự
-                                Hội
-                                nghị khoa học quốc
-                                gia lần thứ XVI năm 2023</label>
-                            <a class="btn-xemthem">Xem thêm</a>
+                    @foreach ($tintuc as $tt)
+                        <div class="ttnb">
+                            <img style="width: 150px; height: 100px; border-radius: 5px;"
+                                src="{{ asset('storage/' . $tt->hinh_anh) }}">
+                            <div style="display: flex; flex-direction: column;">
+                                <label class="td-ttnb">{{ Str::limit($tt->ten_tin_tuc, 120, ' ...') }}</label>
+                                <label class="td-ngay">{{ \Carbon\Carbon::parse($tt->ngay)->format('d/m/Y') }}</label>
+                                <a class="btn-xemthem" href="#">Xem thêm</a>
+                            </div>
                         </div>
-                    </div>
+                    @endforeach
 
                     {{-- Tin 2 --}}
-                    <div class="ttnb">
+                    {{-- <div class="ttnb">
                         <img style="width: 150px; height: 100px; border-radius: 5px;"
                             src="{{ asset('/assets\images\backgrounds\it-hub.jpg') }}">
                         <div style="display: flex; flex-direction: column;">
@@ -114,39 +114,8 @@
                                 bộ Lập trình ITHUB</label>
                             <a class="btn-xemthem">Xem thêm</a>
                         </div>
-                    </div>
+                    </div> --}}
 
-                    {{-- Tin 3 --}}
-                    <div class="ttnb">
-                        <img style="width: 150px; height: 100px; border-radius: 5px;"
-                            src="{{ asset('/assets\images\backgrounds\taphuan.jpg') }}">
-                        <div style="display: flex; flex-direction: column;">
-                            <label class="td-ttnb">Tập huấn phát triển chương trình đào tạo</label>
-                            <a class="btn-xemthem">Xem thêm</a>
-                        </div>
-                    </div>
-
-                    {{-- Tin 4 --}}
-                    <div class="ttnb">
-                        <img style="width: 150px; height: 100px; border-radius: 5px;"
-                            src="{{ asset('/assets\images\backgrounds\pcmt.jpg') }}">
-                        <div style="display: flex; flex-direction: column;">
-                            <label class="td-ttnb">Mít tinh hưởng ứng tháng hành động phòng, chống ma túy năm
-                                2024</label>
-                            <a class="btn-xemthem">Xem thêm</a>
-                        </div>
-                    </div>
-
-                    {{-- Tin 4 --}}
-                    <div class="ttnb">
-                        <img style="width: 150px; height: 100px; border-radius: 5px;"
-                            src="{{ asset('/assets\images\backgrounds\hoptac.png') }}">
-                        <div style="display: flex; flex-direction: column;">
-                            <label class="td-ttnb">Hợp tác đào tạo ngành vi mạch bán dẫn tại Trường Đại học Trà
-                                Vinh</label>
-                            <a class="btn-xemthem">Xem thêm</a>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -181,18 +150,23 @@
                     style="font-size: 14px; text-transform: uppercase; color: #fff; font-weight: 500; margin-bottom: 15px;">Kết
                     nối với Researches Team</label>
                 <div>
-                    <a href="https://zalo.me/0866475515" target="_blank"><img src="{{ asset('/assets/css/icons/tabler-icons/img/zaloo.png') }}" width="35px"
-                        height="35px" alt="User Icon"></a>
-                    <a href="https://www.facebook.com/TraVinhUniversity.TVU" target="_blank"><img src="{{ asset('/assets/css/icons/tabler-icons/img/fb.png') }}" width="35px"
-                        height="35px" alt="User Icon"></a>
-                    <a href="https://www.youtube.com/@aiHocTraVinhTVU" target="_blank"><img src="{{ asset('/assets/css/icons/tabler-icons/img/youtube.png') }}" width="35px"
-                        height="35px" alt="User Icon"></a>
-                    <a href="https://www.tiktok.com/@tvugreencampus" target="_blank"><img src="{{ asset('/assets/css/icons/tabler-icons/img/tiktok.png') }}" width="35px"
-                        height="35px" alt="User Icon"></a>
+                    <a href="https://zalo.me/0866475515" target="_blank"><img
+                            src="{{ asset('/assets/css/icons/tabler-icons/img/zaloo.png') }}" width="35px"
+                            height="35px" alt="User Icon"></a>
+                    <a href="https://www.facebook.com/TraVinhUniversity.TVU" target="_blank"><img
+                            src="{{ asset('/assets/css/icons/tabler-icons/img/fb.png') }}" width="35px"
+                            height="35px" alt="User Icon"></a>
+                    <a href="https://www.youtube.com/@aiHocTraVinhTVU" target="_blank"><img
+                            src="{{ asset('/assets/css/icons/tabler-icons/img/youtube.png') }}" width="35px"
+                            height="35px" alt="User Icon"></a>
+                    <a href="https://www.tiktok.com/@tvugreencampus" target="_blank"><img
+                            src="{{ asset('/assets/css/icons/tabler-icons/img/tiktok.png') }}" width="35px"
+                            height="35px" alt="User Icon"></a>
                 </div>
             </div>
         </div>
-        <div style="background: rgb(255, 255, 255); width:100%; height: 30px; display: flex; align-items: center; justify-content: center;">
+        <div
+            style="background: rgb(255, 255, 255); width:100%; height: 30px; display: flex; align-items: center; justify-content: center;">
             <label style="font-size: 13px; color: #003285;">&copy; Bản quyền thuộc Hithaoz</label>
         </div>
 

@@ -75,6 +75,17 @@
                             </select>
                         </div>
                         <div class="coll">
+                            <label class="td-input">Loại tin tức:</label>
+                            <select name="loai_tin_tuc" id="loai_tin_tuc">
+                                <option value="" disabled selected hidden>-- Chọn loại tin tức --</option>
+                                @foreach ($loaitintuc as $ltt)
+                                    <option value="{{ $ltt->ma_loai_tt }}">{{ $ltt->ten_loai_tt }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="roww">
+                        <div class="coll">
                             <label class="td-input">Tên tin tức:</label>
                             <input type="text" name="ten_tin_tuc" id="ten_tin_tuc" />
                         </div>
@@ -90,6 +101,10 @@
                             <label class="td-input">Hình ảnh:</label>
                             <input type="file" name="hinh_anh" id="hinh_anh"></input>
                         </div>
+                        <div class="coll">
+                            <label class="td-input">Ngày đăng:</label>
+                            <input type="date" name="ngay" id="ngay" />
+                        </div>
                     </div>
                     <div class="roww">
                         <div class="coll">
@@ -98,6 +113,14 @@
                                 <option value="" disabled selected hidden>-- Chọn trạng thái --</option>
                                 <option value="Công khai">Công khai</option>
                                 <option value="Không công khai">Không công khai</option>
+                            </select>
+                        </div>
+                        <div class="coll">
+                            <label class="td-input">Tin nổi bật:</label>
+                            <select name="noi_bat" id="noi_bat">
+                                <option value="" disabled selected hidden>-- Chọn tin nổi bật --</option>
+                                <option value="1">Nổi bật</option>
+                                <option value="0">Không nổi bật</option>
                             </select>
                         </div>
                     </div>

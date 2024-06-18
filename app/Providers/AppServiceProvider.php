@@ -30,4 +30,5 @@ class AppServiceProvider extends ServiceProvider
             $view->with('userEmail', Auth::check() ? Auth::user()->email : null);
         });
     }
+
 }
