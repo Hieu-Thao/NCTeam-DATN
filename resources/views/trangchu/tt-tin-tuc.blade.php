@@ -32,41 +32,71 @@
         <a href="{{ url('/login') }}">Đăng nhập</a>
     </div>
 
-    <div style="height: 1000px; background: #fff); display: flex;">
+    <div style="background: #fff; display: flex; margin-bottom: 50px;" >
         <div class="tt-left">
             <label style="color: #ef5c2c; font-size: 20px; font-weight: 700; margin-bottom: 20px;">KHÁM PHÁ TẤT CẢ TIN
                 TỨC</label>
 
             <div style="margin-left: 20px; width: 100%; display: flex; align-items: center; justify-content: center;">
-                <img style="position: absolute; left: 45px;"
-                    src="{{ asset('/assets/css/icons/tabler-icons/img/search.png') }}" width="15px" height="15px"
-                    alt="User Icon">
-                <input
-                    style="height: 35px; width: 90%; border: 1px solid lightgray; border-radius: 5px; text-align: center;"
-                    type="text" class="search-tt" placeholder="Tìm kiếm tin tức ở đây nè !">
+                <form action="{{ route('tintuc.index') }}" method="GET"
+                    style="margin-left: 20px; width: 100%; display: flex; align-items: center; justify-content: center;">
+                    <img style="position: absolute; left: 65px;"
+                        src="{{ asset('/assets/css/icons/tabler-icons/img/search.png') }}" width="15px" height="15px"
+                        alt="Search Icon">
+                    <input name="search" value="{{ request('search') }}"
+                        style="height: 35px; width: 90%; border: 1px solid lightgray; border-radius: 5px; text-align: center;"
+                        type="text" class="search-tt" placeholder="Tìm kiếm tin tức ở đây nè !">
+                </form>
             </div>
-
 
             <div class="dropdown">
                 <div class="dd-top">
                     <button class="dropdown-button">Theo phân loại</button>
-                    <img class="chevron-right" src="{{ asset('/assets/css/icons/tabler-icons/img/chevron-right.png') }}"
-                        width="15px" height="15px" alt="User Icon">
+                    <img class="chevron-right"
+                        src="{{ asset('/assets/css/icons/tabler-icons/img/chevron-right.png') }}" width="15px"
+                        height="15px" alt="User Icon">
                     <img class="chevron-down" src="{{ asset('/assets/css/icons/tabler-icons/img/chevron-down.png') }}"
                         width="15px" height="15px" alt="User Icon">
                 </div>
                 <div class="dropdown-content">
-                    <label><input type="checkbox"> Hoạt động của TVU</label>
-                    <label><input type="checkbox"> Hoạt động của SET TVU</label>
-                    <label><input type="checkbox"> Tuyển sinh</label>
-                    <label><input type="checkbox"> Hợp tác quốc tế</label>
-                    <label><input type="checkbox"> Hoạt động của ResearchTeam</label>
+                    @foreach ($loaitintucs as $ltt)
+                        <label>
+                            <input type="checkbox" value="{{ $ltt->ma_loai_tt }}"> {{ $ltt->ten_loai_tt }}
+                        </label>
+                    @endforeach
                 </div>
+
+
             </div>
 
+        </div>
+        <div style="height: auto;  flex: 2;" class="tt-right">
+
+            <div style="margin-top: 70px" height: 150px;>
+
+                {{-- Tin tức 1 --}}
+                {{-- @foreach ($tintucs as $tt)
+                    <div class="tin-tuc">
+                        <div>
+                            <img src="{{ asset('storage/' . $tt->hinh_anh) }}">
+                        </div>
+                        <div class="tin-tuc-nd">
+                            <label class="tin-tuc-td-ltt">{{ $tt->LoaiTinTuc->ten_loai_tt }}</label>
+                            <label class="ten-tt"
+                                style="font-weight: 700; font-size: 18px;">{{ $tt->ten_tin_tuc }}</label>
+                            <label class="noidung" style="font-size: 15px; text-align: justify;">
+                                {{ Str::limit(strip_tags(html_entity_decode($tt->noi_dung)), 140) }}
+                            </label>
+                            <label class="ngay"
+                                style="font-size: 15px; color: gray;">{{ \Carbon\Carbon::parse($tt->ngay)->format('d/m/Y') }}</label>
+                        </div>
+                    </div>
+                @endforeach --}}
+
+                @include('partials.load-tin-tuc', ['tintucs' => $tintucs])
+            </div>
 
         </div>
-        <div style="background: rgb(0, 255, 110); height: auto;  flex: 2;" class="tt-right"></div>
     </div>
 
 
@@ -98,10 +128,10 @@
                     alt="User Icon">
                 <img src="{{ asset('/assets/css/icons/tabler-icons/img/fb.png') }}" width="35px" height="35px"
                     alt="User Icon">
-                <img src="{{ asset('/assets/css/icons/tabler-icons/img/youtube.png') }}" width="35px" height="35px"
-                    alt="User Icon">
-                <img src="{{ asset('/assets/css/icons/tabler-icons/img/tiktok.png') }}" width="35px" height="35px"
-                    alt="User Icon">
+                <img src="{{ asset('/assets/css/icons/tabler-icons/img/youtube.png') }}" width="35px"
+                    height="35px" alt="User Icon">
+                <img src="{{ asset('/assets/css/icons/tabler-icons/img/tiktok.png') }}" width="35px"
+                    height="35px" alt="User Icon">
             </div>
         </div>
     </div>
@@ -196,6 +226,62 @@
         });
     </script>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function fetchTinTuc() {
+            var query = $('input[name="search"]').val();
+            var selectedCategories = [];
+            $('input[type="checkbox"]:checked').each(function() {
+                selectedCategories.push($(this).val());
+            });
+
+            $.ajax({
+                url: '{{ route("tintuc.index") }}',
+                type: 'GET',
+                data: {
+                    search: query,
+                    categories: selectedCategories
+                },
+                success: function(data) {
+                    $('.tt-right').html(data);
+                }
+            });
+        }
+
+        $('input[name="search"]').on('input', function() {
+            fetchTinTuc();
+        });
+
+        $('input[type="checkbox"]').on('change', function() {
+            fetchTinTuc();
+        });
+    });
+</script>
+
+
+
 </body>
 
 </html>
+
+
+
+{{-- Tin tức 2 --}}
+{{-- <div class="tin-tuc">
+                    <div>
+                        <img src="{{ asset('/assets\images\backgrounds\ms.jpg') }}">
+                    </div>
+                    <div class="tin-tuc-nd">
+                        <label class="tin-tuc-td-ltt">HOẠT ĐỘNG TVU</label>
+                        <label style="font-weight: 700; font-size: 18px;">Chung kết cuộc thi Sinh viên thanh
+                            lịch –
+                            MISTER & MISS TVU năm 2024</label>
+                        <label style="font-size: 15px; text-align: justify;">TVU – Tối 16/6, chung kết cuộc thi
+                            Sinh
+                            viên Thanh lịch – Mister & Miss TVU 2024 với chủ đề “Vẻ đẹp tri thức” diễn ra sôi
+                            nổi tại
+                            Hội trường D5, ... </label>
+                        <label style="font-size: 15px; color: gray;">01/01/2024</label>
+                    </div>
+                </div> --}}

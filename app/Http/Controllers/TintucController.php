@@ -35,6 +35,42 @@ class TintucController extends Controller
         return view('trangchu.welcome', compact('tintuc'));
     }
 
+    public function tintuctc(Request $request)
+    {
+        $query = TinTuc::with('LoaiTinTuc');
+
+        // Kiểm tra nếu có từ khóa tìm kiếm
+        if ($request->has('search') && $request->search != '') {
+            $query->where('ten_tin_tuc', 'like', '%' . $request->search . '%');
+        }
+
+        // Kiểm tra nếu có loại tin tức được chọn
+        if ($request->has('categories') && !empty($request->categories)) {
+            $query->whereIn('ma_loai_tt', $request->categories);
+        }
+
+        // Lấy 5 tin tức mới nhất
+        $tintucs = $query->latest('ngay')->take(5)->get();
+
+        // Loại bỏ các thẻ HTML và giải mã các ký tự HTML từ nội dung của từng tin tức
+        foreach ($tintucs as $tintuc) {
+            $tintuc->noi_dung = strip_tags(html_entity_decode($tintuc->noi_dung));
+        }
+
+        // Lấy tất cả dữ liệu từ bảng loai_tin_tuc
+        $loaitintucs = Loaitintuc::all();
+
+        // Nếu là yêu cầu AJAX, trả về chỉ phần nội dung
+        if ($request->ajax()) {
+            return view('partials.load-tin-tuc', compact('tintucs'))->render();
+        }
+
+        // Trả dữ liệu về view
+        return view('trangchu.tt-tin-tuc', compact('tintucs', 'loaitintucs'));
+    }
+
+
+
     /**
      * Show the form for creating a new resource.
      *
@@ -44,7 +80,7 @@ class TintucController extends Controller
     {
         $thanhvien = Thanhvien::all();
         $loaitintuc = Loaitintuc::all();
-        return view('admin.tin-tuc.create', compact('thanhvien','loaitintuc'));
+        return view('admin.tin-tuc.create', compact('thanhvien', 'loaitintuc'));
     }
 
 

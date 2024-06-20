@@ -234,10 +234,11 @@
 .tt-left {
     height: auto;
     flex: 1;
-    margin-top: 75px;
+    margin-top: 100px;
     display: flex;
     flex-direction: column;
     align-items: center;
+
 }
 
 .dropdown {
@@ -282,4 +283,30 @@ input[type="checkbox"] {
 
 .chevron-down {
     display: none;
+}
+
+.tin-tuc{
+    display: flex;
+    margin: 30px 35px;
+    align-items: flex-start;
+}
+
+.tin-tuc-nd{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 20px;
+}
+
+.tin-tuc img {
+    width: 300px;
+    height: 180px;
+    border-radius: 5px;
+    object-fit: cover; /* Đảm bảo hình ảnh lấp đầy khung mà không bị méo */
+}
+
+.tin-tuc-td-ltt{
+    color: #ef5c2c;
+    font-weight: 600;
+    text-transform: uppercase;
 }

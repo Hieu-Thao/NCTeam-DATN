@@ -19,4 +19,9 @@ class Loaitintuc extends Model
         'ma_loai_tt',
         'ten_loai_tt',
     ];
+
+    public function TinTuc()
+    {
+        return $this->hasMany(Tintuc::class, 'ma_loai_tt', 'ma_loai_tt');
+    }
 }

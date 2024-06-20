@@ -11,14 +11,16 @@ use App\Http\Controllers\LoaicongtrinhController;
 use App\Http\Controllers\LichbaocaoController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ThamgiaController;
+use App\Http\Controllers\LoaiTinTucController;
+use App\Http\Controllers\AuthController;
 use App\Models\Baibaocao;
 use App\Models\Congtrinh;
 use App\Models\Lichbaocao;
 use App\Models\Tintuc;
 use App\Models\Ytuongmoi;
-use App\Http\Controllers\AuthController;
 use App\Models\LoaiCongTrinh;
 use App\Models\Thamgia;
+use App\Models\Loaitintuc;
 
 // // Route để hiển thị form đăng nhập
 // Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login')->withoutMiddleware('auth');
@@ -187,6 +189,11 @@ Route::get('/lienhe', function () {
 Route::get('/tttintuc', function () {
     return view('/trangchu/tt-tin-tuc');
 });
+
+Route::get('/tttintuc', [TinTucController::class, 'tintuctc']);
+Route::get('/tttintuc', [TinTucController::class, 'tintuctc'])->name('tintuc.index');
+
+
 
 Route::get('/', [TinTucController::class, 'index']);
 
