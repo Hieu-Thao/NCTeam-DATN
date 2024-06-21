@@ -35,6 +35,12 @@ class TintucController extends Controller
         return view('trangchu.welcome', compact('tintuc'));
     }
 
+    public function viewtt()
+    {
+        $tintucs = Tintuc::with(['ThanhVien', 'LoaiTinTuc'])->get();
+        return view('trangchu.view-tin-tuc', compact('tintucs'));
+    }
+
     public function tintuctc(Request $request)
     {
         $query = TinTuc::with('LoaiTinTuc');
@@ -139,6 +145,13 @@ class TintucController extends Controller
         $tintuc = Tintuc::with(['thanhvien'])->findOrFail($ma_tin_tuc);
 
         return response()->json($tintuc);
+    }
+
+
+    public function showview($ma_tin_tuc)
+    {
+        $tintuc = TinTuc::with(['ThanhVien', 'LoaiTinTuc'])->findOrFail($ma_tin_tuc);
+        return view('trangchu.view-tin-tuc', compact('tintuc'));
     }
 
 

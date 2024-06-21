@@ -11,6 +11,11 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css" />
     <title>Tin tức</title>
+    <style>
+        a {
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -32,7 +37,7 @@
         <a href="{{ url('/login') }}">Đăng nhập</a>
     </div>
 
-    <div style="background: #fff; display: flex; margin-bottom: 50px;" >
+    <div style="background: #fff; display: flex; margin-bottom: 50px;">
         <div class="tt-left">
             <label style="color: #ef5c2c; font-size: 20px; font-weight: 700; margin-bottom: 20px;">KHÁM PHÁ TẤT CẢ TIN
                 TỨC</label>
@@ -73,7 +78,6 @@
         <div style="height: auto;  flex: 2;" class="tt-right">
 
             <div style="margin-top: 70px" height: 150px;>
-
                 {{-- Tin tức 1 --}}
                 {{-- @foreach ($tintucs as $tt)
                     <div class="tin-tuc">
@@ -128,8 +132,8 @@
                     alt="User Icon">
                 <img src="{{ asset('/assets/css/icons/tabler-icons/img/fb.png') }}" width="35px" height="35px"
                     alt="User Icon">
-                <img src="{{ asset('/assets/css/icons/tabler-icons/img/youtube.png') }}" width="35px"
-                    height="35px" alt="User Icon">
+                <img src="{{ asset('/assets/css/icons/tabler-icons/img/youtube.png') }}" width="35px" height="35px"
+                    alt="User Icon">
                 <img src="{{ asset('/assets/css/icons/tabler-icons/img/tiktok.png') }}" width="35px"
                     height="35px" alt="User Icon">
             </div>
@@ -226,38 +230,38 @@
         });
     </script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        function fetchTinTuc() {
-            var query = $('input[name="search"]').val();
-            var selectedCategories = [];
-            $('input[type="checkbox"]:checked').each(function() {
-                selectedCategories.push($(this).val());
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function fetchTinTuc() {
+                var query = $('input[name="search"]').val();
+                var selectedCategories = [];
+                $('input[type="checkbox"]:checked').each(function() {
+                    selectedCategories.push($(this).val());
+                });
+
+                $.ajax({
+                    url: '{{ route('tintuc.index') }}',
+                    type: 'GET',
+                    data: {
+                        search: query,
+                        categories: selectedCategories
+                    },
+                    success: function(data) {
+                        $('.tt-right').html(data);
+                    }
+                });
+            }
+
+            $('input[name="search"]').on('input', function() {
+                fetchTinTuc();
             });
 
-            $.ajax({
-                url: '{{ route("tintuc.index") }}',
-                type: 'GET',
-                data: {
-                    search: query,
-                    categories: selectedCategories
-                },
-                success: function(data) {
-                    $('.tt-right').html(data);
-                }
+            $('input[type="checkbox"]').on('change', function() {
+                fetchTinTuc();
             });
-        }
-
-        $('input[name="search"]').on('input', function() {
-            fetchTinTuc();
         });
-
-        $('input[type="checkbox"]').on('change', function() {
-            fetchTinTuc();
-        });
-    });
-</script>
+    </script>
 
 
 

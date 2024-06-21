@@ -190,6 +190,9 @@ Route::get('/tttintuc', function () {
     return view('/trangchu/tt-tin-tuc');
 });
 
+Route::get('/viewtintuc', [TintucController::class, 'viewtt']);
+Route::get('/viewtintuc/{ma_tin_tuc}', [TinTucController::class, 'showview'])->name('viewtintuc.showview');
+
 Route::get('/tttintuc', [TinTucController::class, 'tintuctc']);
 Route::get('/tttintuc', [TinTucController::class, 'tintuctc'])->name('tintuc.index');
 

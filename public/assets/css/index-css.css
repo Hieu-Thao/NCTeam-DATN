@@ -124,6 +124,9 @@
     text-align: justify;
     padding-right: 30px;
     padding-top: 5px;
+    display: flex;
+    margin-bottom: 5px;
+    color: #000;
 }
 
 .btn-xemthem {
@@ -310,3 +313,13 @@ input[type="checkbox"] {
     font-weight: 600;
     text-transform: uppercase;
 }
+
+.tieude-viewtt{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+

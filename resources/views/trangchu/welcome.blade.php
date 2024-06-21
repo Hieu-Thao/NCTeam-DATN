@@ -14,6 +14,10 @@
         .mySlides {
             display: none;
         }
+
+        a {
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -94,15 +98,17 @@
 
                     {{-- Tin 1 --}}
                     @foreach ($tintuc as $tt)
+                    <a href="{{ route('viewtintuc.showview', $tt->ma_tin_tuc) }}">
                         <div class="ttnb">
                             <img style="width: 150px; height: 100px; border-radius: 5px;"
                                 src="{{ asset('storage/' . $tt->hinh_anh) }}">
                             <div style="display: flex; flex-direction: column;">
-                                <label class="td-ttnb">{{ Str::limit($tt->ten_tin_tuc, 120, ' ...') }}</label>
-                                <label class="td-ngay">{{ \Carbon\Carbon::parse($tt->ngay)->format('d/m/Y') }}</label>
-                                <a class="btn-xemthem" href="#">Xem thêm</a>
+                                <label class="td-ttnb no-underline">{{ Str::limit($tt->ten_tin_tuc, 120, ' ...') }}</label>
+                                <label class="td-ngay no-underline">{{ \Carbon\Carbon::parse($tt->ngay)->format('d/m/Y') }}</label>
+                                <a class="btn-xemthem" href="{{ route('viewtintuc.showview', $tt->ma_tin_tuc) }}">Xem thêm</a>
                             </div>
                         </div>
+                    </a>
                     @endforeach
 
                     {{-- Tin 2 --}}
