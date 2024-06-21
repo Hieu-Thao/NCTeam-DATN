@@ -66,16 +66,16 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tên lịch báo cáo:</label>
-                            <input type="text" name="ten_lich_bao_cao" id="ten_lich_bao_cao" value="{{ $lichbaocao->ten_lich_bao_cao }}">
+                            <label class="td-input">Địa điểm báo cáo:</label>
+                            <input type="text" name="dia_diem" id="dia_diem" value="{{ $lichbaocao->dia_diem }}">
                         </div>
-                    </div>
-
-                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Ngày báo cáo:</label>
                             <input type="date" name="ngay_bao_cao" id="ngay_bao_cao" value="{{ $lichbaocao->ngay_bao_cao }}">
                         </div>
+                    </div>
+
+                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Thời gian bắt đầu:</label>
                             <input type="text" name="thoi_gian_bat_dau" id="thoi_gian_bat_dau" value="{{ $lichbaocao->thoi_gian_bat_dau }}">
@@ -83,6 +83,13 @@
                         <div class="coll">
                             <label class="td-input">Thời gian kết thúc:</label>
                             <input type="text" name="thoi_gian_ket_thuc" id="thoi_gian_ket_thuc" value="{{ $lichbaocao->thoi_gian_ket_thuc }}">
+                        </div>
+                    </div>
+
+                    <div class="roww">
+                        <div class="coll">
+                            <label class="td-input">Tên lịch báo cáo:</label>
+                            <input type="text" name="ten_lich_bao_cao" id="ten_lich_bao_cao" value="{{ $lichbaocao->ten_lich_bao_cao }}" readonly>
                         </div>
                     </div>
                 </div>

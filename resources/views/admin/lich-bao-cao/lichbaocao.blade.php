@@ -1,7 +1,8 @@
 @extends('layouts.master')
 @section('title', 'Danh sách nhóm')
 @section('parent')
-    <a href="/nhom">Lịch báo cáo</a>
+    <a href="/nhom">
+        Lịch báo cáo</a>
 @endsection
 @section('child')
     <a href="/nhom">Danh sách lịch báo cáo</a>
@@ -32,8 +33,10 @@
                             <th>Mã lịch</th>
                             <th>Tên lịch báo cáo</th>
                             <th>Ngày báo cáo</th>
+                            <th>Địa điểm</th>
                             <th>Thời gian bắt đầu</th>
                             <th>Thời gian kết thúc</th>
+                            <th>Trạng thái</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -45,8 +48,18 @@
                                 <td>{{ $lbc->ma_lich }}</td>
                                 <td>{{ $lbc->ten_lich_bao_cao }}</td>
                                 <td>{{ \Carbon\Carbon::parse($lbc->ngay_bao_cao)->format('d/m/Y') }}</td>
+                                <td>{{ $lbc->dia_diem }}</td>
                                 <td>{{ $lbc->thoi_gian_bat_dau }}</td>
                                 <td>{{ $lbc->thoi_gian_ket_thuc }}</td>
+                                <td>
+                                    @if ($lbc->trang_thai == 'Chưa báo cáo')
+                                        <span class="btn btn-secondary btn-sm">{{ $lbc->trang_thai }}</span>
+                                    @elseif ($lbc->trang_thai == 'Đã báo cáo')
+                                        <span class="btn btn-success btn-sm">{{ $lbc->trang_thai }}</span>
+                                    @else
+                                        <span>{{ $lbc->trang_thai }}</span>
+                                    @endif
+                                </td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
                                     <a href="{{ route('lichbaocao.edit', $lbc->ma_lich) }}" class="btn btn-primary btn-sm"
                                         id="btnz">
@@ -58,7 +71,7 @@
                                         <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
                                             height="15px">
                                     </button> --}}
-                                    <button type="button" class="btn btn-success btn-sm" id="btnz"><img
+                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"><img
                                             src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
                                             height="15px"></button>
                                 </td>

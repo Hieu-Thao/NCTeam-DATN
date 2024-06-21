@@ -23,7 +23,6 @@
     </style>
 
     <script>
-
         function callAlert(title, icon, timer, text) {
             Swal.fire({
                 position: "center",
@@ -37,9 +36,9 @@
         }
 
         function kiemtra() {
-            if (document.forms["create"]["ten_lich_bao_cao"].value == "") {
-                callAlert('Vui lòng nhập tên lịch báo cáo!', 'error', '1500', '');
-                document.forms["create"]["ten_lich_bao_cao"].setAttribute('required', 'required');
+            if (document.forms["create"]["dia_diem"].value == "") {
+                callAlert('Vui lòng nhập địa điểm báo cáo!', 'error', '1500', '');
+                document.forms["create"]["dia_diem"].setAttribute('required', 'required');
                 return false;
             }
             // if (document.forms["create"]["nam"].value == "") {
@@ -67,16 +66,16 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tên lịch báo cáo:</label>
-                            <input type="text" name="ten_lich_bao_cao" id="ten_lich_bao_cao"></input>
+                            <label class="td-input">Địa điểm báo cáo:</label>
+                            <input type="text" name="dia_diem" id="dia_diem" />
                         </div>
-                    </div>
-
-                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Ngày báo cáo:</label>
                             <input type="date" name="ngay_bao_cao" id="ngay_bao_cao" />
                         </div>
+                    </div>
+
+                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Thời gian bắt đầu:</label>
                             <input type="text" name="thoi_gian_bat_dau" id="thoi_gian_bat_dau" />
@@ -84,6 +83,13 @@
                         <div class="coll">
                             <label class="td-input">Thời gian kết thúc:</label>
                             <input type="text" name="thoi_gian_ket_thuc" id="thoi_gian_ket_thuc" />
+                        </div>
+                    </div>
+
+                    <div class="roww">
+                        <div class="coll">
+                            <label class="td-input">Tên lịch báo cáo:</label>
+                            <input type="text" name="ten_lich_bao_cao" id="ten_lich_bao_cao" readonly></input>
                         </div>
                     </div>
 
@@ -131,17 +137,29 @@
                             }, 1000);
                         }
                     },
-                    error: function(xhr) {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.ten_lich_bao_cao) {
-                            callAlert('Tên lịch báo cáo đã tồn tại!', 'error', 1500, '');
-                        } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
-                                '');
-                        }
-                    }
+                    // error: function(xhr) {
+                    //     var response = JSON.parse(xhr.responseText);
+                    //     if (response.dia_diem) {
+                    //         callAlert('Tên lịch báo cáo đã tồn tại!', 'error', 1500, '');
+                    //     } else {
+                    //         callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
+                    //             '');
+                    //     }
+                    // }
                 });
             });
         });
     </script>
+
+    {{-- <script>
+        // Lấy ngày hiện tại
+        var today = new Date().toISOString().split('T')[0];
+
+        // Chọn phần tử input type="date"
+        var ngayBaoCaoInput = document.getElementById("ngay_bao_cao");
+
+        // Đặt giá trị min của input là ngày hiện tại
+        ngayBaoCaoInput.setAttribute("min", today);
+    </script> --}}
+
 @endpush
