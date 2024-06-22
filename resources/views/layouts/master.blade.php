@@ -150,6 +150,20 @@
                                 <span class="hide-menu">Thống kê ý tưởng mới</span>
                             </a>
                         </li> --}}
+
+                        <li class="nav-small-cap">
+                            <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                            <span class="hide-menu">ĐĂNG KÝ</span>
+                        </li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/dangkybbc" aria-expanded="false">
+                                <span>
+                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/laptop.png') }}"
+                                        width="21px" height="21px" alt="File Type PPT Icon">
+                                </span>
+                                <span class="hide-menu">Đăng ký bài báo cáo</span>
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>

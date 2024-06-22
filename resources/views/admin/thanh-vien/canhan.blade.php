@@ -83,13 +83,10 @@
                             height="18px" alt="User Icon">Lịch báo cáo của tôi</div>
 
                     @foreach ($user->lichBaoCao as $lich)
-                        {{-- Bài 1 --}}
                         <div class="bbcct">
                             <div class="ttbbc-mb">
                                 <div class="ttbbc-tenbbc">{{ $lich->ten_lich_bao_cao }}
                                 </div>
-                                {{-- <div class="trt-dbbc"><img src="{{ asset('/assets/css/icons/tabler-icons/img/checks.png') }}"
-                                    width="18px" height="18px" alt="User Icon">Đã báo cáo</div> --}}
                                 @if ($lich->trang_thai == 'Đã báo cáo')
                                     <div class="trt-dbbc">
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/checks.png') }}"
@@ -109,7 +106,15 @@
                                 <div style="margin-right: 5px; font-size: 15px;">Ngày báo cáo: </div>
                                 <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
                                     {{ \Carbon\Carbon::parse($lich->ngay_bao_cao)->format('d/m/Y') }}
-
+                                </div>
+                            </div>
+                            <div class="ttbbc">
+                                <div class="ttbbc-td"><img
+                                        src="{{ asset('/assets/css/icons/tabler-icons/img/map-pin.png') }}" width="18px"
+                                        height="18px" alt="User Icon"></div>
+                                <div style="margin-right: 5px; font-size: 15px;">Địa điểm báo cáo: </div>
+                                <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
+                                    {{ $lich->dia_diem }}
                                 </div>
                             </div>
                             <div class="ttbbc">

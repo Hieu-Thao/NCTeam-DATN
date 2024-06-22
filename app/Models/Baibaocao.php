@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Lichbaocao;
 
 class Baibaocao extends Model
 {
@@ -18,7 +19,7 @@ class Baibaocao extends Model
     protected $fillable = [
         'ma_thanh_vien',
         'ten_bai_bao_cao',
-        'ngay_bao_cao',
+        'ma_lich',
         'link_goc_bai_bao_cao',
         'link_file_ppt',
         'trang_thai',
@@ -27,5 +28,10 @@ class Baibaocao extends Model
     public function ThanhVien()
     {
         return $this->belongsTo(Thanhvien::class, 'ma_thanh_vien', 'ma_thanh_vien');
+    }
+
+    public function LichBaoCao()
+    {
+        return $this->belongsTo(Lichbaocao::class, 'ma_lich', 'ma_lich');
     }
 }

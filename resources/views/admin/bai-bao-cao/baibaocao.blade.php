@@ -27,8 +27,9 @@
             <h4>Danh sách bài báo cáo</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
-            <a href="/baibaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
-                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
+            {{-- <a href="/baibaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
+                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a> --}}
+                        
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
             {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz">

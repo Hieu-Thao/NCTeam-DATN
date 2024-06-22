@@ -33,6 +33,12 @@ class Lichbaocao extends Model
     }
 
 
+    public function baibaocaos()
+    {
+        return $this->hasMany(Baibaocao::class, 'ma_lich', 'ma_lich');
+    }
+
+
     // Ví dụ trong model LichBaoCao
 
 

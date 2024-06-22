@@ -390,5 +390,8 @@ Route::middleware(['auth', 'role:2'])->group(function () {
         Route::get('/{ma_bai_bao_cao}', [BaibaocaoController::class, 'show']);
     });
 
+    Route::get('/dangkybbc', [BaibaocaoController::class, 'dangkybbc']);
+    Route::get('/dangkybbc/{ma_lich}', [BaibaocaoController::class, 'getLichBaoCao']);
+
 });
 

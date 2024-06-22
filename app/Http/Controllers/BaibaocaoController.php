@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Baibaocao;
 use App\Models\Thanhvien;
+use App\Models\Lichbaocao;
 use Illuminate\Support\Facades\Validator;
 
 class BaibaocaoController extends Controller
@@ -118,4 +119,21 @@ class BaibaocaoController extends Controller
 
         return response()->json($baibaocao);
     }
+
+    public function dangkybbc()
+    {
+        $baibaocao = Baibaocao::all();
+        $thanhvien = Thanhvien::all();
+        $lichbaocao = Lichbaocao::all();
+
+        return view('admin.bai-bao-cao.dangky', compact('baibaocao', 'thanhvien', 'lichbaocao'));
+    }
+
+    public function getLichBaoCao($ma_lich)
+    {
+        $lichBaoCao = Lichbaocao::find($ma_lich);
+        return response()->json($lichBaoCao);
+    }
+
+
 }
