@@ -21001,5 +21001,16 @@ html {
 }
 
 .tt-lich{
-    margin-top: 10px;
+    border: 1px solid #5d87ff;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0 auto;
 }
+
+.tt-lbc{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+

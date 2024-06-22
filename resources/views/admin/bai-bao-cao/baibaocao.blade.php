@@ -29,7 +29,7 @@
         <div class="card-btn btn-btnn" style="#">
             {{-- <a href="/baibaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
                         src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a> --}}
-                        
+
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
             {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz">
@@ -61,16 +61,15 @@
                                 <td>{{ $bbc->ma_bai_bao_cao }}</td>
                                 <td>{{ $bbc->ThanhVien->ho_ten }}</td>
                                 <td>{{ Str::limit($bbc->ten_bai_bao_cao, 60, '...') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($bbc->ngay_bao_cao)->format('d/m/Y') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($bbc->LichBaoCao->ngay_bao_cao)->format('d/m/Y') }}</td>
                                 {{-- <td>{{ $bbc->link_goc_bai_bao_cao }}</td>
                                     <td>{{ $bbc->link_file_ppt }}</td> --}}
                                 {{-- <td>{{ $bbc->trang_thai }}</td> --}}
                                 <td>
-                                    @if ($bbc->trang_thai == 'Đã báo cáo')
-                                        <button type="button" class="btn btn-outline-success btn-sm" id="#">Đã báo
-                                            cáo</button>
-                                    @elseif($bbc->trang_thai == 'Chưa báo cáo')
-                                        <button type="button" class="btn btn-secondary btn-sm">Chưa báo cáo</button>
+                                    @if ($bbc->trang_thai == 'Đã duyệt')
+                                        <button type="button" class="btn btn-outline-success btn-sm" id="#">Đã duyệt</button>
+                                    @elseif($bbc->trang_thai == 'Đã đăng ký')
+                                        <button type="button" class="btn btn-secondary btn-sm">Đã đăng ký</button>
                                     @endif
                                 </td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">

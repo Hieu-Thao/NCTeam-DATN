@@ -21,9 +21,13 @@ class ThanhvienController extends Controller
      */
     public function thanhvien()
     {
-        $thanhviens = Thanhvien::with('nhom')->get();
+        $user = Auth::user();
 
-        // Truyền dữ liệu đến view
+        $thanhviens = Thanhvien::where('ma_nhom', $user->ma_nhom)
+            ->with('nhom')
+            ->get();
+
+        // Pass data to the view
         return view('admin.thanh-vien.thanhvien', compact('thanhviens'));
     }
 

@@ -61,7 +61,7 @@
                         </div>
                         <div class="coll">
                             <label class="td-input">Ngày báo cáo:</label>
-                            <select name="lich_bao_cao" id="lich_bao_cao">
+                            <select name="lich_bao_cao" id="lich_bao_cao" style="margin-bottom: 15px">
                                 <option value="" disabled selected hidden>-- Chọn lịch báo cáo --</option>
                                 @foreach ($lichbaocao as $lbc)
                                     <option value="{{ $lbc->ma_lich }}">{{ $lbc->ten_lich_bao_cao }}</option>
@@ -70,33 +70,35 @@
                             <div class="tt-lich" id="tt-lich" style="display: none;">
                                 <label
                                     style="text-transform:
-                                uppercase; font-weight: 600; font-size: 15px; color: #5d87ff;">Thông
+                                uppercase; font-weight: 700; font-size: 15px; color: #5d87ff; margin-bottom: 5px;">Thông
                                     tin ngày báo
                                     cáo</label>
-                                <div>
-                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}" width="18px"
-                                        height="18px" alt="User Icon">
-                                    <label>Ngày báo cáo:</label>
-                                    <label id="ngay-bao-cao"></label>
-                                </div>
-                                <div>
-                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/map-pin.png') }}" width="18px"
-                                        height="18px" alt="User Icon">
-                                    <label>Địa điểm:</label>
-                                    <label id="dia-diem"></label>
-                                </div>
-                                <div style="display: flex; gap: 20px;">
-                                    <div>
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-2.png') }}"
-                                            width="18px" height="18px" alt="User Icon">
-                                        <label>Thời gian bắt đầu:</label>
-                                        <label id="bat-dau"></label>
+                                <div style="margin-left: 10px;">
+                                    <div class="tt-lbc">
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}"
+                                            width="16px" height="16px" alt="User Icon">
+                                        <label>Ngày báo cáo:</label>
+                                        <label style="font-weight: 500;" id="ngay-bao-cao"></label>
                                     </div>
-                                    <div>
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-5.png') }}"
-                                            width="18px" height="18px" alt="User Icon">
-                                        <label>Thời gian kết thúc:</label>
-                                        <label id="ket-thuc"></label>
+                                    <div class="tt-lbc">
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/map-pin.png') }}"
+                                            width="16px" height="16px" alt="User Icon">
+                                        <label>Địa điểm:</label>
+                                        <label style="font-weight: 500;" id="dia-diem"></label>
+                                    </div>
+                                    <div style="display: flex; gap: 20px;" class="tt-lbc">
+                                        <div class="tt-lbc">
+                                            <img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-2.png') }}"
+                                                width="16px" height="16px" alt="User Icon">
+                                            <label>Thời gian bắt đầu:</label>
+                                            <label style="font-weight: 500;" id="bat-dau"></label>
+                                        </div>
+                                        <div class="tt-lbc">
+                                            <img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-5.png') }}"
+                                                width="16px" height="16px" alt="User Icon">
+                                            <label>Thời gian kết thúc:</label>
+                                            <label style="font-weight: 500;" id="ket-thuc"></label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -113,24 +115,16 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Link gốc bài báo cáo:</label>
-                            <input type="text" name="link_goc_bai_bao_cao" id="link_goc_bai_bao_cao"></input>
+                            <textarea type="text" rows="2" name="link_goc_bai_bao_cao" id="link_goc_bai_bao_cao"></textarea>
                         </div>
                     </div>
 
-                    {{-- <div class="roww">
+                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Link file PPT:</label>
-                            <input type="text" name="link_file_ppt" id="link_file_ppt"></input>
+                            <input type="text" name="link_file_ppt" id="link_file_ppt">
                         </div>
-                        <div class="coll">
-                            <label class="td-input">Trạng thái:</label>
-                            <select name="trang_thai" id="trang_thai">
-                                <option value="" disabled selected hidden>-- Chọn trạng thái --</option>
-                                <option value="Đã báo cáo">Đã báo cáo</option>
-                                <option value="Chưa báo cáo">Chưa báo cáo</option>
-                            </select>
-                        </div>
-                    </div> --}}
+                    </div>
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
                         <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" value="Đăng ký">
@@ -167,7 +161,7 @@
                 var formData = $(this).serialize();
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('/baibaocao/create') }}',
+                    url: '{{ url('/dangkybbc') }}',
                     data: formData,
                     success: function(response) {
                         if (response === "success") {
@@ -244,7 +238,7 @@
                 const day = dateObject.getDate().toString().padStart(2, '0');
                 const month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
                 const year = dateObject.getFullYear().toString();
-                return `${day}/${month}/${year}`;
+                return `${day}-${month}-${year}`;
             }
         });
     </script>
