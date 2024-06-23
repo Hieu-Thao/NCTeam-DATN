@@ -21,7 +21,7 @@ class Baibaocao extends Model
         'ten_bai_bao_cao',
         'ma_lich',
         'link_goc_bai_bao_cao',
-        'link_file_ppt',
+        'file_ppt',
         'trang_thai',
     ];
 

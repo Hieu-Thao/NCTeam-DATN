@@ -20,6 +20,17 @@
         select:invalid {
             border: solid 1.5px red;
         }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+            display: none;
+        }
     </style>
 
     <script>
@@ -56,12 +67,12 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Thành viên:</label>
-                            <input style="background: #f0f0f0" type="text" name="ho_ten" id="ho_ten"
+                            <input style="background: #f0f0f0" type="text" name="thanh_vien" id="thanh_vien"
                                 value="{{ Auth::user()->ho_ten }}" readonly />
                         </div>
                         <div class="coll">
                             <label class="td-input">Ngày báo cáo:</label>
-                            <select name="lich_bao_cao" id="lich_bao_cao" style="margin-bottom: 15px">
+                            <select name="ngay_bao_cao" id="ngay_bao_cao" style="margin-bottom: 15px">
                                 <option value="" disabled selected hidden>-- Chọn lịch báo cáo --</option>
                                 @foreach ($lichbaocao as $lbc)
                                     <option value="{{ $lbc->ma_lich }}">{{ $lbc->ten_lich_bao_cao }}</option>
@@ -119,16 +130,22 @@
                         </div>
                     </div>
 
+
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Link file PPT:</label>
-                            <input type="text" name="link_file_ppt" id="link_file_ppt">
+                            <label class="td-input">File PPT:</label>
+                            <input type="file" name="file_ppt" id="file_ppt">
                         </div>
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" value="Đăng ký">
+                        <input class="btn btn-success" id="btnSubmit" style="height: 10%;" type="submit" name="submit"
+                            value="Đăng ký">
                         {{-- <a class="btn btn-secondary" style="height: 10%;" href="/dangkybbc">Trở về</a> --}}
+                    </div>
+
+                    <div class="overlay" id="overlay">
+                        Đang xử lý ...
                     </div>
                 </div>
             </form>
@@ -152,33 +169,48 @@
         }
 
 
+        // Trong hàm gửi Ajax
         $(document).ready(function() {
             $('form[name="create"]').on('submit', function(e) {
                 e.preventDefault();
-                if (!kiemtra()) {
-                    return false;
-                }
-                var formData = $(this).serialize();
+
+                var formData = new FormData(this); // Ensure 'this' refers to the form element
+
+                // Show overlay or loader
+                $('#overlay').show();
+
                 $.ajax({
                     type: 'POST',
                     url: '{{ url('/dangkybbc') }}',
                     data: formData,
+                    contentType: false, // Ensure to set contentType and processData to false for FormData
+                    processData: false,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('Thành công!', 'success', 1500, '');
+                            // If registration successful
+                            callAlert('Đăng ký thành công!', 'success', '1500', '');
                             setTimeout(() => {
                                 window.location.href = '/baibaocao';
                             }, 1000);
                         }
                     },
                     error: function(xhr) {
+                        console.log(xhr.responseText);
+                        // Handle request error
                         var response = JSON.parse(xhr.responseText);
-                        if (response.ten_bai_bao_bao) {
-                            callAlert('Tên bài báo cáo đã tồn tại!', 'error', 1500, '');
+                        if (response.ten_bai_bao_cao) {
+                            callAlert(response.ten_bai_bao_cao, 'error', '1500', '');
+                        } else if (response.link_goc_bai_bao_cao) {
+                            callAlert(response.link_goc_bai_bao_cao, 'error', '1500', '');
+                        } else if (response.file_ppt) {
+                            callAlert(response.file_ppt, 'error', '1500', '');
                         } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
-                                '');
+                            callAlert('Có lỗi xảy ra khi xử lý yêu cầu!', 'error', '1500', '');
                         }
+                    },
+                    complete: function() {
+                        // Hide overlay or loader
+                        $('#overlay').hide();
                     }
                 });
             });
@@ -189,7 +221,7 @@
     {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const selectLichBaoCao = document.getElementById('lich_bao_cao');
+            const selectLichBaoCao = document.getElementById('ngay_bao_cao');
             const ttLichDiv = document.getElementById('tt-lich');
 
             selectLichBaoCao.addEventListener('change', function() {
