@@ -50,19 +50,19 @@
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật bài báo cáo</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form name="update" method="post" action="{{ url('/baibaocao/edit/' . $baibaocao->ma_bai_bao_cao) }}">
+            <form name="edit" method="post" action="{{ route('baibaocao.update', $baibaocao->ma_bai_bao_cao) }}">
                 @csrf
                 @method('PUT')
                 <div>
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Thành viên:</label>
-                            <input style="background: #f0f0f0" type="text" name="ho_ten" id="ho_ten"
+                            <input style="background: #f0f0f0" type="text" name="thanh_vien" id="thanh_vien"
                                 value="{{ Auth::user()->ho_ten }}" readonly />
                         </div>
                         <div class="coll">
                             <label class="td-input">Ngày báo cáo:</label>
-                            <select name="lich_bao_cao" id="lich_bao_cao" style="margin-bottom: 15px">
+                            <select name="ngay_bao_cao" id="ngay_bao_cao" style="margin-bottom: 15px">
                                 <option value="" disabled selected hidden>-- Chọn lịch báo cáo --</option>
                                 @foreach ($lichbaocao as $lbc)
                                     <option value="{{ $lbc->ma_lich }}"
@@ -71,7 +71,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                            <div class="tt-lich" id="tt-lich">
+                            <div class="tt-lich" id="tt-lich" style="display: none;">
                                 <label
                                     style="text-transform: uppercase; font-weight: 700; font-size: 15px; color: #5d87ff; margin-bottom: 5px;">
                                     Thông tin ngày báo cáo
@@ -125,9 +125,17 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">File PPT:</label>
-                            <input type="text" name="file_ppt" id="file_ppt"
-                                value="{{ $baibaocao->file_ppt }}">
+                            <input type="file" name="file_ppt" id="file_ppt" />
+                            @if ($baibaocao->file_ppt)
+                                <p>File hiện tại:
+                                    <a href="{{ asset('storage/' . $baibaocao->file_ppt) }}">
+                                        {{ $baibaocao->file_ppt }}
+                                    </a>
+                                </p>
+                            @endif
                         </div>
+
+
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
@@ -165,37 +173,108 @@
         // }
 
         $(document).ready(function() {
-            $('form[name="update"]').on('submit', function(e) {
+            // Function to handle both create and update form submissions
+            $('form[name="create"], form[name="edit"]').on('submit', function(e) {
                 e.preventDefault();
-                if (!kiemtra()) {
-                    return false;
-                }
-                var formData = $(this).serialize();
+
+                var formData = new FormData(this);
+                var method = $(this).attr('method'); // GET method attribute
+
+                // Show overlay or loader
+                $('#overlay').show();
+
                 $.ajax({
-                    type: 'PUT',
-                    url: '{{ url('/baibaocao/edit/' . $baibaocao->ma_bai_bao_cao) }}',
+                    type: method, // Use method attribute to determine GET or POST
+                    url: $(this).attr('action'), // Use form action attribute as URL
                     data: formData,
+                    contentType: false,
+                    processData: false,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('Thành công!', 'success', 1500, '');
+                            // If registration successful
+                            callAlert('Đăng ký thành công!', 'success', '1500', '');
                             setTimeout(() => {
                                 window.location.href = '/baibaocao';
                             }, 1000);
                         }
                     },
                     error: function(xhr) {
+                        console.log(xhr.responseText);
+                        // Handle request error
                         var response = JSON.parse(xhr.responseText);
-                        if (response.ten_bai_bao_bao) {
-                            callAlert('Tên bài báo cáo đã tồn tại!', 'error', 1500, '');
+                        if (response.ten_bai_bao_cao) {
+                            callAlert(response.ten_bai_bao_cao, 'error', '1500', '');
+                        } else if (response.link_goc_bai_bao_cao) {
+                            callAlert(response.link_goc_bai_bao_cao, 'error', '1500', '');
+                        } else if (response.file_ppt) {
+                            callAlert(response.file_ppt, 'error', '1500', '');
                         } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
-                                '');
+                            callAlert('Có lỗi xảy ra khi xử lý yêu cầu!', 'error', '1500', '');
                         }
+                    },
+                    complete: function() {
+                        // Hide overlay or loader
+                        $('#overlay').hide();
                     }
                 });
             });
         });
+    </script>
+
 
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const selectLichBaoCao = document.getElementById('ngay_bao_cao');
+            const ttLichDiv = document.getElementById('tt-lich');
+
+            // Hàm để gửi yêu cầu AJAX và cập nhật thông tin
+            function fetchAndUpdateLichBaoCao(maLich) {
+                if (maLich) {
+                    $.ajax({
+                        url: `/dangkybbc/${maLich}`,
+                        type: 'GET',
+                        success: function(response) {
+                            // Định dạng lại ngày thành dạng DD-MM-YYYY
+                            const ngayBaoCaoFormatted = formatDate(response.ngay_bao_cao);
+
+                            // Cập nhật nội dung của các thẻ `label` trong `tt-lich` bằng dữ liệu từ server
+                            document.getElementById('ngay-bao-cao').textContent = ngayBaoCaoFormatted;
+                            document.getElementById('dia-diem').textContent = response.dia_diem;
+                            document.getElementById('bat-dau').textContent = response.thoi_gian_bat_dau;
+                            document.getElementById('ket-thuc').textContent = response
+                                .thoi_gian_ket_thuc;
+
+                            // Hiển thị div tt-lich
+                            ttLichDiv.style.display = 'block';
+                        },
+                        error: function(xhr) {
+                            console.error('Lỗi khi lấy dữ liệu:', xhr);
+                        }
+                    });
+                }
+            }
+
+            // Khi trang được tải, lấy giá trị mặc định và gọi hàm fetchAndUpdateLichBaoCao
+            const selectedMaLich = selectLichBaoCao.value;
+            fetchAndUpdateLichBaoCao(selectedMaLich);
+
+            // Lắng nghe sự kiện thay đổi trên dropdown
+            selectLichBaoCao.addEventListener('change', function() {
+                const selectedMaLich = this.value;
+                fetchAndUpdateLichBaoCao(selectedMaLich);
+            });
+
+            // Hàm định dạng ngày thành dạng DD-MM-YYYY
+            function formatDate(dateString) {
+                const dateObject = new Date(dateString);
+                const day = dateObject.getDate().toString().padStart(2, '0');
+                const month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
+                const year = dateObject.getFullYear().toString();
+                return `${day}-${month}-${year}`;
+            }
+        });
+    </script>
 @endpush

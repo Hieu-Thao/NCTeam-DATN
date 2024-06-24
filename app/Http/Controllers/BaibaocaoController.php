@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Validator;
 use Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 
 class BaibaocaoController extends Controller
 {
@@ -66,32 +67,58 @@ class BaibaocaoController extends Controller
     //     return response()->json('success', 200);
     // }
 
-    // public function edit($ma_bai_bao_cao)
-    // {
-    //     $baibaocao = Baibaocao::findOrFail($ma_bai_bao_cao);
-    //     $lichbaocao = Lichbaocao::all(); // Lấy tất cả lịch báo cáo
-    //     return view('admin.bai-bao-cao.edit', compact('baibaocao', 'lichbaocao'));
-    // }
+    public function edit($ma_bai_bao_cao)
+    {
+        $baibaocao = Baibaocao::findOrFail($ma_bai_bao_cao);
+        $lichbaocao = Lichbaocao::all(); // Lấy tất cả lịch báo cáo
+        return view('admin.bai-bao-cao.edit', compact('baibaocao', 'lichbaocao'));
+    }
 
 
     public function update(Request $request, $ma_bai_bao_cao)
     {
-        // Validate other fields
-        $validatedData = $request->validate([
-            'ten_bai_bao_cao' => 'required|string|max:255',
+        $baibaocao = BaibaoCao::findOrFail($ma_bai_bao_cao);
+
+        // Validate updated data
+        $validator = Validator::make($request->all(), [
+            'ten_bai_bao_cao' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('bai_bao_cao')->ignore($baibaocao->ma_bai_bao_cao, 'ma_bai_bao_cao'),
+            ],
+            'ngay_bao_cao' => 'required', // Ensure ngay_bao_cao is required
             'link_goc_bai_bao_cao' => 'required',
-            'file_ppt' => 'nullable',
-            'lich_bao_cao' => 'required',
+            'file_ppt' => 'nullable|file|mimes:ppt,pptx',
         ]);
 
-        $baibaocao = Baibaocao::find($ma_bai_bao_cao);
-        $baibaocao->ten_bai_bao_cao = $validatedData['ten_bai_bao_cao'];
-        $baibaocao->link_goc_bai_bao_cao = $validatedData['link_goc_bai_bao_cao'];
-        $baibaocao->file_ppt = $validatedData['file_ppt'];
-        $baibaocao->ma_lich = $validatedData['lich_bao_cao'];
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
 
+        // Find the corresponding LichBaoCao
+        $lich_bao_cao = LichBaoCao::find($request->ngay_bao_cao);
+
+        // if (!$lich_bao_cao) {
+        //     return response()->json(['error' => 'Invalid ngay_bao_cao'], 400);
+        // }
+
+        // Update baibao object
+        $baibaocao->ten_bai_bao_cao = $request->ten_bai_bao_cao;
+        $baibaocao->link_goc_bai_bao_cao = $request->link_goc_bai_bao_cao;
+        $baibaocao->ma_lich = $lich_bao_cao->ma_lich;
+
+        if ($request->hasFile('file_ppt')) {
+            // Handle file upload
+            $file_name = $baibaocao->ma_lich . '_' . Auth::user()->ho_ten . '_' . $request->ten_bai_bao_cao . '.pptx';
+            $file_name = str_replace(' ', '', $file_name);
+            $baibaocao->file_ppt = $request->file('file_ppt')->storeAs('public/ppt', $file_name);
+        }
+
+        // Save changes
         $baibaocao->save();
 
+        // Redirect or return JSON response for AJAX
         return response()->json('success', 200);
     }
 
@@ -157,7 +184,8 @@ class BaibaocaoController extends Controller
         $lich_bao_cao = LichBaoCao::find($request->ngay_bao_cao);
         $ngay_bao_cao = $lich_bao_cao ? $lich_bao_cao->ngay_bao_cao : null;
 
-        $file_name = $ngay_bao_cao . ' - ' . $ho_ten . ' - ' . $request->ten_bai_bao_cao . '.pptx';
+        $file_name = $ngay_bao_cao . '_' . $ho_ten . '_' . $request->ten_bai_bao_cao . '.pptx';
+        $file_name = str_replace(' ', '', $file_name);
 
         // Tạo mới bài báo cáo
         $baibaocao = new Baibaocao([
@@ -169,12 +197,10 @@ class BaibaocaoController extends Controller
             'trang_thai' => 'Đã đăng ký',
         ]);
 
-
-
         // Lưu bài báo cáo vào cơ sở dữ liệu
         $baibaocao->save();
 
-        // Gửi email thông báo cho các thành viên trong nhóm
+
         $teamMembers = Thanhvien::where('ma_nhom', Auth::user()->ma_nhom)
             ->where('ma_thanh_vien', '!=', $ma_thanh_vien)
             ->get();
