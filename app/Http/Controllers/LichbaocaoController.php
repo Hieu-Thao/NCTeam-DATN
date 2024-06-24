@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Lichbaocao;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
+use Auth;
 
 class LichbaocaoController extends Controller
 {
@@ -18,8 +19,11 @@ class LichbaocaoController extends Controller
     {
         $lichbaocao = Lichbaocao::all();
 
+        $user = Auth::user();
+        $vai_tro = $user->vai_tro;
+
         // Truyền dữ liệu đến view
-        return view('admin.lich-bao-cao.lichbaocao', compact('lichbaocao'));
+        return view('admin.lich-bao-cao.lichbaocao', compact('lichbaocao', 'vai_tro'));
     }
 
     /**

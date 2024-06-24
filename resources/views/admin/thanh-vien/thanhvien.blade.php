@@ -12,22 +12,37 @@
         <div class="card-title">
             <h4>Danh sách thành viên</h4>
         </div>
-        <div class="card-btn btn-btnn" style="#">
+        {{-- <div class="card-btn btn-btnn" style="#">
             <a href="/thanhvien/create-thanhvien"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
                         src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
             <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
                 <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
             </button>
+        </div> --}}
 
-        </div>
+        @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+            <div class="card-btn btn-btnn" style="#">
+                <a href="/thanhvien/create-thanhvien">
+                    <button type="button" class="btn btn-success btn-sm" id="btnz">
+                        <img src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm
+                    </button>
+                </a>
+                <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
+                    <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
+                </button>
+            </div>
+        @endif
+
         <div class="tb">
             <div class="table-responsive">
                 <table id="thanhvien" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
-                            <th>
-                                <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
-                            </th>
+                            @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                <th>
+                                    <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
+                                </th>
+                            @endif
                             <th>Mã TV</th>
                             <th>Họ tên</th>
                             <th>Nhóm</th>
@@ -42,8 +57,13 @@
                     <tbody>
                         @foreach ($thanhviens as $tv)
                             <tr>
-                                <td><input type="checkbox" name="checkbox[]" value="{{ $tv->ma_thanh_vien }}"
-                                        class="edit-checkbox"></td>
+                                @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                    <td>
+                                        <input type="checkbox" name="checkbox[]" value="{{ $tv->ma_thanh_vien }}"
+                                            class="edit-checkbox">
+                                    </td>
+                                @endif
+
                                 <td>{{ $tv->ma_thanh_vien }}</td>
                                 <td>{{ $tv->ho_ten }}</td>
                                 <td>{{ $tv->nhom->ten_nhom }}</td> <!-- Sử dụng nhom thay vì Nhom -->
@@ -53,28 +73,28 @@
                                 {{-- <td>{{ $tv->noi_cong_tac }}</td> --}}
                                 <td>{{ $tv->vai_tro }}</td>
                                 <td>{{ $tv->email }}</td>
-                                <td style="display: flex; gap: 5px; border: none; justify-content: center;">
-                                    <a href="{{ route('thanhvien.edit', $tv->ma_thanh_vien) }}"
-                                        class="btn btn-primary btn-sm" id="btnz">
-                                        <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
-                                            height="15px">
-                                    </a>
-                                    {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"><img
-                                            src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
-                                            height="15px"></button> --}}
-                                    <button type="button" class="btn btn-danger btn-sm" id="btnz"
-                                        onclick="deleteMember('{{ $tv->ma_thanh_vien }}')">
-                                        <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
-                                            height="15px">
-                                    </button>
 
+                                <td style="display: flex; gap: 5px; border: none; justify-content: center;">
+                                    @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                        <a href="{{ route('thanhvien.edit', $tv->ma_thanh_vien) }}"
+                                            class="btn btn-primary btn-sm" id="btnz">
+                                            <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
+                                                height="15px">
+                                        </a>
+
+                                        <button type="button" class="btn btn-danger btn-sm" id="btnz"
+                                            onclick="deleteMember('{{ $tv->ma_thanh_vien }}')">
+                                            <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
+                                                height="15px">
+                                        </button>
+                                    @endif
                                     <button type="button" class="btn btn-warning btn-sm" id="btnz"
                                         onclick="showMemberInfo('{{ $tv->ma_thanh_vien }}')">
-                                        <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png" width="15px"
-                                            height="15px">
+                                        <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png"
+                                            width="15px" height="15px">
                                     </button>
-
                                 </td>
+
                             </tr>
                         @endforeach
                     </tbody>
@@ -250,9 +270,10 @@
                     <p><strong>Số điện thoại:</strong> ${response.so_dien_thoai}</p>
                     <p><strong>Email:</strong> ${response.email}</p>
                     <p><strong>Vai trò:</strong> ${response.vai_tro}</p>
-                    <p><strong>Học hàm, học vị:</strong> ${response.hoc_ham_hoc_vi}</p>
+                    <p><strong>Học hàm:</strong> ${response.hoc_ham}</p>
+                    <p><strong>Học vị:</strong> ${response.hoc_vi}</p>
                     <p><strong>Nơi công tác:</strong> ${response.noi_cong_tac}</p>
-                    <p><strong>Quyền:</strong> ${response.quyen.ten_quyen}</p>
+                    
                 </div>
             `;
 

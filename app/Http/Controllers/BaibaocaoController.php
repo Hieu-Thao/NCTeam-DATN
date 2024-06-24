@@ -16,13 +16,35 @@ use Illuminate\Validation\Rule;
 class BaibaocaoController extends Controller
 {
 
+    // public function baibaocao()
+    // {
+    //     $baibaocao = Baibaocao::all();
+    //     $baibaocao = Baibaocao::with('ThanhVien')->get();
+
+    //     // Truyền dữ liệu đến view
+    //     return view('admin.bai-bao-cao.baibaocao', compact('baibaocao'));
+    // }
+
     public function baibaocao()
     {
-        $baibaocao = Baibaocao::all();
-        $baibaocao = Baibaocao::with('ThanhVien')->get();
+        $user = Auth::user();
+
+        if ($user->ma_quyen == 1) {
+            // Nếu ma_quyen = 1, lấy tất cả các bài báo cáo
+            $baibaocao = Baibaocao::with('thanhVien')->get();
+        } else {
+            // Nếu ma_quyen != 1, chỉ lấy các bài báo cáo của thành viên trong cùng nhóm
+            $baibaocao = Baibaocao::whereHas('thanhVien', function ($query) use ($user) {
+                $query->where('ma_nhom', $user->ma_nhom);
+            })
+                ->with('thanhVien')
+                ->get();
+        }
+
+        $vai_tro = $user->vai_tro;
 
         // Truyền dữ liệu đến view
-        return view('admin.bai-bao-cao.baibaocao', compact('baibaocao'));
+        return view('admin.bai-bao-cao.baibaocao', compact('baibaocao','vai_tro'));
     }
 
 

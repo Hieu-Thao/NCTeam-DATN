@@ -8,83 +8,83 @@
 @endsection
 @section('content')
 
-<style>
-    input:invalid {
-        border: solid 1.5px red;
-    }
-
-    select:invalid {
-        border: solid 1.5px red;
-    }
-</style>
-
-<script>
-    function callAlert(title, icon, timer, text) {
-        Swal.fire({
-            position: "center",
-            icon: `${icon}`,
-            title: `${title}`,
-            text: `${text}`,
-            showConfirmButton: false,
-            timer: `${timer}`,
-            animation: false
-        });
-    }
-
-    function kiemtra() {
-        if (document.forms["edit-thanhvien"]["ho_ten"].value == "") {
-            callAlert('Vui lòng nhập họ tên!', 'error', '1500', '');
-            document.forms["edit-thanhvien"]["ho_ten"].setAttribute('required', 'required');
-            return false;
-        }
-        if (document.forms["edit-thanhvien"]["so_dien_thoai"].value == "") {
-            callAlert('Vui lòng nhập số điện thoại!', 'error', '1500', '');
-            document.forms["edit-thanhvien"]["so_dien_thoai"].setAttribute('required', 'required');
-            return false;
-        }
-        if (document.forms["edit-thanhvien"]["noi_cong_tac"].value == "") {
-            callAlert('Vui lòng nhập nơi công tác!', 'error', '1500', '');
-            document.forms["edit-thanhvien"]["noi_cong_tac"].setAttribute('required', 'required');
-            return false;
-        }
-        if (document.forms["edit-thanhvien"]["email"].value == "") {
-            callAlert('Vui lòng nhập email!', 'error', '1500', '');
-            document.forms["edit-thanhvien"]["email"].setAttribute('required', 'required');
-            return false;
+    <style>
+        input:invalid {
+            border: solid 1.5px red !important;
         }
 
-        if (document.forms["edit-thanhvien"]["so_dien_thoai"].value.length !== 10) {
-            callAlert('Vui lòng nhập đủ 10 số điện thoại!', 'error', '1500', '');
-            document.forms["edit-thanhvien"]["so_dien_thoai"].classList.add('invalid');
-            return false;
+        select:invalid {
+            border: solid 1.5px red !important;
+        }
+    </style>
+
+    <script>
+        function callAlert(title, icon, timer, text) {
+            Swal.fire({
+                position: "center",
+                icon: `${icon}`,
+                title: `${title}`,
+                text: `${text}`,
+                showConfirmButton: false,
+                timer: `${timer}`,
+                animation: false
+            });
         }
 
-        var email = document.getElementById('email').value;
-        var emailRegex = /\S+@\S+\.\S+/;
-        if (!emailRegex.test(email)) {
-            callAlert('Vui lòng nhập địa chỉ email hợp lệ!', 'error', '1500', '');
-            document.getElementById('email').classList.add('invalid');
-            return false;
-        }
+        function kiemtra() {
+            if (document.forms["edit-thanhvien"]["ho_ten"].value == "") {
+                callAlert('Vui lòng nhập họ tên!', 'error', '1500', '');
+                document.forms["edit-thanhvien"]["ho_ten"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["edit-thanhvien"]["so_dien_thoai"].value == "") {
+                callAlert('Vui lòng nhập số điện thoại!', 'error', '1500', '');
+                document.forms["edit-thanhvien"]["so_dien_thoai"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["edit-thanhvien"]["noi_cong_tac"].value == "") {
+                callAlert('Vui lòng nhập nơi công tác!', 'error', '1500', '');
+                document.forms["edit-thanhvien"]["noi_cong_tac"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["edit-thanhvien"]["email"].value == "") {
+                callAlert('Vui lòng nhập email!', 'error', '1500', '');
+                document.forms["edit-thanhvien"]["email"].setAttribute('required', 'required');
+                return false;
+            }
 
-        var selectElement = document.getElementById('nhom');
-        var selectedValue = selectElement.value;
-        if (selectedValue === '') {
-            callAlert('Vui lòng chọn nhóm!', 'error', '1500', '');
-            document.forms["edit-thanhvien"]["nhom"].setAttribute('required', 'required');
-            return false;
-        }
+            if (document.forms["edit-thanhvien"]["so_dien_thoai"].value.length !== 10) {
+                callAlert('Vui lòng nhập đủ 10 số điện thoại!', 'error', '1500', '');
+                document.forms["edit-thanhvien"]["so_dien_thoai"].classList.add('invalid');
+                return false;
+            }
 
-        return true;
-    }
-</script>
+            var email = document.getElementById('email').value;
+            var emailRegex = /\S+@\S+\.\S+/;
+            if (!emailRegex.test(email)) {
+                callAlert('Vui lòng nhập địa chỉ email hợp lệ!', 'error', '1500', '');
+                document.getElementById('email').classList.add('invalid');
+                return false;
+            }
+
+            var selectElement = document.getElementById('nhom');
+            var selectedValue = selectElement.value;
+            if (selectedValue === '') {
+                callAlert('Vui lòng chọn nhóm!', 'error', '1500', '');
+                document.forms["edit-thanhvien"]["nhom"].setAttribute('required', 'required');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 
     <div class="container">
         <div class="card-title">
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật thành viên</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form method="post" name="edit-thanhvien" action="{{ route('thanhvien.update', $thanhvien->ma_thanh_vien) }}">
+            <form method="post" name="edit-thanhvien" action="{{ route('thanhvien.update', $thanhvien->ma_thanh_vien) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div>
@@ -113,27 +113,20 @@
                     </div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Học hàm, học vị</label>
-                            <select name="hoc_ham_hoc_vi">
-                                <option value="" disabled hidden>-- Chọn học hàm, học vị --</option>
-                                <option value="Phó giáo sư"
-                                    {{ $thanhvien->hoc_ham_hoc_vi === 'Phó giáo sư' ? 'selected' : '' }}>Phó giáo sư
-                                </option>
-                                <option value="Giáo sư" {{ $thanhvien->hoc_ham_hoc_vi === 'Giáo sư' ? 'selected' : '' }}>
-                                    Giáo sư</option>
-                                <option value="Cử nhân" {{ $thanhvien->hoc_ham_hoc_vi === 'Cử nhân' ? 'selected' : '' }}>Cử
-                                    nhân</option>
-                                <option value="Thạc sĩ" {{ $thanhvien->hoc_ham_hoc_vi === 'Thạc sĩ' ? 'selected' : '' }}>
-                                    Thạc sĩ</option>
-                                <option value="Tiến sĩ" {{ $thanhvien->hoc_ham_hoc_vi === 'Tiến sĩ' ? 'selected' : '' }}>
-                                    Tiến sĩ</option>
-                            </select>
+                            <label class="td-input">Học hàm</label>
+                            <input type="text" name="hoc_ham" id="hoc_ham" value="{{ $thanhvien->hoc_ham }}" />
+                        </div>
+                        <div class="coll">
+                            <label class="td-input">Học vị</label>
+                            <input type="text" name="hoc_vi" id="hoc_vi" value="{{ $thanhvien->hoc_vi }}" />
                         </div>
                         <div class="coll">
                             <label class="td-input">Nơi công tác</label>
                             <input type="text" name="noi_cong_tac" id="noi_cong_tac"
                                 value="{{ $thanhvien->noi_cong_tac }}" />
                         </div>
+                    </div>
+                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Vai trò</label>
                             <select name="vai_tro">
@@ -146,16 +139,26 @@
                                     Thành viên</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Email</label>
                             <input type="email" name="email" id="email" value="{{ $thanhvien->email }}" />
                         </div>
                         <div class="coll">
                             <label class="td-input">Mật khẩu</label>
-                            <input type="password" name="mat_khau" id="mat_khau" value="{{ $thanhvien->mat_khau }}" />
+                            <input type="password" name="mat_khau" id="mat_khau" value="" />
                         </div>
+                    </div>
+                    <div class="roww">
+                        <div class="coll">
+                            <label class="td-input">Ảnh đại diện</label>
+                            <input type="file" name="anh_dai_dien" id="anh_dai_dien">
+                            @if ($thanhvien->anh_dai_dien)
+                                <span>Ảnh đại diện: </span><i>{{ $thanhvien->anh_dai_dien }}</i>
+                            @else
+                                <span>Ảnh đại diện: </span><i>Chưa có ảnh đại diện</i>
+                            @endif
+                        </div>
+
                         <div class="coll">
                             <label class="td-input">Quyền</label>
                             <select name="quyen" id="quyen">
@@ -181,51 +184,51 @@
 
 @endsection
 @push('scripts')
-<script>
-    function callAlert(title, icon, timer, text) {
-        Swal.fire({
-            position: "center",
-            icon: `${icon}`,
-            title: `${title}`,
-            text: `${text}`,
-            showConfirmButton: false,
-            timer: `${timer}`,
-            animation: false
-        });
-    }
+    <script>
+        function callAlert(title, icon, timer, text) {
+            Swal.fire({
+                position: "center",
+                icon: `${icon}`,
+                title: `${title}`,
+                text: `${text}`,
+                showConfirmButton: false,
+                timer: `${timer}`,
+                animation: false
+            });
+        }
 
-    $(document).ready(function() {
-        $('form[name="edit-thanhvien"]').on('submit', function(e) {
-            e.preventDefault();
-            if (!kiemtra()) {
-                return false;
-            }
-            var formData = $(this).serialize();
-            $.ajax({
-                type: 'PUT',
-                url: '{{ url('/thanhvien/edit/'.$thanhvien->ma_thanh_vien) }}',
-                data: formData,
-                success: function(response) {
-                    if (response === "success") {
-                        callAlert('Thành công!', 'success', '1500', '');
-                        setTimeout(() => {
-                            window.location.href = '/thanhvien';
-                        }, 1000);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.so_dien_thoai) {
-                        callAlert('Số điện thoại đã tồn tại!', 'error', '1500', '');
-                    } else if (response.email) {
-                        callAlert('Email đã tồn tại!', 'error', '1500', '');
-                    } else {
-                        callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', '1500',
-                            '');
-                    }
+        $(document).ready(function() {
+            $('form[name="edit-thanhvien"]').on('submit', function(e) {
+                e.preventDefault();
+                if (!kiemtra()) {
+                    return false;
                 }
+                var formData = $(this).serialize();
+                $.ajax({
+                    type: 'PUT',
+                    url: '{{ url('/thanhvien/edit/' . $thanhvien->ma_thanh_vien) }}',
+                    data: formData,
+                    success: function(response) {
+                        if (response === "success") {
+                            callAlert('Thành công!', 'success', '1500', '');
+                            setTimeout(() => {
+                                window.location.href = '/thanhvien';
+                            }, 1000);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.so_dien_thoai) {
+                            callAlert('Số điện thoại đã tồn tại!', 'error', '1500', '');
+                        } else if (response.email) {
+                            callAlert('Email đã tồn tại!', 'error', '1500', '');
+                        } else {
+                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', '1500',
+                                '');
+                        }
+                    }
+                });
             });
         });
-    });
-</script>
+    </script>
 @endpush

@@ -14,12 +14,13 @@
 
     <style>
         input:invalid {
-            border: solid 1.5px red;
+            border: solid 1.5px red !important;
         }
 
         select:invalid {
-            border: solid 1.5px red;
+            border: solid 1.5px red !important;
         }
+
     </style>
 
     <script>
@@ -56,6 +57,11 @@
                 document.forms["create-thanhvien"]["email"].setAttribute('required', 'required');
                 return false;
             }
+            if (document.forms["create-thanhvien"]["mat_khau"].value == "") {
+                callAlert('Vui lòng nhập mật khẩu!', 'error', '1500', '');
+                document.forms["create-thanhvien"]["mat_khau"].setAttribute('required', 'required');
+                return false;
+            }
 
             if (document.forms["create-thanhvien"]["so_dien_thoai"].value.length !== 10) {
                 callAlert('Vui lòng nhập đủ 10 số điện thoại!', 'error', '1500', '');
@@ -79,6 +85,21 @@
                 return false;
             }
 
+            var selectElement = document.getElementById('vai_tro');
+            var selectedValue = selectElement.value;
+            if (selectedValue === '') {
+                callAlert('Vui lòng chọn vai trò!', 'error', '1500', '');
+                document.forms["create-thanhvien"]["vai_tro"].setAttribute('required', 'required');
+                return false;
+            }
+
+            var selectElement = document.getElementById('quyen');
+            var selectedValue = selectElement.value;
+            if (selectedValue === '') {
+                callAlert('Vui lòng chọn quyền!', 'error', '1500', '');
+                document.forms["create-thanhvien"]["quyen"].setAttribute('required', 'required');
+                return false;
+            }
             return true;
         }
     </script>
@@ -88,19 +109,8 @@
         </div>
         <div style="padding-top: 20px;">
             <form name="create-thanhvien" onsubmit="return kiemtra();" method="post"
-                action="{{ url('/thanhvien/create-thanhvien') }}" enctype="multipart/form-data">>
+                action="{{ url('/thanhvien/create-thanhvien') }}" enctype="multipart/form-data">
                 @csrf
-
-                {{-- @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif --}}
-
                 <div>
                     <div class="roww">
                         <div class="coll">
@@ -124,32 +134,29 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Học hàm, học vị</label>
-                            <select name="hoc_ham_hoc_vi">
-                                <option value="" disabled selected hidden>-- Chọn học hàm, học vị --</option>
-                                <option value="Phó giáo sư">Phó giáo sư</option>
-                                <option value="Giáo sư">Giáo sư</option>
-                                <option value="Cử nhân">Cử nhân</option>
-                                <option value="Thạc sĩ">Thạc sĩ</option>
-                                <option value="Tiến sĩ">Tiến sĩ</option>
-                            </select>
+                            <label class="td-input">Học hàm</label>
+                            <input type="text" name="hoc_ham" id="hoc_ham" />
+                        </div>
+                        <div class="coll">
+                            <label class="td-input">Học vị</label>
+                            <input type="text" name="hoc_vi" id="hoc_vi" />
                         </div>
                         <div class="coll">
                             <label class="td-input">Nơi công tác</label>
                             <input type="text" name="noi_cong_tac" id="noi_cong_tac" />
                         </div>
+                    </div>
+
+                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Vai trò</label>
-                            <select name="vai_tro">
+                            <select name="vai_tro" id="vai_tro">
                                 <option value="" disabled selected hidden>-- Chọn vai trò --</option>
                                 <option value="Trưởng nhóm">Trưởng nhóm</option>
                                 <option value="Phó nhóm">Phó nhóm</option>
                                 <option value="Thành viên">Thành viên</option>
                             </select>
                         </div>
-                    </div>
-
-                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Email</label>
                             <input type="email" name="email" id="email" />
@@ -157,6 +164,12 @@
                         <div class="coll">
                             <label class="td-input">Mật khẩu</label>
                             <input type="password" name="mat_khau" id="mat_khau" />
+                        </div>
+                    </div>
+                    <div class="roww">
+                        <div class="coll">
+                            <label class="td-input">Ảnh đại diện</label>
+                            <input type="file" name="anh_dai_dien" id="anh_dai_dien"></input>
                         </div>
                         <div class="coll">
                             <label class="td-input">Quyền</label>
@@ -168,24 +181,6 @@
                             </select>
                         </div>
                     </div>
-                    <div class="roww">
-                        <div class="coll">
-                            <label class="td-input">Ảnh đại diện:</label>
-                            <input type="file" name="anh_dai_dien" id="anh_dai_dien"></input>
-                        </div>
-                    </div>
-
-                    {{-- <div class="roww">
-
-                        <div class="coll" style="visibility: hidden">
-                            <label class="td-input">Để cho đều</label>
-                            <input type="text" name="dummy1" id="dummy1" />
-                        </div>
-                        <div class="coll" style="visibility: hidden">
-                            <label class="td-input">Để cho đều</label>
-                            <input type="text" name="dummy2" id="dummy2" />
-                        </div>
-                    </div> --}}
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
                         <input class="btn btn-success" style="height: 10%;" type="submit" name="submit"
@@ -214,45 +209,46 @@
         }
 
         $(document).ready(function() {
-    $('form[name="create-thanhvien"]').on('submit', function(e) {
-        e.preventDefault();
-        if (!kiemtra()) {
-            return false;
-        }
-
-        var formData = new FormData(this);
-        formData.append('_token', '{{ csrf_token() }}'); // Thêm CSRF token vào FormData
-
-        $.ajax({
-            type: 'POST',
-            url: '{{ url('/thanhvien/create-thanhvien') }}',
-            data: formData,
-            processData: false,
-            contentType: false,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // Đảm bảo header X-CSRF-TOKEN
-            },
-            success: function(response) {
-                if (response === "success") {
-                    callAlert('Thành công!', 'success', '1500', '');
-                    setTimeout(() => {
-                        window.location.href = '/thanhvien';
-                    }, 1000);
+            $('form[name="create-thanhvien"]').on('submit', function(e) {
+                e.preventDefault();
+                if (!kiemtra()) {
+                    return false;
                 }
-            },
-            error: function(xhr, status, error) {
-                var response = JSON.parse(xhr.responseText);
-                if (response.so_dien_thoai) {
-                    callAlert('Số điện thoại đã tồn tại!', 'error', '1500', '');
-                } else if (response.email) {
-                    callAlert('Email đã tồn tại!', 'error', '1500', '');
-                } else {
-                    callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', '1500', '');
-                }
-            }
+
+                var formData = new FormData(this);
+                formData.append('_token', '{{ csrf_token() }}'); // Thêm CSRF token vào FormData
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url('/thanhvien/create-thanhvien') }}',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                            'content')
+                    },
+                    success: function(response) {
+                        if (response === "success") {
+                            callAlert('Thành công!', 'success', '1500', '');
+                            setTimeout(() => {
+                                window.location.href = '/thanhvien';
+                            }, 1000);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.so_dien_thoai) {
+                            callAlert('Số điện thoại đã tồn tại!', 'error', '1500', '');
+                        } else if (response.email) {
+                            callAlert('Email đã tồn tại!', 'error', '1500', '');
+                        } else {
+                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', '1500',
+                                '');
+                        }
+                    }
+                });
+            });
         });
-    });
-});
-
     </script>
 @endpush
