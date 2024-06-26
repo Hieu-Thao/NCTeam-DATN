@@ -27,4 +27,9 @@ class Congtrinh extends Model
     {
         return $this->belongsTo(LoaiCongTrinh::class, 'ma_loai', 'ma_loai');
     }
+
+    public function thanhViens()
+    {
+        return $this->belongsToMany(ThanhVien::class, 'tham_gia', 'ma_cong_trinh', 'ma_thanh_vien');
+    }
 }

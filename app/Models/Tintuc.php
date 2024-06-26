@@ -24,6 +24,7 @@ class Tintuc extends Model
         'hinh_anh',
         'trang_thai',
         'noi_bat',
+        'tinh_trang',
     ];
 
     public function ThanhVien()

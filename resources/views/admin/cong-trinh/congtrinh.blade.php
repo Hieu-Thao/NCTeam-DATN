@@ -14,6 +14,7 @@
             <h4>Danh sách công trình</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
+            @if($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
             <a href="/congtrinh/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
                         src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
@@ -28,6 +29,7 @@
             <button type="button" class="btn btn-danger btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/device-laptop.png" width="15px" height="15px"><a
                     class="btn-cn" href="/thamgia/create">Tham gia công trình</a></button>
+            @endif
         </div>
         <div class="tb">
             <div class="table-responsive">
@@ -69,11 +71,13 @@
                                     @endif
                                 </td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
+                                    @if($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                     <a href="{{ route('congtrinh.edit', $ct->ma_cong_trinh) }}"
                                         class="btn btn-primary btn-sm" id="btnz">
                                         <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
                                             height="15px">
                                     </a>
+                                    @endif
                                     {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"
                                         onclick="deleteCT('{{ $ct->ma_cong_trinh }}')">
                                         <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
@@ -127,7 +131,7 @@
                     "lengthMenu": "Hiển thị _MENU_ mục",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
-                    "search": "Tìm kiếm",
+                    "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
                     "zeroRecords": "Không tìm thấy kết quả phù hợp",
                     "paginate": {
                         "first": "Đầu",

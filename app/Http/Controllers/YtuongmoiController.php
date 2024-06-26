@@ -6,6 +6,7 @@ use App\Models\Baibaocao;
 use Illuminate\Http\Request;
 use App\Models\Ytuongmoi;
 use Illuminate\Support\Facades\Validator;
+use Auth;
 
 class YtuongmoiController extends Controller
 {
@@ -16,12 +17,27 @@ class YtuongmoiController extends Controller
      */
     public function ytuongmoi()
     {
-        $ytuongmoi = Ytuongmoi::all();
-        $ytuongmoi = Ytuongmoi::with('BaiBaoCao')->get();
+        // $ytuongmoi = Ytuongmoi::all();
+        // $ytuongmoi = Ytuongmoi::with('BaiBaoCao')->get();
+
+        // $baibaocao = Baibaocao::all();
+
+        // // Truyền dữ liệu đến view
+        // return view('admin.y-tuong-moi.ytuongmoi', compact('ytuongmoi', 'baibaocao'));
+
+        $user = Auth::user();
+
+        if ($user->vai_tro == 'Trưởng nhóm' || $user->vai_tro == 'Phó nhóm') {
+            $ytuongmoi = Ytuongmoi::with('BaiBaoCao')->get();
+        } else {
+            $ytuongmoi = Ytuongmoi::whereHas('BaiBaoCao', function ($query) use ($user) {
+                $query->where('ma_thanh_vien', $user->ma_thanh_vien);
+            })->with('BaiBaoCao')->get();
+        }
 
         $baibaocao = Baibaocao::all();
 
-        // Truyền dữ liệu đến view
+        // Pass data to the view
         return view('admin.y-tuong-moi.ytuongmoi', compact('ytuongmoi', 'baibaocao'));
     }
 

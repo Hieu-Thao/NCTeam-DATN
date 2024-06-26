@@ -130,7 +130,7 @@
                     "lengthMenu": "Hiển thị _MENU_ mục",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
-                    "search": "Tìm kiếm",
+                    "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
                     "zeroRecords": "Không tìm thấy kết quả phù hợp",
                     "paginate": {
                         "first": "Đầu",

@@ -171,10 +171,16 @@ class ThanhvienController extends Controller
             $thanhVien = Thanhvien::findOrFail($ma_thanh_vien);
 
             // Handle file upload if there is a new file
+            // if ($request->hasFile('anh_dai_dien')) {
+            //     $file = $request->file('anh_dai_dien');
+            //     $path = $file->store('avatars', 'public'); // Lưu file vào thư mục public/avatars
+            //     $thanhVien->anh_dai_dien = $path; // Assign the stored file path to anh_dai_dien
+            // }
+
             if ($request->hasFile('anh_dai_dien')) {
                 $file = $request->file('anh_dai_dien');
-                $path = $file->store('avatars', 'public'); // Lưu file vào thư mục public/avatars
-                $thanhVien->anh_dai_dien = $path; // Assign the stored file path to anh_dai_dien
+                $path = $file->store('avartas', 'public'); // Lưu file vào thư mục public/avatars
+                $thanhVien->hinh_anh = $path;
             }
 
             // Cập nhật thông tin thành viên

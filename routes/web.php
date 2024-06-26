@@ -345,6 +345,9 @@ Route::middleware(['auth', 'role:2'])->group(function () {
         Route::put('/edit/{ma_tin_tuc}', [TintucController::class, 'update'])->name('tintuc.update');
         Route::delete('/{ma_tin_tuc}', [TintucController::class, 'destroy'])->name('tintuc.destroy');
         Route::post('/delete-multiple', [TintucController::class, 'deleteMultiple']);
+        Route::post('/updateNoiBat', [TinTucController::class, 'updateNoiBat'])->name('tintuc.updateNoiBat');
+        Route::post('/updateTinhTrang', [TinTucController::class, 'updateTinhTrang'])->name('tintuc.updateTinhTrang');
+
     });
 
     // Common routes for both admin and user
@@ -383,6 +386,7 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
     Route::prefix('/baibaocao')->group(function () {
         Route::get('/', [BaibaocaoController::class, 'baibaocao']);
+        Route::get('/baibaocaocn', [BaibaocaoController::class, 'baibaocaocn']);
         Route::get('/create', [BaibaocaoController::class, 'create']);
         Route::post('/create', [BaibaocaoController::class, 'store']);
         Route::get('/edit/{ma_bai_bao_cao}', [BaibaocaoController::class, 'edit'])->name('baibaocao.edit');

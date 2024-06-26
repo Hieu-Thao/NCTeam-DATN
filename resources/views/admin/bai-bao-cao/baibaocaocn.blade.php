@@ -4,7 +4,7 @@
     <a href="/nhom">Bài báo cáo</a>
 @endsection
 @section('child')
-    <a href="/nhom">Danh sách bài báo cáo</a>
+    <a href="/nhom">Danh sách bài báo cáo của tôi</a>
 @endsection
 @section('content')
 
@@ -20,22 +20,16 @@
         div:where(.swal2-container) .swal2-html-container {
             text-align: left;
         }
-
-        .btn-light {
-            color: #fff !important;
-            background-color: #5d87ff !important;
-            border-color: #5d87ff !important;
-        }
     </style>
 
     <div class="container">
         <div class="card-title">
-            <h4>Danh sách bài báo cáo</h4>
+            <h4>Danh sách bài báo cáo của tôi</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
-            <a href="/baibaocao/baibaocaocn"><button type="button" class="btn btn-light btn-sm" id="btnz"><img
-                        src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px" height="15px"> Bài báo
-                    cáo của tôi</button></a>
+            <button type="button" class="btn btn-secondary btn-sm" id="btnz">
+                <img src="../assets/css/icons/tabler-icons/img/arrow-narrow-left.png" width="15px" height="15px"><a
+                    class="btn-cn" href="/baibaocao">Trở về</a></button>
             {{-- <a href="/baibaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
                         src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a> --}}
 
@@ -66,7 +60,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($baibaocao as $bbc)
+                        @foreach ($baibaocaocn as $bbc)
                             <tr>
                                 {{-- <td><input type="checkbox" name="checkbox[]"
                                     value="{{ $bbc->ma_bai_bao_cao }}" class="edit-checkbox"></td> --}}
@@ -79,26 +73,22 @@
                                 {{-- <td>{{ $bbc->trang_thai }}</td> --}}
                                 <td>
                                     @if ($bbc->trang_thai == 'Đã duyệt')
-                                        <p class="btn btn-success btn-sm" id="#">Đã
-                                            duyệt</p>
+                                        <button type="button" class="btn btn-outline-success btn-sm" id="#">Đã
+                                            duyệt</button>
                                     @elseif($bbc->trang_thai == 'Đã đăng ký')
-                                        <p class="btn btn-secondary btn-sm">Đã đăng ký</p>
+                                        <button type="button" class="btn btn-secondary btn-sm">Đã đăng ký</button>
                                     @endif
                                 </td>
                                 @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                                    <td>@if ($bbc->trang_thai != 'Đã duyệt')
-                                        <button type="button" class="btn btn-danger btn-sm">
-                                            <img src="../assets/css/icons/tabler-icons/img/check.png" width="15px" height="15px">
-                                        </button>
-                                    @endif</td>
+                                    <td><button type="button" class="btn btn-info btn-sm">Duyệt</button></td>
                                 @endif
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
                                     @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                                        {{-- <a href="{{ route('baibaocao.edit', $bbc->ma_bai_bao_cao) }}"
+                                        <a href="{{ route('baibaocao.edit', $bbc->ma_bai_bao_cao) }}"
                                             class="btn btn-primary btn-sm" id="btnz">
                                             <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
                                                 height="15px">
-                                        </a> --}}
+                                        </a>
                                     @endif
 
                                     {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"></button> --}}

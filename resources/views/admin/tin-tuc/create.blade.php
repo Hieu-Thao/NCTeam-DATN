@@ -115,14 +115,14 @@
                                 <option value="Không công khai">Không công khai</option>
                             </select>
                         </div>
-                        <div class="coll">
+                        {{-- <div class="coll">
                             <label class="td-input">Tin nổi bật:</label>
                             <select name="noi_bat" id="noi_bat">
                                 <option value="" disabled selected hidden>-- Chọn tin nổi bật --</option>
                                 <option value="1">Nổi bật</option>
                                 <option value="0">Không nổi bật</option>
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
@@ -198,5 +198,4 @@
                 });
             });
         });
-    </script>
 @endpush

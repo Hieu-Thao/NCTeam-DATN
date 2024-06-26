@@ -44,8 +44,24 @@ class BaibaocaoController extends Controller
         $vai_tro = $user->vai_tro;
 
         // Truyền dữ liệu đến view
-        return view('admin.bai-bao-cao.baibaocao', compact('baibaocao','vai_tro'));
+        return view('admin.bai-bao-cao.baibaocao', compact('baibaocao', 'vai_tro'));
     }
+
+    public function baibaocaocn()
+    {
+        $user = Auth::user();
+
+        // Lấy các bài báo cáo của người đang đăng nhập dựa trên ma_thanh_vien
+        $baibaocaocn = Baibaocao::where('ma_thanh_vien', $user->ma_thanh_vien)
+            ->with('thanhVien')
+            ->get();
+
+        $vai_tro = $user->vai_tro;
+
+        // Truyền dữ liệu đến view
+        return view('admin.bai-bao-cao.baibaocaocn', compact('baibaocaocn', 'vai_tro'));
+    }
+
 
 
     public function create()

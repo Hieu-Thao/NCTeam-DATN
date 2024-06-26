@@ -21013,4 +21013,29 @@ html {
     gap: 5px;
 }
 
+/* Adjust the search input width */
+#thanhvien_filter input {
+    width: 300px; /* Adjust this value as needed */
+}
 
+#thanhvien_filter img {
+    vertical-align: middle;
+}
+
+.check-icon{
+    width: 25px;
+    border: 1px solid #28A744;
+    border-radius: 7px;
+    margin: 0 auto;
+    background: #28a745;
+}
+
+.btn-cho-duyet{
+    color: #ffffff;
+    font-weight: 500;
+    background: #dc3545;
+    border: none;
+    padding: 3px 7px;
+    font-size: 13px;
+    border-radius: 5px;
+}

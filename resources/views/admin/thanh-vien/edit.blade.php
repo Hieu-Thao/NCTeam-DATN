@@ -84,7 +84,8 @@
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật thành viên</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form method="post" name="edit-thanhvien" action="{{ route('thanhvien.update', $thanhvien->ma_thanh_vien) }}" enctype="multipart/form-data">
+            <form method="post" name="edit-thanhvien" action="{{ route('thanhvien.update', $thanhvien->ma_thanh_vien) }}"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div>
@@ -99,11 +100,12 @@
                                 <option value="" disabled hidden>-- Chọn nhóm --</option>
                                 @foreach ($nhom as $nh)
                                     <option value="{{ $nh->ma_nhom }}"
-                                        {{ $nh->ma_nhom === $thanhvien->nhom ? 'selected' : '' }}>
+                                        {{ $thanhvien->ma_nhom == $nh->ma_nhom ? 'selected' : '' }}>
                                         {{ $nh->ten_nhom }}
                                     </option>
                                 @endforeach
                             </select>
+
                         </div>
                         <div class="coll">
                             <label class="td-input">Số điện thoại</label>
@@ -165,12 +167,14 @@
                                 <option value="" disabled hidden>-- Chọn quyền --</option>
                                 @foreach ($quyen as $qu)
                                     <option value="{{ $qu->ma_quyen }}"
-                                        {{ $qu->ma_quyen === $thanhvien->quyen ? 'selected' : '' }}>
+                                        {{ $thanhvien->ma_quyen == $qu->ma_quyen ? 'selected' : '' }}>
                                         {{ $qu->ten_quyen }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
+
+
                     </div>
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
                         <input class="btn btn-success" style="height: 10%;" type="submit" name="submit"

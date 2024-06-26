@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Tintuc;
 use App\Models\Thanhvien;
 use Illuminate\Support\Facades\Validator;
+use Auth;
+use Illuminate\Validation\Rule;
+
 
 class TintucController extends Controller
 {
@@ -17,16 +20,30 @@ class TintucController extends Controller
      */
     public function tintuc()
     {
-        $tintuc = Tintuc::all();
-        $tintuc = Tintuc::with('ThanhVien')->get();
+        $user = Auth::user();
+
+        if (in_array($user->vai_tro, ['Trưởng nhóm', 'Phó nhóm'])) {
+            // Nếu vai trò là trưởng nhóm hoặc phó nhóm, hiển thị tất cả tin tức
+            $tintuc = Tintuc::with('ThanhVien')->get();
+        } else {
+            // Nếu vai trò là thành viên, chỉ hiển thị tin tức có mã của họ
+            $tintuc = Tintuc::where('ma_thanh_vien', $user->ma_thanh_vien)
+                ->with('ThanhVien')
+                ->get();
+        }
+
+        $user = Auth::user();
+        $vai_tro = $user->vai_tro;
 
         // Truyền dữ liệu đến view
-        return view('admin.tin-tuc.tintuc', compact('tintuc'));
+        return view('admin.tin-tuc.tintuc', compact('tintuc', 'vai_tro'));
     }
+
 
     public function index()
     {
         $tintuc = Tintuc::where('noi_bat', 1)
+            ->where('tinh_trang', 'Đã duyệt') // Thêm điều kiện trang_thai
             ->orderBy('ngay', 'desc')
             ->take(5)
             ->get();
@@ -101,7 +118,6 @@ class TintucController extends Controller
             'noi_dung' => 'required|string',
             'hinh_anh' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
             'trang_thai' => 'required|string|max:255',
-            'noi_bat' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -124,14 +140,16 @@ class TintucController extends Controller
                 'noi_dung' => $request->noi_dung,
                 'hinh_anh' => $path ?? null,
                 'trang_thai' => $request->trang_thai,
-                'noi_bat' => $request->noi_bat,
+                'noi_bat' => '0',
+                'tinh_trang' => 'Chờ duyệt',
             ]);
 
             // Lưu tin tức vào cơ sở dữ liệu
             $tintuc->save();
 
             // Trả về response sau khi lưu thành công
-            return response()->json('success', 200);
+            return response()->json(['message' => 'success'], 200);
+
         } catch (\Exception $e) {
             // Log lỗi chi tiết
             \Log::error('Error in storing tin tuc: ' . $e->getMessage());
@@ -161,8 +179,10 @@ class TintucController extends Controller
 
         $thanhvien = Thanhvien::all();
 
+        $loaitintuc = Loaitintuc::all();
+
         // Pass thông tin thành viên và các dữ liệu khác cần thiết tới view
-        return view('admin.tin-tuc.edit', compact('tintuc', 'thanhvien'));
+        return view('admin.tin-tuc.edit', compact('tintuc', 'thanhvien', 'loaitintuc'));
     }
 
 
@@ -171,10 +191,16 @@ class TintucController extends Controller
         // Validate dữ liệu từ form
         $validator = Validator::make($request->all(), [
             'thanh_vien' => 'required',
-            'ten_tin_tuc' => 'required|string|max:255|unique:tin_tuc,ten_tin_tuc,' . $ma_tin_tuc,
+            'loai_tin_tuc' => 'required',
+            'ten_tin_tuc' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('tin_tuc')->ignore($ma_tin_tuc, 'ma_tin_tuc'),
+            ],
             'noi_dung' => 'required|string',
             'hinh_anh' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
-            'trang_thai' => 'required|string|max:255',
+            'ngay' => 'required|date',
         ]);
 
         if ($validator->fails()) {
@@ -193,9 +219,10 @@ class TintucController extends Controller
 
             // Cập nhật tin tức
             $tintuc->ma_thanh_vien = $request->thanh_vien;
+            $tintuc->ma_loai_tt = $request->loai_tin_tuc;
             $tintuc->ten_tin_tuc = $request->ten_tin_tuc;
             $tintuc->noi_dung = $request->noi_dung;
-            $tintuc->trang_thai = $request->trang_thai;
+            $tintuc->ngay = $request->ngay;
 
             // Lưu tin tức vào cơ sở dữ liệu
             $tintuc->save();
@@ -208,6 +235,7 @@ class TintucController extends Controller
             return response()->json(['error' => 'Đã có lỗi xảy ra. Vui lòng thử lại!'], 500);
         }
     }
+
 
 
     public function destroy($ma_tin_tuc)
@@ -234,4 +262,24 @@ class TintucController extends Controller
             return response()->json('Không có tin tức nào được chọn', 400);
         }
     }
+
+
+    public function updateNoiBat(Request $request)
+    {
+        $tinTuc = Tintuc::find($request->id);
+        $tinTuc->noi_bat = $request->noi_bat;
+        $tinTuc->save();
+
+        return response()->json(['success' => 'Trạng thái nổi bật đã được cập nhật.']);
+    }
+
+    public function updateTinhTrang(Request $request)
+    {
+        $tinTuc = Tintuc::find($request->id);
+        $tinTuc->tinh_trang = 'Đã duyệt';
+        $tinTuc->save();
+
+        return response()->json(['success' => 'Trạng thái đã được cập nhật.']);
+    }
+
 }

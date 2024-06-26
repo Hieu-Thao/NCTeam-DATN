@@ -125,7 +125,7 @@ table.dataTable thead > tr > td.dt-orderable-asc,
 table.dataTable thead > tr > td.dt-orderable-desc {
   cursor: pointer;
   text-align: center;
-  border-bottom: none !important; 
+  border-bottom: none !important;
 }
 
 table.dataTable thead > tr > th.dt-orderable-asc:hover, table.dataTable thead > tr > th.dt-orderable-desc:hover,
@@ -381,18 +381,41 @@ div.dt-container div.dt-length select {
   display: inline-block;
   margin-right: 0.5em;
 }
-div.dt-container div.dt-search label {
+/* div.dt-container div.dt-search label {
   font-weight: normal;
   white-space: nowrap;
   text-align: left;
   margin-bottom: 0;
-  display: none;
+   display: none;
+} */
+
+div.dt-container div.dt-search label {
+    background: #000000;
+    padding: 6px;
+    position: absolute;
+    left: 13px;
+    width: 30px;
+    height: 31px;
+    border-radius: 4px 0px 0px 4px;
+    display: flex;
+    align-items: center;
 }
-div.dt-container div.dt-search input {
+
+/* div.dt-container div.dt-search input {
   margin-left: 0.5em;
   display: inline-block;
-  width: auto;
+  width: 300px;
+} */
+
+div.dt-container div.dt-search input {
+ margin-left: -1px;
+    display: inline-block;
+    width: 400px;
+    border: 1.5px solid #00000055;
+    border-radius: 4px;
+    text-align: center;
 }
+
 div.dt-container div.dt-info {
   padding-top: 0.85em;
   white-space: nowrap;
@@ -485,8 +508,9 @@ div.dt-scroll-head table.table-bordered {
 }
 
 div.table-responsive > div.dt-container > div.row {
-  margin: 0;
-  margin: 15px 0px;
+    margin: 0;
+    margin-top: 15px;
+    margin-bottom: 25px;
 }
 div.table-responsive > div.dt-container > div.row > div[class^=col-]:first-child {
   padding-left: 0;

@@ -7,16 +7,34 @@ use App\Models\Congtrinh;
 use App\Models\LoaiCongTrinh;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
+use Auth;
+
 
 class CongtrinhController extends Controller
 {
 
     public function congtrinh()
     {
-        $congtrinh = Congtrinh::all();
+        // $congtrinh = Congtrinh::all();
+        // $user = Auth::user();
+        // $vai_tro = $user->vai_tro;
 
-        // Truyền dữ liệu đến view
-        return view('admin.cong-trinh.congtrinh', compact('congtrinh'));
+        // // Truyền dữ liệu đến view
+        // return view('admin.cong-trinh.congtrinh', compact('congtrinh', 'vai_tro'));
+
+        $user = Auth::user();
+        $vai_tro = $user->vai_tro;
+
+        if ($vai_tro === 'Trưởng nhóm' || $vai_tro === 'Phó nhóm') {
+            // Show all cong trinhs
+            $congtrinh = Congtrinh::all();
+        } else {
+            // Show cong trinhs that the user is associated with
+            $congtrinh = $user->congTrinhs;
+        }
+
+        // Pass data to view
+        return view('admin.cong-trinh.congtrinh', compact('congtrinh', 'vai_tro'));
     }
 
 

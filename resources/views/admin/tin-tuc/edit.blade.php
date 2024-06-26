@@ -61,9 +61,10 @@
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật tin tức</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form method="post" name="edit" action="{{ route('tintuc.update', $tintuc->ma_tin_tuc) }}">
+            <form name="edit" method="POST" action="{{ route('tintuc.update', $tintuc->ma_tin_tuc) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
                 <div>
                     <div class="roww">
                         <div class="coll">
@@ -77,6 +78,20 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="coll">
+                            <label class="td-input">Loại tin tức:</label>
+                            <select name="loai_tin_tuc" id="loai_tin_tuc">
+                                <option value="" disabled selected hidden>-- Chọn loại tin tức --</option>
+                                @foreach ($loaitintuc as $ltt)
+                                    <option value="{{ $ltt->ma_loai_tt }}"
+                                        {{ $tintuc->ma_loai_tt == $ltt->ma_loai_tt ? 'selected' : '' }}>
+                                        {{ $ltt->ten_loai_tt }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Tên tin tức:</label>
                             <input type="text" name="ten_tin_tuc" id="ten_tin_tuc" value="{{ $tintuc->ten_tin_tuc }}" />
@@ -99,6 +114,10 @@
                         </div>
                     </div>
                     <div class="roww">
+                        <div class="coll">
+                            <label class="td-input">Ngày đăng:</label>
+                            <input type="date" name="ngay" id="ngay" value="{{ $tintuc->ngay }}" />
+                        </div>
                         <div class="coll">
                             <label class="td-input">Trạng thái:</label>
                             <select name="trang_thai" id="trang_thai">
@@ -145,6 +164,7 @@
         $(document).ready(function() {
             $('form[name="edit"]').on('submit', function(e) {
                 e.preventDefault();
+
                 if (!kiemtra()) {
                     return false;
                 }
@@ -158,12 +178,13 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('/tintuc/' . $tintuc->ma_tin_tuc) }}',
+                    url: '{{ route('tintuc.update', $tintuc->ma_tin_tuc) }}', // Sử dụng route đã định nghĩa với phương thức PUT
                     data: formData,
                     processData: false,
                     contentType: false,
                     headers: {
-                        'X-HTTP-Method-Override': 'PUT'
+                        'X-HTTP-Method-Override': 'PUT', // Gửi phương thức PUT qua header
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     success: function(response) {
                         if (response === "success") {

@@ -87,7 +87,7 @@
             </div>
         </div>
         <div style="background: rgb(255, 255, 255); width:100%; height: 30px; display: flex; align-items: center; justify-content: center;">
-            <label style="font-size: 13px; color: #003285;">&copy; Bản quyền thuộc Hithaoz</label>
+            <label style="font-size: 13px; color: #003285;">&copy; Bản quyền thuộc HT</label>
         </div>
 
         {{-- End footer --}}

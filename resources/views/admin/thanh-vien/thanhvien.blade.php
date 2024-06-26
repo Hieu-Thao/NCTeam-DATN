@@ -71,7 +71,9 @@
                                 <td>{{ $tv->so_dien_thoai }}</td>
                                 {{-- <td>{{ $tv->hoc_ham_hoc_vi }}</td> --}}
                                 {{-- <td>{{ $tv->noi_cong_tac }}</td> --}}
-                                <td>{{ $tv->vai_tro }}</td>
+                                <td @if ($tv->vai_tro == 'Trưởng nhóm') style="font-weight: 600" @endif>
+                                    {{ $tv->vai_tro }}
+                                </td>
                                 <td>{{ $tv->email }}</td>
 
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center;">
@@ -119,7 +121,7 @@
                     "lengthMenu": "Hiển thị _MENU_ mục",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
-                    "search": "Tìm kiếm",
+                    "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
                     "zeroRecords": "Không tìm thấy kết quả phù hợp",
                     "paginate": {
                         "first": "Đầu",
@@ -142,6 +144,8 @@
                 ]
             });
         });
+
+
 
         function callAlert(title, icon, timer, text) {
             Swal.fire({
@@ -273,7 +277,7 @@
                     <p><strong>Học hàm:</strong> ${response.hoc_ham}</p>
                     <p><strong>Học vị:</strong> ${response.hoc_vi}</p>
                     <p><strong>Nơi công tác:</strong> ${response.noi_cong_tac}</p>
-                    
+
                 </div>
             `;
 

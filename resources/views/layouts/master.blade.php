@@ -16,6 +16,12 @@
     <!-- Thêm tài nguyên CSS của SweetAlert -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <!-- CSS Bootstrap Switch -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css">
+
+
+
 
 
 
@@ -118,30 +124,16 @@
                                 <span class="hide-menu">Ý tưởng mới</span>
                             </a>
                         </li>
-                        @if (Auth::user()->ma_quyen == 1)
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" href="/tintuc" aria-expanded="false">
-                                    <span>
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/news.png') }}"
-                                            width="21px" height="21px" alt="News Icon">
-                                    </span>
-                                    <span class="hide-menu">Tin tức</span>
-                                </a>
-                            </li>
-                            <li class="nav-small-cap">
-                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                <span class="hide-menu">THỐNG KÊ</span>
-                            </li>
-                            <li class="sidebar-item">
-                                <a class="sidebar-link" href="\thongke" aria-expanded="false">
-                                    <span>
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/chart-bar.png') }}"
-                                            width="21px" height="21px" alt="Chart Bar Icon">
-                                    </span>
-                                    <span class="hide-menu">Thống kê báo cáo</span>
-                                </a>
-                            </li>
-                        @endif
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/tintuc" aria-expanded="false">
+                                <span>
+                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/news.png') }}"
+                                        width="21px" height="21px" alt="News Icon">
+                                </span>
+                                <span class="hide-menu">Tin tức</span>
+                            </a>
+                        </li>
+
                         {{-- <li class="sidebar-item">
                             <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
                                 <span>
@@ -164,6 +156,24 @@
                                 <span class="hide-menu">Đăng ký bài báo cáo</span>
                             </a>
                         </li>
+
+                        @if (Auth::user()->ma_quyen == 1 || Auth::user()->vai_tro == "Trưởng nhóm")
+                            <li class="nav-small-cap">
+                                <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                                <span class="hide-menu">THỐNG KÊ</span>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="\thongke" aria-expanded="false">
+                                    <span>
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/chart-bar.png') }}"
+                                            width="21px" height="21px" alt="Chart Bar Icon">
+                                    </span>
+                                    <span class="hide-menu">Thống kê báo cáo</span>
+                                </a>
+                            </li>
+                        @endif
+
+
                     </ul>
                 </nav>
             </div>
@@ -215,29 +225,31 @@
                                             </p>
                                         </div>
                                         <div class="dp-items-top">
-                                        <a href="/thanhvien/canhan"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
-                                            <img src="{{ asset('/assets/css/icons/tabler-icons/img/user.png') }}"
-                                        width="15px" height="15px" alt="User Icon">
-                                            <p class="mb-0 fs-3">Tài khoản của tôi</p>
-                                        </a>
-                                        <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
-                                            <img src="{{ asset('/assets/css/icons/tabler-icons/img/bell.png') }}"
-                                        width="15px" height="15px" alt="User Icon">
-                                            <p class="mb-0 fs-3">Thông báo</p>
-                                        </a>
-                                        {{-- <a href="javascript:void(0)"
+                                            <a href="/thanhvien/canhan"
+                                                class="d-flex align-items-center gap-2 dropdown-item">
+                                                <img src="{{ asset('/assets/css/icons/tabler-icons/img/user.png') }}"
+                                                    width="15px" height="15px" alt="User Icon">
+                                                <p class="mb-0 fs-3">Tài khoản của tôi</p>
+                                            </a>
+                                            <a href="javascript:void(0)"
+                                                class="d-flex align-items-center gap-2 dropdown-item">
+                                                <img src="{{ asset('/assets/css/icons/tabler-icons/img/bell.png') }}"
+                                                    width="15px" height="15px" alt="User Icon">
+                                                <p class="mb-0 fs-3">Thông báo</p>
+                                            </a>
+                                            {{-- <a href="javascript:void(0)"
                                             class="d-flex align-items-center gap-2 dropdown-item">
                                             <i class="ti ti-list-check fs-6"></i>
                                             <p class="mb-0 fs-3">Lịch báo cáo</p>
                                         </a> --}}
-                                        {{-- <a href="/login" class="btn btn-outline-primary mx-3 mt-2 d-block">Đăng
+                                            {{-- <a href="/login" class="btn btn-outline-primary mx-3 mt-2 d-block">Đăng
                                             xuất</a> --}}
                                         </div>
-                                        <form action="{{ route('logout') }}" method="POST" style="display: flex; justify-content: center;">
+                                        <form action="{{ route('logout') }}" method="POST"
+                                            style="display: flex; justify-content: center;">
                                             @csrf
-                                            <button style="display: flex; width: 90%; justify-content: center;" type="submit" class="btn btn-outline-primary">Đăng xuất</button>
+                                            <button style="display: flex; width: 90%; justify-content: center;"
+                                                type="submit" class="btn btn-outline-primary">Đăng xuất</button>
                                         </form>
                                     </div>
                                 </div>
@@ -265,7 +277,7 @@
                 </div>
             </div>
             <div class="py-6 px-6 text-center border-top">
-                <p class="mb-0 fs-4">Design by <span style="color: #5d87ff; font-weight:600;">Hithaoz</span></p>
+                <p class="mb-0 fs-4">Design by <span style="color: #5d87ff; font-weight:600;">Hieuthao</span></p>
             </div>
 
         </div>
@@ -289,6 +301,9 @@
     {{-- <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
     <script src="https://cdn.ckeditor.com/4.16.2/full/ckeditor.js"></script> --}}
 
+
+    <!-- JS Bootstrap Switch -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js"></script>
 
 
 

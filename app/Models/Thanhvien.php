@@ -56,5 +56,11 @@ class Thanhvien extends Model implements AuthenticatableContract
                     ->orderByDesc('ngay_bao_cao'); // Sắp xếp theo ngày báo cáo giảm dần
     }
 
+
+    public function congTrinhs()
+    {
+        return $this->belongsToMany(Congtrinh::class, 'tham_gia', 'ma_thanh_vien', 'ma_cong_trinh');
+    }
+
 }
 
