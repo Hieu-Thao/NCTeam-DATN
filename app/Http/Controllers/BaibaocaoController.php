@@ -8,6 +8,7 @@ use App\Models\Thanhvien;
 use App\Models\Lichbaocao;
 use Illuminate\Support\Facades\Validator;
 use Auth;
+use App\Models\Log;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -249,6 +250,12 @@ class BaibaocaoController extends Controller
                     ->subject('Thông báo đăng ký bài báo cáo mới');
             });
         }
+
+        //Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Đăng ký bài báo cáo có mã = ' . $baibaocao->ma_bai_bao_cao . '',
+        ]);
 
         // Trả về response sau khi lưu thành công
         return response()->json('success', 200);

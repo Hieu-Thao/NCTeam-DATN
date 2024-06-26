@@ -134,6 +134,17 @@
                             </a>
                         </li>
 
+                        @if (Auth::user()->ma_quyen == 1)
+                        <li class="sidebar-item">
+                            <a class="sidebar-link" href="/logs" aria-expanded="false">
+                                <span>
+                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/brand-tabler.png') }}"
+                                        width="21px" height="21px" alt="News Icon">
+                                </span>
+                                <span class="hide-menu">Nhật ký hoạt động</span>
+                            </a>
+                        </li>
+                        @endif
                         {{-- <li class="sidebar-item">
                             <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
                                 <span>

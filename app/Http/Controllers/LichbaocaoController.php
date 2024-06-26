@@ -7,6 +7,7 @@ use App\Models\Lichbaocao;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
 use Auth;
+use App\Models\Log;
 
 class LichbaocaoController extends Controller
 {
@@ -75,6 +76,12 @@ class LichbaocaoController extends Controller
 
         $lichbaocao->save();
 
+        //Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Thêm lịch báo cáo mới có mã = ' . $lichbaocao->ma_lich . '',
+        ]);
+
         return response()->json('success', 200);
     }
 
@@ -127,9 +134,15 @@ class LichbaocaoController extends Controller
         $lichbaocao->thoi_gian_ket_thuc = $request->thoi_gian_ket_thuc;
         // $lichbaocao->trang_thai = 'Chưa báo cáo';
 
-
         // Lưu bản ghi
         $lichbaocao->save();
+
+        //Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Sửa lịch báo cáo có mã = ' . $lichbaocao->ma_lich . '',
+        ]);
+
 
         // Trả về thông báo thành công
         return response()->json('success', 200);

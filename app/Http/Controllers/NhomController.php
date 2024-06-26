@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Nhom;
-
+use App\Models\Log;
+use Auth;
 
 class NhomController extends Controller
 {
@@ -41,10 +42,17 @@ class NhomController extends Controller
     {
         try {
             $request->validate([
+
                 'ten_nhom' => 'required|unique:nhom',
             ]);
 
-            Nhom::create($request->only('ten_nhom'));
+            $nhom = Nhom::create($request->only('ten_nhom'));
+
+            //Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Thêm nhóm mới có mã = ' . $nhom->ma_nhom . '',
+            ]);
 
             return response()->json(['success' => true]); // Trả về kết quả thành công
         } catch (\Exception $e) {
@@ -96,6 +104,12 @@ class NhomController extends Controller
 
             $nhom = Nhom::findOrFail($request->ma_nhom);
             $nhom->update(['ten_nhom' => $request->ten_nhom]);
+
+            //Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Sửa nhóm có mã = ' . $nhom->ma_nhom . '',
+            ]);
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {

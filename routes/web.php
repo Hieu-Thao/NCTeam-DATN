@@ -13,6 +13,7 @@ use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ThamgiaController;
 use App\Http\Controllers\LoaiTinTucController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\LogsController;
 use App\Models\Baibaocao;
 use App\Models\Congtrinh;
 use App\Models\Lichbaocao;
@@ -398,6 +399,11 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     Route::get('/dangkybbc', [BaibaocaoController::class, 'dangkybbc']);
     Route::get('/dangkybbc/{ma_lich}', [BaibaocaoController::class, 'getLichBaoCao']);
     Route::post('/dangkybbc', [BaibaocaoController::class, 'storedk']);
+
+
+
+    Route::get('/logs', [LogsController::class, 'index'])->name('logs.index');
+
 
 });
 

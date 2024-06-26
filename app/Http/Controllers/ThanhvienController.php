@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Storage;
+use App\Models\Log;
 
 
 class ThanhvienController extends Controller
@@ -115,6 +116,12 @@ class ThanhvienController extends Controller
             // Lưu thành viên vào cơ sở dữ liệu
             $ThanhVien->save();
 
+            //Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Thêm thành viên mới có mã = ' . $ThanhVien->ma_thanh_vien . '',
+            ]);
+
             // Trả về response sau khi lưu thành công
             return response()->json('success', 200);
         } catch (\Exception $e) {
@@ -202,6 +209,12 @@ class ThanhvienController extends Controller
             // Lưu thông tin thành viên vào cơ sở dữ liệu
             $thanhVien->save();
 
+            //Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Sửa thành viên có mã = ' . $thanhVien->ma_thanh_vien . '',
+            ]);
+
             // Trả về response sau khi cập nhật thành công
             return response()->json('success', 200);
 
@@ -226,22 +239,39 @@ class ThanhvienController extends Controller
         // Thực hiện xóa
         $thanhVien->delete();
 
+        //Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Xóa thành viên có mã = ' . $thanhVien->ma_thanh_vien . '',
+        ]);
+
         // Trả về thông báo xóa thành công hoặc gì đó nếu cần
         return response()->json('Xóa thành viên thành công', 200);
     }
 
 
     public function deleteMultiple(Request $request)
-    {
-        $mathanhvienArray = $request->input('ma_thanh_vien');
+{
+    $mathanhvienArray = $request->input('ma_thanh_vien');
 
-        if (!empty($mathanhvienArray)) {
-            Thanhvien::whereIn('ma_thanh_vien', $mathanhvienArray)->delete();
-            return response()->json('Xóa thành viên thành công', 200);
-        } else {
-            return response()->json('Không có thành viên nào được chọn', 400);
-        }
+    if (!empty($mathanhvienArray)) {
+        Thanhvien::whereIn('ma_thanh_vien', $mathanhvienArray)->delete();
+
+        // Chuyển đổi mảng thành chuỗi để ghi log
+        $mathanhvienString = implode(', ', $mathanhvienArray);
+
+        // Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Xóa thành viên có mã = ' . $mathanhvienString,
+        ]);
+
+        return response()->json('Xóa thành viên thành công', 200);
+    } else {
+        return response()->json('Không có thành viên nào được chọn', 400);
     }
+}
+
 
 
 }
