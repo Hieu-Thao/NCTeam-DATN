@@ -15,25 +15,23 @@ class CongtrinhController extends Controller
 
     public function congtrinh()
     {
-        // $congtrinh = Congtrinh::all();
-        // $user = Auth::user();
-        // $vai_tro = $user->vai_tro;
-
-        // // Truyền dữ liệu đến view
-        // return view('admin.cong-trinh.congtrinh', compact('congtrinh', 'vai_tro'));
-
         $user = Auth::user();
         $vai_tro = $user->vai_tro;
 
-        if ($vai_tro === 'Trưởng nhóm' || $vai_tro === 'Phó nhóm') {
-            // Show all cong trinhs
+        if ($user->ma_quyen == 1) {
+            // Nếu quyền là admin, hiển thị tất cả công trình
             $congtrinh = Congtrinh::all();
+        } elseif ($vai_tro === 'Trưởng nhóm' || $vai_tro === 'Phó nhóm') {
+            // Nếu vai trò là trưởng nhóm hoặc phó nhóm, hiển thị tất cả công trình trong cùng nhóm
+            $congtrinh = Congtrinh::whereHas('thanhViens', function ($query) use ($user) {
+                $query->where('ma_nhom', $user->ma_nhom);
+            })->get();
         } else {
-            // Show cong trinhs that the user is associated with
+            // Nếu vai trò là thành viên, chỉ hiển thị công trình mà người dùng tham gia
             $congtrinh = $user->congTrinhs;
         }
 
-        // Pass data to view
+        // Truyền dữ liệu đến view
         return view('admin.cong-trinh.congtrinh', compact('congtrinh', 'vai_tro'));
     }
 

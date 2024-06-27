@@ -59,7 +59,7 @@
                             {{-- <th>Link gốc bài báo cáo</th>
                                 <th>File PPT</th> --}}
                             <th>Trạng thái</th>
-                            @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                            @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                 <th>Duyệt</th>
                             @endif
                             <th></th>
@@ -85,7 +85,7 @@
                                         <p class="btn btn-secondary btn-sm">Đã đăng ký</p>
                                     @endif
                                 </td>
-                                @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                     <td>@if ($bbc->trang_thai != 'Đã duyệt')
                                         <button type="button" class="btn btn-danger btn-sm">
                                             <img src="../assets/css/icons/tabler-icons/img/check.png" width="15px" height="15px">
@@ -93,7 +93,7 @@
                                     @endif</td>
                                 @endif
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
-                                    @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                    @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                         {{-- <a href="{{ route('baibaocao.edit', $bbc->ma_bai_bao_cao) }}"
                                             class="btn btn-primary btn-sm" id="btnz">
                                             <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"

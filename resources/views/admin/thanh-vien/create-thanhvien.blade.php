@@ -155,6 +155,7 @@
                                 <option value="Trưởng nhóm">Trưởng nhóm</option>
                                 <option value="Phó nhóm">Phó nhóm</option>
                                 <option value="Thành viên">Thành viên</option>
+                                <option value="Thành viên">Admin</option>
                             </select>
                         </div>
                         <div class="coll">

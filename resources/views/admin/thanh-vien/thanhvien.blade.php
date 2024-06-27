@@ -20,7 +20,7 @@
             </button>
         </div> --}}
 
-        @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+        @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
             <div class="card-btn btn-btnn" style="#">
                 <a href="/thanhvien/create-thanhvien">
                     <button type="button" class="btn btn-success btn-sm" id="btnz">
@@ -38,7 +38,7 @@
                 <table id="thanhvien" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
-                            @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                            @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                 <th>
                                     <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
                                 </th>
@@ -57,7 +57,7 @@
                     <tbody>
                         @foreach ($thanhviens as $tv)
                             <tr>
-                                @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                     <td>
                                         <input type="checkbox" name="checkbox[]" value="{{ $tv->ma_thanh_vien }}"
                                             class="edit-checkbox">
@@ -77,7 +77,7 @@
                                 <td>{{ $tv->email }}</td>
 
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center;">
-                                    @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                    @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                         <a href="{{ route('thanhvien.edit', $tv->ma_thanh_vien) }}"
                                             class="btn btn-primary btn-sm" id="btnz">
                                             <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"

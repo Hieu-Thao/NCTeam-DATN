@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Baibaocao;
 use Illuminate\Http\Request;
 use App\Models\Ytuongmoi;
+use App\Models\Thanhvien;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 
@@ -17,19 +18,22 @@ class YtuongmoiController extends Controller
      */
     public function ytuongmoi()
     {
-        // $ytuongmoi = Ytuongmoi::all();
-        // $ytuongmoi = Ytuongmoi::with('BaiBaoCao')->get();
-
-        // $baibaocao = Baibaocao::all();
-
-        // // Truyền dữ liệu đến view
-        // return view('admin.y-tuong-moi.ytuongmoi', compact('ytuongmoi', 'baibaocao'));
-
         $user = Auth::user();
 
-        if ($user->vai_tro == 'Trưởng nhóm' || $user->vai_tro == 'Phó nhóm') {
+        if ($user->ma_quyen == 1) {
+            // Nếu là admin thì xem tất cả
             $ytuongmoi = Ytuongmoi::with('BaiBaoCao')->get();
+        } elseif ($user->vai_tro == 'Trưởng nhóm' || $user->vai_tro == 'Phó nhóm') {
+            // Nếu là Trưởng nhóm hoặc Phó nhóm thì xem các bài báo cáo của thành viên trong cùng nhóm
+            $ytuongmoi = Ytuongmoi::whereHas('BaiBaoCao', function ($query) use ($user) {
+                $query->whereIn('ma_thanh_vien', function ($query) use ($user) {
+                    $query->select('ma_thanh_vien')
+                        ->from('thanh_vien')
+                        ->where('ma_nhom', $user->ma_nhom);
+                });
+            })->with('BaiBaoCao')->get();
         } else {
+            // Nếu là Thành viên thì chỉ xem các bài báo cáo của chính mình
             $ytuongmoi = Ytuongmoi::whereHas('BaiBaoCao', function ($query) use ($user) {
                 $query->where('ma_thanh_vien', $user->ma_thanh_vien);
             })->with('BaiBaoCao')->get();
@@ -40,6 +44,8 @@ class YtuongmoiController extends Controller
         // Pass data to the view
         return view('admin.y-tuong-moi.ytuongmoi', compact('ytuongmoi', 'baibaocao'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.

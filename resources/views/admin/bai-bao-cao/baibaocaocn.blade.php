@@ -79,17 +79,14 @@
                                         <button type="button" class="btn btn-secondary btn-sm">Đã đăng ký</button>
                                     @endif
                                 </td>
-                                @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                                    <td><button type="button" class="btn btn-info btn-sm">Duyệt</button></td>
-                                @endif
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
-                                    @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                                        <a href="{{ route('baibaocao.edit', $bbc->ma_bai_bao_cao) }}"
+
+                                        <a href="#"
                                             class="btn btn-primary btn-sm" id="btnz">
                                             <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
                                                 height="15px">
                                         </a>
-                                    @endif
+
 
                                     {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"></button> --}}
                                     <button type="button" class="btn btn-warning btn-sm" id="btnz"

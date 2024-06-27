@@ -139,6 +139,8 @@
                                     nhóm</option>
                                 <option value="Thành viên" {{ $thanhvien->vai_tro === 'Thành viên' ? 'selected' : '' }}>
                                     Thành viên</option>
+                                <option value="Admin" {{ $thanhvien->vai_tro === 'Admin' ? 'selected' : '' }}>
+                                        Admin</option>
                             </select>
                         </div>
                         <div class="coll">

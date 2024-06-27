@@ -109,7 +109,7 @@
                             {{-- <th>Nội dung</th> --}}
                             {{-- <th>Hình ảnh</th> --}}
                             <th>Tình trạng</th>
-                            @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                            @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                 <th>Nổi bật</th>
                             @endif
                             <th>Trạng thái</th>
@@ -136,14 +136,14 @@
                                                 src="../assets/css/icons/tabler-icons/img/check.png" width="15px"
                                                 height="15px"></p>
                                     @elseif($tt->tinh_trang == 'Chờ duyệt')
-                                        @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                        @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                             <button class="btn-cho-duyet" data-id="{{ $tt->ma_tin_tuc }}">Chờ duyệt</button>
                                         @else
                                             <p style="font-weight: 500; color: #5d87ff;">Chờ duyệt</p>
                                         @endif
                                     @endif
                                 </td>
-                                @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                     <td>
                                         <label class="switch">
                                             <input type="checkbox" class="toggle-noibat" data-id="{{ $tt->ma_tin_tuc }}"

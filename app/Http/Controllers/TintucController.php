@@ -22,9 +22,14 @@ class TintucController extends Controller
     {
         $user = Auth::user();
 
-        if (in_array($user->vai_tro, ['Trưởng nhóm', 'Phó nhóm'])) {
-            // Nếu vai trò là trưởng nhóm hoặc phó nhóm, hiển thị tất cả tin tức
+        if ($user->ma_quyen == 1) {
+            // Nếu quyền là admin, hiển thị tất cả tin tức
             $tintuc = Tintuc::with('ThanhVien')->get();
+        } elseif (in_array($user->vai_tro, ['Trưởng nhóm', 'Phó nhóm'])) {
+            // Nếu vai trò là trưởng nhóm hoặc phó nhóm, hiển thị tất cả tin tức trong cùng nhóm
+            $tintuc = Tintuc::whereHas('ThanhVien', function ($query) use ($user) {
+                $query->where('ma_nhom', $user->ma_nhom);
+            })->with('ThanhVien')->get();
         } else {
             // Nếu vai trò là thành viên, chỉ hiển thị tin tức có mã của họ
             $tintuc = Tintuc::where('ma_thanh_vien', $user->ma_thanh_vien)
@@ -32,12 +37,12 @@ class TintucController extends Controller
                 ->get();
         }
 
-        $user = Auth::user();
         $vai_tro = $user->vai_tro;
 
         // Truyền dữ liệu đến view
         return view('admin.tin-tuc.tintuc', compact('tintuc', 'vai_tro'));
     }
+
 
 
     public function index()

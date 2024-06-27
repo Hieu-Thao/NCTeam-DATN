@@ -14,7 +14,7 @@
             <h4>Danh sách công trình</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
-            @if($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+           @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
             <a href="/congtrinh/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
                         src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
@@ -71,7 +71,7 @@
                                     @endif
                                 </td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
-                                    @if($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                   @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                     <a href="{{ route('congtrinh.edit', $ct->ma_cong_trinh) }}"
                                         class="btn btn-primary btn-sm" id="btnz">
                                         <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
