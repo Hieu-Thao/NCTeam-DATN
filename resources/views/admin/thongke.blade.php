@@ -1,3 +1,4 @@
+<!-- resources/views/thongke.blade.php -->
 @extends('layouts.master')
 @section('title', 'Danh sách thành viên')
 @section('parent')
@@ -6,103 +7,130 @@
 @section('child')
     <a href="/thanhvien"> Danh sách tin tức</a>
 @endsection
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.charts.load("current", {
+        packages: ["corechart"]
+    });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Tên Thành Viên', 'Số Lượng Bài Báo Cáo'],
+            @foreach ($topThanhViens as $thanhVien)
+                ['{{ $thanhVien->ho_ten }}', {{ $thanhVien->bai_bao_cao_count }}],
+            @endforeach
+        ]);
+
+        var options = {
+            is3D: true,
+            width: 600,
+            height: 350,
+            chartArea: {
+                left: 70,
+                top: 50,
+                width: '80%',
+                height: '80%'
+            },
+            legend: {
+                textStyle: {
+                    fontSize: 14
+                }
+            }
+        };
+
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+        chart.draw(data, options);
+    }
+</script>
 @section('content')
-    <!--  Header End -->
-    <div class="container">
-        <!--  Row 1 -->
-        <div class="row">
-            <div class="col-lg-8 d-flex align-items-strech">
-                <div class="card w-100">
-                    <div class="card-body">
-                        <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
-                            <div class="mb-3 mb-sm-0">
-                                <h5 class="card-title fw-semibold">Sales Overview</h5>
-                            </div>
-                            <div>
-                                <select class="form-select">
-                                    <option value="1">March 2023</option>
-                                    <option value="2">April 2023</option>
-                                    <option value="3">May 2023</option>
-                                    <option value="4">June 2023</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div id="chart"></div>
-                    </div>
-                </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <div style="display: flex;flex-direction: row;">
+        <div class="container">
+            <div class="card-title">
+                <h4>Thống kê bài báo cáo</h4>
             </div>
-            <div class="col-lg-4">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <!-- Yearly Breakup -->
-                        <div class="card overflow-hidden">
-                            <div class="card-body p-4">
-                                <h5 class="card-title mb-9 fw-semibold">Yearly Breakup</h5>
-                                <div class="row align-items-center">
-                                    <div class="col-8">
-                                        <h4 class="fw-semibold mb-3">$36,358</h4>
-                                        <div class="d-flex align-items-center mb-3">
-                                            <span
-                                                class="me-1 rounded-circle bg-light-success round-20 d-flex align-items-center justify-content-center">
-                                                <i class="ti ti-arrow-up-left text-success"></i>
-                                            </span>
-                                            <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                                            <p class="fs-3 mb-0">last year</p>
-                                        </div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="me-4">
-                                                <span class="round-8 bg-primary rounded-circle me-2 d-inline-block"></span>
-                                                <span class="fs-2">2023</span>
-                                            </div>
-                                            <div>
-                                                <span
-                                                    class="round-8 bg-light-primary rounded-circle me-2 d-inline-block"></span>
-                                                <span class="fs-2">2023</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="d-flex justify-content-center">
-                                            <div id="breakup"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-12">
-                        <!-- Monthly Earnings -->
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="row alig n-items-start">
-                                    <div class="col-8">
-                                        <h5 class="card-title mb-9 fw-semibold"> Monthly Earnings </h5>
-                                        <h4 class="fw-semibold mb-3">$6,820</h4>
-                                        <div class="d-flex align-items-center pb-1">
-                                            <span
-                                                class="me-2 rounded-circle bg-light-danger round-20 d-flex align-items-center justify-content-center">
-                                                <i class="ti ti-arrow-down-right text-danger"></i>
-                                            </span>
-                                            <p class="text-dark me-1 fs-3 mb-0">+9%</p>
-                                            <p class="fs-3 mb-0">last year</p>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="d-flex justify-content-end">
-                                            <div
-                                                class="text-white bg-secondary rounded-circle p-6 d-flex align-items-center justify-content-center">
-                                                <i class="ti ti-currency-dollar fs-6"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
+            <div class="tb">
+                <div class="table-responsive">
+                    <table id="thongke" class="table table-bordered w-100 text-nowrap table-hover">
+                        <thead>
+                            <tr>
+                                <th>Tên thành viên</th>
+                                <th>Số lượng bài báo cáo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($thanhViens as $tv)
+                                <tr>
+                                    <td>{{ $tv->ho_ten }}</td>
+                                    <td>{{ $tv->bai_bao_cao_count }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
+        <div class="container">
+            <div>
+                <div class="sl-tkbbc">
+                    <!-- Form chọn năm -->
+                    <form action="{{ route('thongke') }}" method="GET">
+                        <label for="year">Chọn năm:</label>
+                        <select class="btnsl-tkbbc" name="year" id="year" onchange="this.form.submit()">
+                            @foreach ($years as $year)
+                                <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
+                                    {{ $year }}</option>
+                            @endforeach
+                        </select>
+                    </form>
+                </div>
+                <!-- Biểu đồ tròn hiển thị top 10 thành viên có nhiều bài báo cáo nhất -->
+                <label class="td-chart">Top 10 Thành Viên Có Nhiều Bài Báo Cáo Nhất</label>
+                <div id="piechart_3d" style="width: 600px; height: 400px;"></div>
+            </div>
+        </div>
     </div>
-    @endsection
-    @push('scripts')
-    @endpush
+@endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#thongke').DataTable({
+                language: {
+                    "decimal": "",
+                    "emptyTable": "Không có dữ liệu",
+                    "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ mục",
+                    "infoEmpty": "Đang hiển thị 0 đến 0 của 0 mục",
+                    "infoFiltered": "(đã lọc từ tổng số _MAX_ mục)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "loadingRecords": "Đang tải...",
+                    "processing": "Đang xử lý...",
+                    "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
+                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Tiếp",
+                        "previous": "Trước"
+                    },
+                    "aria": {
+                        "sortAscending": ": sắp xếp tăng dần",
+                        "sortDescending": ": sắp xếp giảm dần"
+                    },
+                    "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
+                },
+                "pageLength": 10,
+                //"searching":false
+                "columnDefs": [{
+                        "orderable": false,
+                        "targets": 0
+                    }, // Disable sorting on the first column (checkbox column)
+                ]
+            });
+        });
+    </script>
+@endpush

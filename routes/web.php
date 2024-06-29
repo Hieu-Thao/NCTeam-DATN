@@ -14,6 +14,7 @@ use App\Http\Controllers\ThamgiaController;
 use App\Http\Controllers\LoaiTinTucController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LogsController;
+use App\Http\Controllers\ThongKeController;
 use App\Models\Baibaocao;
 use App\Models\Congtrinh;
 use App\Models\Lichbaocao;
@@ -403,6 +404,10 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
 
     Route::get('/logs', [LogsController::class, 'index'])->name('logs.index');
+
+
+    Route::get('/thongke', [ThongKeController::class, 'thongKeBaoCao'])->name('thongke');
+
 
 
 });

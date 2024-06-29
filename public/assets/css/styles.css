@@ -21039,3 +21039,24 @@ html {
     font-size: 13px;
     border-radius: 5px;
 }
+
+.td-chart{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.sl-tkbbc{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.btnsl-tkbbc{
+    height: 25px;
+    border-color: lightgray;
+    width: 65px;
+    border-radius: 5px;
+}

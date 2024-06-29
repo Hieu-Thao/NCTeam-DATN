@@ -62,5 +62,15 @@ class Thanhvien extends Model implements AuthenticatableContract
         return $this->belongsToMany(Congtrinh::class, 'tham_gia', 'ma_thanh_vien', 'ma_cong_trinh');
     }
 
+    public function baiBaoCao()
+    {
+        return $this->hasMany(BaiBaoCao::class, 'ma_thanh_vien', 'ma_thanh_vien');
+    }
+
+    public function ytuongmois()
+    {
+        return $this->hasMany(Ytuongmoi::class, 'ma_bai_bao_cao', 'ma_thanh_vien');
+    }
+
 }
 

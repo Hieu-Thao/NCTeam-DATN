@@ -176,10 +176,19 @@
                             <li class="sidebar-item">
                                 <a class="sidebar-link" href="\thongke" aria-expanded="false">
                                     <span>
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/chart-pie.png') }}"
+                                            width="21px" height="21px" alt="Chart Bar Icon">
+                                    </span>
+                                    <span class="hide-menu">Bài báo cáo</span>
+                                </a>
+                            </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/thongkeytm" aria-expanded="false">
+                                    <span>
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/chart-bar.png') }}"
                                             width="21px" height="21px" alt="Chart Bar Icon">
                                     </span>
-                                    <span class="hide-menu">Thống kê báo cáo</span>
+                                    <span class="hide-menu">Ý tưởng mới</span>
                                 </a>
                             </li>
                         @endif
