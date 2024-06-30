@@ -13,9 +13,7 @@ class ThamgiaController extends Controller
 
     // public function thamgia()
     // {
-    //     $thamgia = Thamgia::with(['CongTrinh', 'ThanhVien'])->get(); // Sử dụng with() để eager loading các mối quan hệ
-
-    //     // Truyền dữ liệu đến view
+    //     $thamgia = Thamgia::with(['CongTrinh', 'ThanhVien'])->get();
     //     return view('admin.cong-trinh.thamgia', compact('thamgia'));
     // }
 
@@ -24,7 +22,6 @@ class ThamgiaController extends Controller
         $ma_cong_trinh = $request->input('ma_cong_trinh');
         $thamgia = ThamGia::where('ma_cong_trinh', $ma_cong_trinh)->get();
 
-        // Truyền dữ liệu đến view
         return view('admin.tham-gia.thamgia', compact('thamgia'));
     }
 
@@ -57,17 +54,14 @@ class ThamgiaController extends Controller
         ]);
 
         try {
-            // Tạo mới tham gia công trình
             $thamGia = new ThamGia();
             $thamGia->ma_thanh_vien = $request->input('thanh_vien');
             $thamGia->ma_cong_trinh = $request->input('cong_trinh');
             $thamGia->save();
 
-            // Return success response
             return response()->json('success', 200);
 
         } catch (\Exception $e) {
-            // Log the exception and return an error response
             \Log::error('Error creating participation: ' . $e->getMessage());
             return response()->json(['error' => 'Internal Server Error'], 500);
         }

@@ -62,7 +62,6 @@ class LichbaocaoController extends Controller
 
         $formattedDate = Carbon::parse($request->ngay_bao_cao)->format('dmY');
 
-        // Tạo tên lịch báo cáo từ ngay_bao_cao và dia_diem
         $ten_lich_bao_cao = 'Lịch báo cáo - ' . $formattedDate . ' - ' . $request->dia_diem . ' - ' . $request->thoi_gian_bat_dau . ' - ' . $request->thoi_gian_ket_thuc;
 
         $lichbaocao = new Lichbaocao([
@@ -103,7 +102,7 @@ class LichbaocaoController extends Controller
 
     public function update(Request $request, $ma_lich)
     {
-        // Sử dụng Validator để kiểm tra dữ liệu đầu vào
+
         $validator = Validator::make($request->all(), [
             // 'ten_lich_bao_cao' => 'required|string|max:255|unique:lich_bao_cao,ten_lich_bao_cao,' . $ma_lich . ',ma_lich',
             'ngay_bao_cao' => 'required|date',
@@ -113,20 +112,16 @@ class LichbaocaoController extends Controller
 
         ]);
 
-        // Nếu validator thất bại, trả về lỗi
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
         $formattedDate = Carbon::parse($request->ngay_bao_cao)->format('dmY');
 
-        // Tạo tên lịch báo cáo từ ngay_bao_cao và dia_diem
         $ten_lich_bao_cao = 'Lịch báo cáo - ' . $formattedDate . ' - ' . $request->dia_diem . ' - ' . $request->thoi_gian_bat_dau . ' - ' . $request->thoi_gian_ket_thuc;
 
-        // Tìm bản ghi lịch báo cáo theo mã lịch
         $lichbaocao = LichBaoCao::findOrFail($ma_lich);
 
-        // Cập nhật dữ liệu lịch báo cáo
         $lichbaocao->ten_lich_bao_cao = $ten_lich_bao_cao;
         $lichbaocao->ngay_bao_cao = $request->ngay_bao_cao;
         $lichbaocao->dia_diem = $request->dia_diem;
@@ -134,7 +129,6 @@ class LichbaocaoController extends Controller
         $lichbaocao->thoi_gian_ket_thuc = $request->thoi_gian_ket_thuc;
         // $lichbaocao->trang_thai = 'Chưa báo cáo';
 
-        // Lưu bản ghi
         $lichbaocao->save();
 
         //Ghi logs
@@ -143,8 +137,6 @@ class LichbaocaoController extends Controller
             'activity' => 'Sửa lịch báo cáo có mã = ' . $lichbaocao->ma_lich . '',
         ]);
 
-
-        // Trả về thông báo thành công
         return response()->json('success', 200);
     }
 

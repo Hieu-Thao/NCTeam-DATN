@@ -54,13 +54,13 @@ class NhomController extends Controller
                 'activity' => 'Thêm nhóm mới có mã = ' . $nhom->ma_nhom . '',
             ]);
 
-            return response()->json(['success' => true]); // Trả về kết quả thành công
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
             \Log::error($e->getMessage());
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                return response()->json(['duplicate' => true]); // Trả về kết quả trùng lặp
+                return response()->json(['duplicate' => true]);
             }
-            return response()->json(['error' => true]); // Trả về kết quả lỗi chung
+            return response()->json(['error' => true]);
         }
     }
 

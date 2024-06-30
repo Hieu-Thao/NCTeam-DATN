@@ -34,4 +34,9 @@ class Baibaocao extends Model
     {
         return $this->belongsTo(Lichbaocao::class, 'ma_lich', 'ma_lich');
     }
+
+    public function binhluans()
+{
+    return $this->hasMany(BinhLuan::class, 'ma_bai_bao_cao', 'ma_bai_bao_cao');
+}
 }

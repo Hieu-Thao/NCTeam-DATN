@@ -188,7 +188,7 @@
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/chart-bar.png') }}"
                                             width="21px" height="21px" alt="Chart Bar Icon">
                                     </span>
-                                    <span class="hide-menu">Ý tưởng mới</span>
+                                    <span class="hide-menu">Công trình</span>
                                 </a>
                             </li>
                         @endif

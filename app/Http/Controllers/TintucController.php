@@ -85,15 +85,12 @@ class TintucController extends Controller
             $tintuc->noi_dung = strip_tags(html_entity_decode($tintuc->noi_dung));
         }
 
-        // Lấy tất cả dữ liệu từ bảng loai_tin_tuc
         $loaitintucs = Loaitintuc::all();
 
-        // Nếu là yêu cầu AJAX, trả về chỉ phần nội dung
         if ($request->ajax()) {
             return view('partials.load-tin-tuc', compact('tintucs'))->render();
         }
 
-        // Trả dữ liệu về view
         return view('trangchu.tt-tin-tuc', compact('tintucs', 'loaitintucs'));
     }
 
@@ -114,7 +111,6 @@ class TintucController extends Controller
 
     public function store(Request $request)
     {
-        // Validate dữ liệu từ form
         $validator = Validator::make($request->all(), [
             'thanh_vien' => 'required',
             'loai_tin_tuc' => 'required',
@@ -130,13 +126,11 @@ class TintucController extends Controller
         }
 
         try {
-            // Xử lý upload file
             if ($request->hasFile('hinh_anh')) {
                 $file = $request->file('hinh_anh');
                 $path = $file->store('uploads', 'public'); // Lưu file vào thư mục public/uploads
             }
 
-            // Tạo mới tin tức
             $tintuc = new Tintuc([
                 'ma_thanh_vien' => $request->thanh_vien,
                 'ma_loai_tt' => $request->loai_tin_tuc,
@@ -149,14 +143,11 @@ class TintucController extends Controller
                 'tinh_trang' => 'Chờ duyệt',
             ]);
 
-            // Lưu tin tức vào cơ sở dữ liệu
             $tintuc->save();
 
-            // Trả về response sau khi lưu thành công
             return response()->json(['message' => 'success'], 200);
 
         } catch (\Exception $e) {
-            // Log lỗi chi tiết
             \Log::error('Error in storing tin tuc: ' . $e->getMessage());
             return response()->json(['error' => 'Đã có lỗi xảy ra. Vui lòng thử lại!'], 500);
         }
@@ -186,14 +177,12 @@ class TintucController extends Controller
 
         $loaitintuc = Loaitintuc::all();
 
-        // Pass thông tin thành viên và các dữ liệu khác cần thiết tới view
         return view('admin.tin-tuc.edit', compact('tintuc', 'thanhvien', 'loaitintuc'));
     }
 
 
     public function update(Request $request, $ma_tin_tuc)
     {
-        // Validate dữ liệu từ form
         $validator = Validator::make($request->all(), [
             'thanh_vien' => 'required',
             'loai_tin_tuc' => 'required',
@@ -215,27 +204,22 @@ class TintucController extends Controller
         try {
             $tintuc = Tintuc::findOrFail($ma_tin_tuc);
 
-            // Xử lý upload file
             if ($request->hasFile('hinh_anh')) {
                 $file = $request->file('hinh_anh');
                 $path = $file->store('uploads', 'public'); // Lưu file vào thư mục public/uploads
                 $tintuc->hinh_anh = $path;
             }
 
-            // Cập nhật tin tức
             $tintuc->ma_thanh_vien = $request->thanh_vien;
             $tintuc->ma_loai_tt = $request->loai_tin_tuc;
             $tintuc->ten_tin_tuc = $request->ten_tin_tuc;
             $tintuc->noi_dung = $request->noi_dung;
             $tintuc->ngay = $request->ngay;
 
-            // Lưu tin tức vào cơ sở dữ liệu
             $tintuc->save();
 
-            // Trả về response sau khi lưu thành công
             return response()->json('success', 200);
         } catch (\Exception $e) {
-            // Log lỗi chi tiết
             \Log::error('Error in updating tin tuc: ' . $e->getMessage());
             return response()->json(['error' => 'Đã có lỗi xảy ra. Vui lòng thử lại!'], 500);
         }
@@ -245,13 +229,10 @@ class TintucController extends Controller
 
     public function destroy($ma_tin_tuc)
     {
-        // Tìm thành viên cần xóa
         $tintuc = Tintuc::findOrFail($ma_tin_tuc);
 
-        // Thực hiện xóa
         $tintuc->delete();
 
-        // Trả về thông báo xóa thành công hoặc gì đó nếu cần
         return response()->json('Xóa tin tức thành công', 200);
     }
 

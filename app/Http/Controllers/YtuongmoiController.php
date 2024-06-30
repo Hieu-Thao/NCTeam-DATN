@@ -41,7 +41,6 @@ class YtuongmoiController extends Controller
 
         $baibaocao = Baibaocao::all();
 
-        // Pass data to the view
         return view('admin.y-tuong-moi.ytuongmoi', compact('ytuongmoi', 'baibaocao'));
     }
 
@@ -57,8 +56,6 @@ class YtuongmoiController extends Controller
         $baibaocao = Baibaocao::all();
         return view('admin.y-tuong-moi.create', compact('baibaocao'));
     }
-
-    // app/Http/Controllers/YtuongmoiController.php
 
     public function getYtuongmoi($id)
     {
@@ -79,7 +76,6 @@ class YtuongmoiController extends Controller
 
     public function store(Request $request)
     {
-        // Validate dữ liệu từ form
         $validator = Validator::make($request->all(), [
             'bai_bao_cao' => 'required',
             'noi_dung' => 'required|string',
@@ -91,7 +87,6 @@ class YtuongmoiController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        // Tạo mới công trình
         $ytuongmoi = new Ytuongmoi([
             'ma_bai_bao_cao' => $request->bai_bao_cao,
             'noi_dung' => $request->noi_dung,
@@ -99,10 +94,8 @@ class YtuongmoiController extends Controller
             'trang_thai' => $request->trang_thai,
         ]);
 
-        // Lưu công trình vào cơ sở dữ liệu
         $ytuongmoi->save();
 
-        // Trả về response sau khi lưu thành công
         return response()->json('success', 200);
     }
 
@@ -154,13 +147,10 @@ class YtuongmoiController extends Controller
 
     public function destroy($ma_y_tuong_moi)
     {
-        // Tìm thành viên cần xóa
         $ytuongmoi = Ytuongmoi::findOrFail($ma_y_tuong_moi);
 
-        // Thực hiện xóa
         $ytuongmoi->delete();
 
-        // Trả về thông báo xóa thành công hoặc gì đó nếu cần
         return response()->json('Xóa ý tưởng thành công', 200);
     }
 

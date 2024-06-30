@@ -49,7 +49,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        if (Auth::check()) { // Kiểm tra nếu người dùng đã đăng nhập
+        if (Auth::check()) { 
             // Ghi logs
             // Log::create([
             //     'user_id' => Auth::user()->id,
@@ -61,7 +61,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');  // Chuyển hướng về trang chủ sau khi đăng xuất
+        return redirect('/');
     }
 
 

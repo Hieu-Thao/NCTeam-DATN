@@ -40,18 +40,18 @@ class LoaicongtrinhController extends Controller
     {
         try {
             $request->validate([
-                'ten_loai' => 'required|unique:loai_cong_trinh,ten_loai', // Sửa lại tên bảng và tên trường
+                'ten_loai' => 'required|unique:loai_cong_trinh,ten_loai',
             ]);
 
             Loaicongtrinh::create($request->only('ten_loai'));
 
-            return response()->json(['success' => true]); // Trả về kết quả thành công
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
             // \Log::error($e->getMessage());
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
-                return response()->json(['duplicate' => true]); // Trả về kết quả trùng lặp
+                return response()->json(['duplicate' => true]);
             }
-            return response()->json(['error' => true]); // Trả về kết quả lỗi chung
+            return response()->json(['error' => true]); 
         }
     }
 

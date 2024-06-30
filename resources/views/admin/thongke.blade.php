@@ -1,4 +1,3 @@
-<!-- resources/views/thongke.blade.php -->
 @extends('layouts.master')
 @section('title', 'Danh sách thành viên')
 @section('parent')

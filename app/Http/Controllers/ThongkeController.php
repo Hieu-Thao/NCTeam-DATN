@@ -15,11 +15,10 @@ class ThongkeController extends Controller
 {
     public function thongKeBaoCao(Request $request)
     {
-        $user = Auth::user(); // Lấy thông tin người dùng đăng nhập
+        $user = Auth::user();
 
         $selectedYear = $request->input('year', date('Y')); // Mặc định là năm hiện tại
 
-        // Kiểm tra vai trò của người dùng
         if ($user->ma_quyen == 1) {
             // Nếu là admin, lấy tất cả các thành viên và đếm số lượng báo cáo của họ
             $thanhViens = ThanhVien::withCount([

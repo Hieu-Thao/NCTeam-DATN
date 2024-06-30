@@ -169,25 +169,22 @@
         }
 
 
-        // Trong hàm gửi Ajax
         $(document).ready(function() {
             $('form[name="create"]').on('submit', function(e) {
                 e.preventDefault();
 
-                var formData = new FormData(this); // Ensure 'this' refers to the form element
+                var formData = new FormData(this);
 
-                // Show overlay or loader
                 $('#overlay').show();
 
                 $.ajax({
                     type: 'POST',
                     url: '{{ url('/dangkybbc') }}',
                     data: formData,
-                    contentType: false, // Ensure to set contentType and processData to false for FormData
+                    contentType: false,
                     processData: false,
                     success: function(response) {
                         if (response === "success") {
-                            // If registration successful
                             callAlert('Đăng ký thành công!', 'success', '1500', '');
                             setTimeout(() => {
                                 window.location.href = '/baibaocao';
@@ -196,7 +193,6 @@
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
-                        // Handle request error
                         var response = JSON.parse(xhr.responseText);
                         if (response.ten_bai_bao_cao) {
                             callAlert(response.ten_bai_bao_cao, 'error', '1500', '');
@@ -209,7 +205,6 @@
                         }
                     },
                     complete: function() {
-                        // Hide overlay or loader
                         $('#overlay').hide();
                     }
                 });
@@ -228,15 +223,11 @@
                 const selectedMaLich = this.value;
 
                 if (selectedMaLich) {
-                    // Gửi yêu cầu AJAX đến server
                     $.ajax({
                         url: `/dangkybbc/${selectedMaLich}`,
                         type: 'GET',
                         success: function(response) {
-                            // Định dạng lại ngày thành dạng DD-MM-YYYY
                             const ngayBaoCaoFormatted = formatDate(response.ngay_bao_cao);
-
-                            // Cập nhật nội dung của các thẻ `label` trong `tt-lich` bằng dữ liệu từ server
                             document.getElementById('ngay-bao-cao').textContent =
                                 ngayBaoCaoFormatted;
                             document.getElementById('dia-diem').textContent = response.dia_diem;
@@ -253,10 +244,7 @@
                         }
                     });
                 } else {
-                    // Nếu không chọn lịch báo cáo thì ẩn div tt-lich
                     ttLichDiv.style.display = 'none';
-
-                    // Đặt lại nội dung các label về trạng thái ban đầu nếu cần
                     document.getElementById('ngay-bao-cao').textContent = '';
                     document.getElementById('dia-diem').textContent = '';
                     document.getElementById('bat-dau').textContent = '';
@@ -264,7 +252,6 @@
                 }
             });
 
-            // Hàm định dạng ngày thành dạng DD-MM-YYYY
             function formatDate(dateString) {
                 const dateObject = new Date(dateString);
                 const day = dateObject.getDate().toString().padStart(2, '0');

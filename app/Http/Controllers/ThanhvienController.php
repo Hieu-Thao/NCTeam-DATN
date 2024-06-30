@@ -37,14 +37,13 @@ class ThanhvienController extends Controller
 
         $vai_tro = $user->vai_tro;
 
-        // Pass data to the view
         return view('admin.thanh-vien.thanhvien', compact('thanhviens', 'vai_tro'));
     }
 
     public function canhan()
     {
         $user = Auth::user();
-        $user->load(['nhom', 'lichbaocao']);  // Tải thông tin nhóm liên quan cho người dùng hiện tại
+        $user->load(['nhom', 'lichbaocao']);
 
         return view('admin.thanh-vien.canhan', compact('user'));
     }
@@ -71,7 +70,6 @@ class ThanhvienController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate dữ liệu từ form
         $validator = Validator::make($request->all(), [
             'nhom' => 'required|exists:nhom,ma_nhom',
             'ho_ten' => 'required|string|max:255',
@@ -91,7 +89,6 @@ class ThanhvienController extends Controller
         }
 
         try {
-            // Xử lý upload file ảnh đại diện nếu có
             $path = null;
             if ($request->hasFile('anh_dai_dien')) {
                 $file = $request->file('anh_dai_dien');
@@ -113,7 +110,6 @@ class ThanhvienController extends Controller
                 'anh_dai_dien' => $path ?? null,
             ]);
 
-            // Lưu thành viên vào cơ sở dữ liệu
             $ThanhVien->save();
 
             //Ghi logs
@@ -122,10 +118,8 @@ class ThanhvienController extends Controller
                 'activity' => 'Thêm thành viên mới có mã = ' . $ThanhVien->ma_thanh_vien . '',
             ]);
 
-            // Trả về response sau khi lưu thành công
             return response()->json('success', 200);
         } catch (\Exception $e) {
-            // Log lỗi chi tiết
             \Log::error('Error in storing thành viên: ' . $e->getMessage());
             return response()->json(['error' => 'Đã có lỗi xảy ra. Vui lòng thử lại!'], 500);
         }
@@ -141,20 +135,17 @@ class ThanhvienController extends Controller
 
     public function edit($ma_thanh_vien)
     {
-        // Lấy thông tin của thành viên cần chỉnh sửa từ database dựa trên 'ma_thanh_vien'
         $thanhvien = ThanhVien::where('ma_thanh_vien', $ma_thanh_vien)->firstOrFail();
 
         $nhom = Nhom::all();
         $quyen = Quyen::all();
 
-        // Pass thông tin thành viên và các dữ liệu khác cần thiết tới view
         return view('admin.thanh-vien.edit', compact('thanhvien', 'nhom', 'quyen'));
     }
 
 
     public function update(Request $request, $ma_thanh_vien)
     {
-        // Validate dữ liệu từ form
         $validator = Validator::make($request->all(), [
             'nhom' => 'required|exists:nhom,ma_nhom',
             'ho_ten' => 'required|string|max:255',
@@ -174,15 +165,7 @@ class ThanhvienController extends Controller
         }
 
         try {
-            // Find the member to update
             $thanhVien = Thanhvien::findOrFail($ma_thanh_vien);
-
-            // Handle file upload if there is a new file
-            // if ($request->hasFile('anh_dai_dien')) {
-            //     $file = $request->file('anh_dai_dien');
-            //     $path = $file->store('avatars', 'public'); // Lưu file vào thư mục public/avatars
-            //     $thanhVien->anh_dai_dien = $path; // Assign the stored file path to anh_dai_dien
-            // }
 
             if ($request->hasFile('anh_dai_dien')) {
                 $file = $request->file('anh_dai_dien');
@@ -190,7 +173,6 @@ class ThanhvienController extends Controller
                 $thanhVien->hinh_anh = $path;
             }
 
-            // Cập nhật thông tin thành viên
             $thanhVien->ho_ten = $request->ho_ten;
             $thanhVien->ma_nhom = $request->nhom;
             $thanhVien->so_dien_thoai = $request->so_dien_thoai;
@@ -206,7 +188,6 @@ class ThanhvienController extends Controller
 
             $thanhVien->ma_quyen = $request->quyen;
 
-            // Lưu thông tin thành viên vào cơ sở dữ liệu
             $thanhVien->save();
 
             //Ghi logs
@@ -215,11 +196,9 @@ class ThanhvienController extends Controller
                 'activity' => 'Sửa thành viên có mã = ' . $thanhVien->ma_thanh_vien . '',
             ]);
 
-            // Trả về response sau khi cập nhật thành công
             return response()->json('success', 200);
 
         } catch (\Exception $e) {
-            // Log lỗi chi tiết
             \Log::error('Error in updating thành viên: ' . $e->getMessage());
             return response()->json(['error' => 'Đã có lỗi xảy ra. Vui lòng thử lại!'], 500);
         }
@@ -233,10 +212,8 @@ class ThanhvienController extends Controller
 
     public function destroy($ma_thanh_vien)
     {
-        // Tìm thành viên cần xóa
         $thanhVien = ThanhVien::findOrFail($ma_thanh_vien);
 
-        // Thực hiện xóa
         $thanhVien->delete();
 
         //Ghi logs
@@ -245,32 +222,31 @@ class ThanhvienController extends Controller
             'activity' => 'Xóa thành viên có mã = ' . $thanhVien->ma_thanh_vien . '',
         ]);
 
-        // Trả về thông báo xóa thành công hoặc gì đó nếu cần
         return response()->json('Xóa thành viên thành công', 200);
     }
 
 
     public function deleteMultiple(Request $request)
-{
-    $mathanhvienArray = $request->input('ma_thanh_vien');
+    {
+        $mathanhvienArray = $request->input('ma_thanh_vien');
 
-    if (!empty($mathanhvienArray)) {
-        Thanhvien::whereIn('ma_thanh_vien', $mathanhvienArray)->delete();
+        if (!empty($mathanhvienArray)) {
+            Thanhvien::whereIn('ma_thanh_vien', $mathanhvienArray)->delete();
 
-        // Chuyển đổi mảng thành chuỗi để ghi log
-        $mathanhvienString = implode(', ', $mathanhvienArray);
+            // Chuyển đổi mảng thành chuỗi để ghi log
+            $mathanhvienString = implode(', ', $mathanhvienArray);
 
-        // Ghi logs
-        Log::create([
-            'user_id' => Auth::id(),
-            'activity' => 'Xóa thành viên có mã = ' . $mathanhvienString,
-        ]);
+            // Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Xóa thành viên có mã = ' . $mathanhvienString,
+            ]);
 
-        return response()->json('Xóa thành viên thành công', 200);
-    } else {
-        return response()->json('Không có thành viên nào được chọn', 400);
+            return response()->json('Xóa thành viên thành công', 200);
+        } else {
+            return response()->json('Không có thành viên nào được chọn', 400);
+        }
     }
-}
 
 
 

@@ -26,98 +26,224 @@
             background-color: #5d87ff !important;
             border-color: #5d87ff !important;
         }
+
+        .info-div {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            padding: 20px;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            max-height: 85%;
+            overflow-y: auto;
+        }
+
+        .info-div .close {
+            float: right;
+            cursor: pointer;
+        }
+
+        .info-div-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .media-bodyy {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .comment-input {
+            position: sticky;
+            bottom: -20px;
+            background-color: rgb(255, 255, 255);
+            padding: 10px;
+        }
+
+        .comments-container {
+            margin-left: 20px;
+        }
     </style>
 
     <div class="container">
         <div class="card-title">
             <h4>Danh sách bài báo cáo</h4>
         </div>
-        <div class="card-btn btn-btnn" style="#">
-            <a href="/baibaocao/baibaocaocn"><button type="button" class="btn btn-light btn-sm" id="btnz"><img
-                        src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px" height="15px"> Bài báo
-                    cáo của tôi</button></a>
-            {{-- <a href="/baibaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
-                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a> --}}
-
-            {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
-                <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
-            {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz">
-                <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px">Xóa</button> --}}
+        <div class="card-btn btn-btnn">
+            <a href="/baibaocao/baibaocaocn">
+                <button type="button" class="btn btn-light btn-sm" id="btnz">
+                    <img src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px" height="15px"> Bài báo
+                    cáo của tôi
+                </button>
+            </a>
         </div>
         <div class="tb">
             <div class="table-responsive">
                 <table id="baibaocao" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
-                            {{-- <th width="5%">
-                                <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
-                            </th> --}}
                             <th>STT</th>
                             <th>Thành viên</th>
                             <th width="10%">Tên bài báo cáo</th>
                             <th>Ngày báo cáo</th>
-                            {{-- <th>Link gốc bài báo cáo</th>
-                                <th>File PPT</th> --}}
                             <th>Trạng thái</th>
-                            @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                                <th>Duyệt</th>
-                            @endif
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($baibaocao as $bbc)
                             <tr>
-                                {{-- <td><input type="checkbox" name="checkbox[]"
-                                    value="{{ $bbc->ma_bai_bao_cao }}" class="edit-checkbox"></td> --}}
                                 <td>{{ $bbc->ma_bai_bao_cao }}</td>
                                 <td>{{ $bbc->ThanhVien->ho_ten }}</td>
                                 <td>{{ Str::limit($bbc->ten_bai_bao_cao, 60, '...') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($bbc->LichBaoCao->ngay_bao_cao)->format('d/m/Y') }}</td>
-                                {{-- <td>{{ $bbc->link_goc_bai_bao_cao }}</td>
-                                    <td>{{ $bbc->link_file_ppt }}</td> --}}
-                                {{-- <td>{{ $bbc->trang_thai }}</td> --}}
-                                <td>
-                                    @if ($bbc->trang_thai == 'Đã duyệt')
-                                        <p class="btn btn-success btn-sm" id="#">Đã
-                                            duyệt</p>
-                                    @elseif($bbc->trang_thai == 'Đã đăng ký')
-                                        <p class="btn btn-secondary btn-sm">Đã đăng ký</p>
-                                    @endif
-                                </td>
-                                @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                                    <td>@if ($bbc->trang_thai != 'Đã duyệt')
-                                        <button type="button" class="btn btn-danger btn-sm">
-                                            <img src="../assets/css/icons/tabler-icons/img/check.png" width="15px" height="15px">
-                                        </button>
-                                    @endif</td>
-                                @endif
+                                <td><span class="btn btn-success btn-sm">{{ $bbc->trang_thai }}</span></td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
-                                    @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                                        {{-- <a href="{{ route('baibaocao.edit', $bbc->ma_bai_bao_cao) }}"
-                                            class="btn btn-primary btn-sm" id="btnz">
-                                            <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
-                                                height="15px">
-                                        </a> --}}
-                                    @endif
-
-                                    {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"></button> --}}
-                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"
-                                        onclick="showMemberInfo('{{ $bbc->ma_bai_bao_cao }}')">
+                                    {{-- @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm') --}}
+                                    <button type="button" class="btn btn-warning btn-sm"
+                                        data-id="{{ $bbc->ma_bai_bao_cao }}"
+                                        onclick="showInfoDiv({{ $bbc->ma_bai_bao_cao }})">
                                         <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png"
                                             width="15px" height="15px">
                                     </button>
+                                    {{-- @endif --}}
                                 </td>
                             </tr>
+
+                            <!-- Info Div -->
+                            <div id="infoDiv{{ $bbc->ma_bai_bao_cao }}" class="info-div custom-scroll">
+                                <span class="close" onclick="hideInfoDiv({{ $bbc->ma_bai_bao_cao }})">&times;</span>
+                                <div class="popup-tt">
+                                    <p
+                                        style="font-size: 18px;text-align: center;font-weight: 700; color: #5D87FF; margin-bottom: 0px;">
+                                        THÔNG TIN BÀI BÁO CÁO</p>
+                                    <div class="pu-ttbbc">
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/user.png') }}" width="18px"
+                                            height="18px" alt="User Icon">
+                                        <p class="pu-td">Thành viên:</p>
+                                        <p class="pu-nd">{{ $bbc->ThanhVien->ho_ten }}</p>
+                                    </div>
+                                    <div class="pu-ttbbc">
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}"
+                                            width="18px" height="18px" alt="User Icon">
+                                        <p class="pu-td">Ngày báo cáo:</p>
+                                        <p class="pu-nd">
+                                            {{ \Carbon\Carbon::parse($bbc->LichBaoCao->ngay_bao_cao)->format('d/m/Y') }}
+                                        </p>
+                                    </div>
+                                    <div class="pu-ttbbc">
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/laptop.png') }}"
+                                            width="18px" height="18px" alt="User Icon">
+                                        <p class="pu-td">Tên bài báo cáo:</p>
+                                        <p class="pu-nd">{{ $bbc->ten_bai_bao_cao }}</p>
+                                    </div>
+
+                                    <div class="pu-ttbbc">
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/link.png') }}"
+                                            width="18px" height="18px" alt="User Icon">
+                                        <p class="pu-td">Link gốc bài báo cáo:</p>
+                                        <p class="pu-nd"><a style="color: #5D87FF; font-size:15px;"
+                                                href="{{ $bbc->link_goc_bai_bao_cao }}"
+                                                target="_blank">{{ $bbc->link_goc_bai_bao_cao }}</a></p>
+                                    </div>
+                                    <div class="pu-ttbbc">
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt.png') }}"
+                                            width="18px" height="18px" alt="User Icon">
+                                        <p class="pu-td">Link file PPT:</p>
+                                        <p class="pu-nd">
+                                            <a style="color: #5D87FF; font-size:15px;"
+                                                href="{{ asset('storage/' . $bbc->file_ppt) }}"
+                                                download="{{ basename($bbc->file_ppt) }}">
+                                                {{ basename($bbc->file_ppt) }}
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Bình luận -->
+                                <div
+                                    style="font-size: 16px; margin-top: 30px; color: #5D87FF; font-weight: 600; margin-left: 15px; margin-bottom: 20px;">
+                                    Tất cả bình luận
+                                </div>
+                                <div class="comments-container">
+                                    <!-- Các bình luận -->
+                                    @foreach ($bbc->binhluans as $binhluan)
+                                        <div class="comment">
+                                            <div class="media">
+                                                <img src="{{ asset('storage/' . $binhluan->thanhVien->anh_dai_dien) }}"
+                                                    class="mr-3 rounded-circle" width="40" height="40"
+                                                    alt="Avatar">
+                                                <div class="media-bodyy">
+                                                    <label
+                                                        style="font-size: 16px; font-weight: 600;">{{ $binhluan->thanhVien->ho_ten }}</label>
+                                                    <p>{{ $binhluan->noi_dung }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <!-- Form bình luận -->
+                                <div class="comment-input">
+                                    <form action="{{ route('binhluan.store') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="ma_bai_bao_cao" value="{{ $bbc->ma_bai_bao_cao }}">
+                                        <div class="form-group">
+
+                                            <textarea class="form-control" id="noi_dung" name="noi_dung" rows="3" placeholder="Viết bình luận..."></textarea>
+                                        </div>
+                                        <div style="position: absolute; z-index: 100; top: 50px; right: 20px;">
+                                            <button style="border: none; background: none;" type="submit"><img
+                                                    src="{{ asset('/assets/css/icons/tabler-icons/img/send.png') }}"
+                                                    width="25px" height="25px" alt="User Icon"></button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div></div>
+
+                            </div>
                         @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
+        <div class="info-div-overlay" id="infoDivOverlay" onclick="hideAllInfoDivs()"></div>
     </div>
+
 @endsection
+
 @push('scripts')
     <script>
+        function showInfoDiv(id) {
+            document.getElementById('infoDiv' + id).style.display = 'block';
+            document.getElementById('infoDivOverlay').style.display = 'block';
+        }
+
+        function hideInfoDiv(id) {
+            document.getElementById('infoDiv' + id).style.display = 'none';
+            document.getElementById('infoDivOverlay').style.display = 'none';
+        }
+
+        function hideAllInfoDivs() {
+            var infoDivs = document.querySelectorAll('.info-div');
+            infoDivs.forEach(function(div) {
+                div.style.display = 'none';
+            });
+            document.getElementById('infoDivOverlay').style.display = 'none';
+        }
+
         $(document).ready(function() {
             $('#baibaocao').DataTable({
                 language: {
@@ -146,49 +272,11 @@
                     "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
                 },
                 "pageLength": 10,
-                //"searching":false
                 "columnDefs": [{
-                        "orderable": false,
-                        "targets": 0
-                    }, // Disable sorting on the first column (checkbox column)
-                ]
+                    "orderable": false,
+                    "targets": 0
+                }]
             });
         });
-
-
-        //Hàm hiển thị thông tin thành viên
-        function showMemberInfo(ma_bai_bao_cao) {
-            $.ajax({
-                url: "/baibaocao/" + ma_bai_bao_cao,
-                type: "GET",
-                success: function(response) {
-                    var memberInfoHtml = `
-                <div>
-                    <p><strong>Mã bài báo cáo:</strong> ${response.ma_bai_bao_cao}</p>
-                    <p><strong>Thành viên:</strong> ${response.thanhvien.ho_ten}</p>
-                    <p><strong>Tên bài báo cáo:</strong> ${response.ten_bai_bao_cao}</p>
-                    <p><strong>Ngày báo cáo:</strong> ${response.ngay_bao_cao}</p>
-                    <p><strong>Link gốc bài báo cáo:</strong> <a style='color: #5D87FF;' href="${response.link_goc_bai_bao_cao}" target="_blank">${response.link_goc_bai_bao_cao}</a></p>
-                    <p><strong>Link file PPT:</strong> <a style='color: #5D87FF;' href="${response.link_file_ppt}" target="_blank">${response.link_file_ppt}</a></p>
-                    <p><strong>Trạng thái:</strong> ${response.trang_thai}</p>
-                </div>
-            `;
-
-                    Swal.fire({
-                        title: 'Thông tin ý tưởng mới',
-                        html: memberInfoHtml,
-                        // icon: 'info',
-                        showConfirmButton: false
-                    });
-                },
-                error: function(xhr, status, error) {
-                    Swal.fire({
-                        title: 'Không thể lấy thông tin ý tưởng mới!',
-                        icon: 'error',
-                        timer: 1500,
-                    });
-                }
-            });
-        }
     </script>
 @endpush
