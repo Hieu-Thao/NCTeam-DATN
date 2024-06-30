@@ -226,8 +226,8 @@
             var formData = $(this).serialize();
 
             $.ajax({
-                type: 'POST', // Sử dụng method PUT cho hành động chỉnh sửa
-                url: '/nhom/update', // Đường dẫn đến route xử lý chỉnh sửa
+                type: 'POST',
+                url: '/nhom/update', 
                 data: formData,
                 success: function(response) {
                     $('#editGroupModal').modal('hide');

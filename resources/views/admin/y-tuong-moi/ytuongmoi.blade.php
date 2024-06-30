@@ -258,7 +258,6 @@
         url: "/ytuongmoi/" + ma_y_tuong_moi,
         type: "GET",
         success: function(response) {
-            // Thay thế các ký tự xuống dòng bằng thẻ <br>
             var noidung = response.noi_dung.replace(/\n/g, '<br>');
 
             var memberInfoHtml = `
@@ -274,7 +273,6 @@
             Swal.fire({
                 title: 'Thông tin ý tưởng mới',
                 html: memberInfoHtml,
-                // icon: 'info',
                 showConfirmButton: false
             });
         },

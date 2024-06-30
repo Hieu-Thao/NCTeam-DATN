@@ -126,7 +126,7 @@
                         }
                     },
                     error: function(xhr) {
-                        console.error('Error:', xhr); // Log the error
+                        console.error('Error:', xhr); 
                         var response = JSON.parse(xhr.responseText);
                         if (response.error) {
                             callAlert('Lỗi máy chủ!', 'error', 1500, '');

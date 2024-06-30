@@ -194,7 +194,6 @@
                     }
                 },
                 error: function(response) {
-                    // Hiển thị thông báo lỗi bằng SweetAlert
                     callAlert('Có lỗi xảy ra, vui lòng thử lại!', 'error', 1500, '');
                 }
             });
@@ -216,13 +215,12 @@
         });
 
 
-        // Xử lý submit form chỉnh sửa nhóm bằng AJAX
         $('#editGroupForm').on('submit', function(e) {
             e.preventDefault();
             var formData = $(this).serialize();
             $.ajax({
-                type: 'POST', // Sử dụng method PUT cho hành động chỉnh sửa
-                url: '/congtrinh/loaicongtrinh/update', // Đường dẫn đến route xử lý chỉnh sửa
+                type: 'POST',
+                url: '/congtrinh/loaicongtrinh/update',
                 data: formData,
                 success: function(response) {
                     $('#editGroupModal').modal('hide');

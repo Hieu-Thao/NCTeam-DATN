@@ -133,11 +133,10 @@
                     "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
                 },
                 "pageLength": 10,
-                //"searching":false
                 "columnDefs": [{
                         "orderable": false,
                         "targets": 0
-                    }, // Disable sorting on the first column (checkbox column)
+                    },
                 ]
             });
         });

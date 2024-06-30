@@ -263,9 +263,6 @@
                 url: "/tintuc/" + ma_tin_tuc,
                 type: "GET",
                 success: function(response) {
-                    // Thay thế các ký tự xuống dòng bằng thẻ <br>
-                    // var noidung = response.noi_dung.replace(/\n/g, '<br>');
-
                     var memberInfoHtml = `
                 <div>
                     <p><strong>Mã tin tức:</strong> ${response.ma_tin_tuc}</p>
@@ -279,7 +276,6 @@
                     Swal.fire({
                         title: 'Thông tin ý tưởng mới',
                         html: memberInfoHtml,
-                        // icon: 'info',
                         showConfirmButton: false
                     });
                 },
@@ -381,8 +377,6 @@
             $(".toggle-noibat").on('change', function() {
                 var tinTucId = $(this).data('id');
                 var noiBat = $(this).is(':checked') ? 1 : 0;
-
-                // Gửi AJAX request để cập nhật trạng thái
                 $.ajax({
                     url: '{{ route('tintuc.updateNoiBat') }}',
                     method: 'POST',
@@ -406,7 +400,6 @@
         $(document).ready(function() {
             $(".btn-cho-duyet").on('click', function() {
                 var tinTucId = $(this).data('id');
-                // Gửi AJAX request để cập nhật trạng thái
                 $.ajax({
                     url: '{{ route('tintuc.updateTinhTrang') }}',
                     method: 'POST',
@@ -418,8 +411,8 @@
                         callAlert('Cập nhật thành công!', 'success', '1500', '');
                         setTimeout(function() {
                             location
-                        .reload(); // Tải lại trang để cập nhật trạng thái mới
-                        }, 1500); // Chờ 1.5 giây trước khi tải lại trang
+                        .reload();
+                        }, 1500);
                     },
                     error: function() {
                         callAlert('Có lỗi xảy ra khi cập nhật trạng thái', 'error', '1500', '');

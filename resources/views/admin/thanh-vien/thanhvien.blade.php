@@ -284,7 +284,6 @@
                     Swal.fire({
                         title: 'Thông tin thành viên',
                         html: memberInfoHtml,
-                        // icon: 'info',
                         showConfirmButton: false
                     });
                 },

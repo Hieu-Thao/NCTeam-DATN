@@ -173,25 +173,22 @@
         // }
 
         $(document).ready(function() {
-            // Function to handle both create and update form submissions
             $('form[name="create"], form[name="edit"]').on('submit', function(e) {
                 e.preventDefault();
 
                 var formData = new FormData(this);
-                var method = $(this).attr('method'); // GET method attribute
+                var method = $(this).attr('method'); 
 
-                // Show overlay or loader
                 $('#overlay').show();
 
                 $.ajax({
-                    type: method, // Use method attribute to determine GET or POST
-                    url: $(this).attr('action'), // Use form action attribute as URL
+                    type: method,
+                    url: $(this).attr('action'),
                     data: formData,
                     contentType: false,
                     processData: false,
                     success: function(response) {
                         if (response === "success") {
-                            // If registration successful
                             callAlert('Đăng ký thành công!', 'success', '1500', '');
                             setTimeout(() => {
                                 window.location.href = '/baibaocao';
@@ -200,7 +197,6 @@
                     },
                     error: function(xhr) {
                         console.log(xhr.responseText);
-                        // Handle request error
                         var response = JSON.parse(xhr.responseText);
                         if (response.ten_bai_bao_cao) {
                             callAlert(response.ten_bai_bao_cao, 'error', '1500', '');
@@ -213,7 +209,6 @@
                         }
                     },
                     complete: function() {
-                        // Hide overlay or loader
                         $('#overlay').hide();
                     }
                 });
@@ -230,24 +225,20 @@
             const selectLichBaoCao = document.getElementById('ngay_bao_cao');
             const ttLichDiv = document.getElementById('tt-lich');
 
-            // Hàm để gửi yêu cầu AJAX và cập nhật thông tin
             function fetchAndUpdateLichBaoCao(maLich) {
                 if (maLich) {
                     $.ajax({
                         url: `/dangkybbc/${maLich}`,
                         type: 'GET',
                         success: function(response) {
-                            // Định dạng lại ngày thành dạng DD-MM-YYYY
                             const ngayBaoCaoFormatted = formatDate(response.ngay_bao_cao);
 
-                            // Cập nhật nội dung của các thẻ `label` trong `tt-lich` bằng dữ liệu từ server
                             document.getElementById('ngay-bao-cao').textContent = ngayBaoCaoFormatted;
                             document.getElementById('dia-diem').textContent = response.dia_diem;
                             document.getElementById('bat-dau').textContent = response.thoi_gian_bat_dau;
                             document.getElementById('ket-thuc').textContent = response
                                 .thoi_gian_ket_thuc;
 
-                            // Hiển thị div tt-lich
                             ttLichDiv.style.display = 'block';
                         },
                         error: function(xhr) {

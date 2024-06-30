@@ -180,7 +180,6 @@
     </script>
 
     <script>
-        // Show or hide the button when scrolling
         window.addEventListener('scroll', function() {
             var menu = document.getElementById('menu');
             var backToTopBtn = document.getElementById('backToTop');
@@ -194,7 +193,6 @@
             }
         });
 
-        // Scroll to top when the button is clicked
         document.getElementById('backToTop').addEventListener('click', function() {
             window.scrollTo({
                 top: 0,

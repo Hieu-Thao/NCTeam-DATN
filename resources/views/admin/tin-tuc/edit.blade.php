@@ -168,8 +168,6 @@
                 if (!kiemtra()) {
                     return false;
                 }
-
-                // Update the textarea with the CKEditor content
                 for (instance in CKEDITOR.instances) {
                     CKEDITOR.instances[instance].updateElement();
                 }
@@ -178,12 +176,12 @@
 
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('tintuc.update', $tintuc->ma_tin_tuc) }}', // Sử dụng route đã định nghĩa với phương thức PUT
+                    url: '{{ route('tintuc.update', $tintuc->ma_tin_tuc) }}',
                     data: formData,
                     processData: false,
                     contentType: false,
                     headers: {
-                        'X-HTTP-Method-Override': 'PUT', // Gửi phương thức PUT qua header
+                        'X-HTTP-Method-Override': 'PUT',
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     success: function(response) {

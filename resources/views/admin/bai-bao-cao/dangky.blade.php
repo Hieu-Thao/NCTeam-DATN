@@ -236,7 +236,6 @@
                             document.getElementById('ket-thuc').textContent = response
                                 .thoi_gian_ket_thuc;
 
-                            // Hiển thị div tt-lich
                             ttLichDiv.style.display = 'block';
                         },
                         error: function(xhr) {

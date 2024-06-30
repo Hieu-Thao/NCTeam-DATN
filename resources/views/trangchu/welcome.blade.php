@@ -206,13 +206,10 @@
 
 
 
-    {{-- <h1>Welcome to the Home Page</h1>
-            <a href="{{ url('/login') }}">Login</a> --}}
-
     <script>
         window.onscroll = function() {
             const menu = document.getElementById("menu");
-            const sticky = 250; // Adjust this value to your needs
+            const sticky = 250;
             if (window.pageYOffset > sticky) {
                 menu.classList.add("fixed");
             } else {
@@ -236,12 +233,11 @@
                 myIndex = 1
             }
             x[myIndex - 1].style.display = "block";
-            setTimeout(carousel, 3000); // Change image every 2 seconds
+            setTimeout(carousel, 3000);
         }
     </script>
 
     <script>
-        // Show or hide the button when scrolling
         window.addEventListener('scroll', function() {
             var menu = document.getElementById('menu');
             var backToTopBtn = document.getElementById('backToTop');
@@ -255,7 +251,6 @@
             }
         });
 
-        // Scroll to top when the button is clicked
         document.getElementById('backToTop').addEventListener('click', function() {
             window.scrollTo({
                 top: 0,
