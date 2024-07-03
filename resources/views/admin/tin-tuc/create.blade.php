@@ -14,11 +14,11 @@
 
     <style>
         input:invalid {
-            border: solid 1.5px red;
+            border: solid 1.5px red !important;
         }
 
         select:invalid {
-            border: solid 1.5px red;
+            border: solid 1.5px red !important;
         }
     </style>
 
@@ -61,7 +61,8 @@
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Thêm mới tin tức</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form name="create" method="post" action="{{ url('/tintuc/create') }}" enctype="multipart/form-data">
+            <form name="create" onsubmit="return kiemtra();" method="post" action="{{ url('/tintuc/create') }}"
+                enctype="multipart/form-data">
                 @csrf
                 <div>
                     <div class="roww">
@@ -126,7 +127,8 @@
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" type="submit" name="submit" value="Lưu">
+                        <input class="btn btn-success" type="submit" name="submit" value="Lưu"
+                            onclick="return kiemtra();">
                         <a class="btn btn-secondary" href="/tintuc">Trở về</a>
                     </div>
                 </div>
@@ -166,7 +168,7 @@
                 }
 
                 // Update the textarea with the CKEditor content
-                for (instance in CKEDITOR.instances) {
+                for (var instance in CKEDITOR.instances) {
                     CKEDITOR.instances[instance].updateElement();
                 }
 
@@ -180,7 +182,7 @@
                     contentType: false,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('Thành công!', 'success', 1500, '');
+                            callAlert('Thêm tin tức thành công!', 'success', 1500, '');
                             setTimeout(() => {
                                 window.location.href = '/tintuc';
                             }, 1000);
@@ -198,4 +200,5 @@
                 });
             });
         });
+    </script>
 @endpush

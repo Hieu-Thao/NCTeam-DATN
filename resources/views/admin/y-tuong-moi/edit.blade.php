@@ -87,8 +87,8 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Hình ảnh:</label>
-                            <input type="text" name="hinh_anh" id="hinh_anh" value="{{ $ytuongmoi->hinh_anh }}"
-                                required />
+                            <input type="file" name="hinh_anh" id="hinh_anh" value="{{ $ytuongmoi->hinh_anh }}" />
+                            <label>Hình ảnh: &nbsp;{{ $ytuongmoi->hinh_anh }}"</label>
                         </div>
                         <div class="coll">
                             <label class="td-input">Trạng thái:</label>

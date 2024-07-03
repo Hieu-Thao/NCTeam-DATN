@@ -205,16 +205,27 @@ class BaibaocaoController extends Controller
         $lich_bao_cao = LichBaoCao::find($request->ngay_bao_cao);
         $ngay_bao_cao = $lich_bao_cao ? $lich_bao_cao->ngay_bao_cao : null;
 
-        $file_name = $ngay_bao_cao . '_' . $ho_ten . '_' . $request->ten_bai_bao_cao;
+        // $file_name = $ngay_bao_cao . '_' . $ho_ten . '_' . $request->ten_bai_bao_cao;
+        // $file_name = str_replace(' ', '', $file_name);
+
+        // $file_ppt_path = $request->file('file_ppt') ? $request->file('file_ppt')->storeAs('ppt', $file_name, 'public') : null;
+
+
+        $file_extension = $request->file('file_ppt')->getClientOriginalExtension();
+        $file_name = $ngay_bao_cao . '_' . $ho_ten . '_' . $request->ten_bai_bao_cao . '.' . $file_extension;
         $file_name = str_replace(' ', '', $file_name);
+
+        $file_ppt_path = $request->file('file_ppt') ? $request->file('file_ppt')->storeAs('ppt', $file_name, 'public') : null;
 
         $baibaocao = new Baibaocao([
             'ma_thanh_vien' => $ma_thanh_vien,
             'ten_bai_bao_cao' => $request->ten_bai_bao_cao,
             'ma_lich' => $request->ngay_bao_cao,
             'link_goc_bai_bao_cao' => $request->link_goc_bai_bao_cao,
-            'file_ppt' => $request->file('file_ppt') ? $request->file('file_ppt')->storeAs('public/ppt', $file_name) : null,
+            // 'file_ppt' => $request->file('file_ppt') ? $request->file('file_ppt')->storeAs('public/ppt', $file_name) : null,
+            'file_ppt' => $file_ppt_path,
             'trang_thai' => 'Đã đăng ký',
+
         ]);
 
         $baibaocao->save();

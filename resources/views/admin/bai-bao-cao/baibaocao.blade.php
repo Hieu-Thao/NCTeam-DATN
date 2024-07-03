@@ -163,11 +163,13 @@
                                             width="18px" height="18px" alt="User Icon">
                                         <p class="pu-td">Link file PPT:</p>
                                         <p class="pu-nd">
-                                            <a style="color: #5D87FF; font-size:15px;"
+                                            {{-- <a style="color: #5D87FF; font-size:15px;"
                                                 href="{{ asset('storage/' . $bbc->file_ppt) }}"
                                                 download="{{ basename($bbc->file_ppt) }}">
                                                 {{ basename($bbc->file_ppt) }}
-                                            </a>
+                                            </a> --}}
+                                            <a href="{{ asset('storage/' . $bbc->file_ppt) }}" download>Download PPT</a>
+
                                         </p>
                                     </div>
                                 </div>

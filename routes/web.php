@@ -16,6 +16,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\ThongKeController;
 use App\Http\Controllers\BinhLuanController;
+use App\Http\Controllers\ThamduController;
 use App\Models\Baibaocao;
 use App\Models\Congtrinh;
 use App\Models\Lichbaocao;
@@ -43,13 +44,7 @@ Route::get('/thanhvien/edit-thanhvien', function () {
 Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
 
 
-// Tham gia
-Route::prefix('/thamgia')->group(function () {
-    Route::get('/', [ThamgiaController::class, 'thamgia']);
-    Route::get('/create', [ThamgiaController::class, 'create']);
-    Route::post('/create', [ThamgiaController::class, 'store']);
 
-});
 
 
 
@@ -178,6 +173,23 @@ Route::middleware(['auth', 'role:2'])->group(function () {
         Route::put('/edit/{ma_bai_bao_cao}', [BaibaocaoController::class, 'update'])->name('baibaocao.update');
 
         Route::get('/{ma_bai_bao_cao}', [BaibaocaoController::class, 'show']);
+    });
+
+
+    // Tham gia
+    Route::prefix('/thamgia')->group(function () {
+        Route::get('/', [ThamgiaController::class, 'thamgia']);
+        Route::get('/create', [ThamgiaController::class, 'create']);
+        Route::post('/create', [ThamgiaController::class, 'store']);
+    });
+
+
+    // Tham dự
+    Route::prefix('/thamdu')->group(function () {
+        Route::get('/', [ThamduController::class, 'thamdu']);
+        Route::get('/create', [ThamduController::class, 'create']);
+        // Route::post('/create', [ThamgiaController::class, 'store']);
+
     });
 
     Route::get('/dangkybbc', [BaibaocaoController::class, 'dangkybbc']);

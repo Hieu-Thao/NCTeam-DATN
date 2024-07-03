@@ -14,11 +14,15 @@
 
     <style>
         input:invalid {
-            border: solid 1.5px red;
+            border: solid 1.5px red !important;
         }
 
         select:invalid {
-            border: solid 1.5px red;
+            border: solid 1.5px red !important;
+        }
+
+        textarea:invalid {
+            border: solid 1.5px red !important;
         }
 
         .overlay {
@@ -47,9 +51,9 @@
         }
 
         function kiemtra() {
-            if (document.forms["create"]["ten_bai_bao_cao"].value == "") {
-                callAlert('Vui lòng nhập tên bài báo cáo!', 'error', '1500', '');
-                document.forms["create"]["ten_bai_bao_cao"].setAttribute('required', 'required');
+            if (document.forms["create"]["link_goc_bai_bao_cao"].value == "") {
+                callAlert('Vui lòng nhập link gốc bài báo cáo!', 'error', '1500', '');
+                document.forms["create"]["link_goc_bai_bao_cao"].setAttribute('required', 'required');
                 return false;
             }
             return true;
@@ -61,7 +65,7 @@
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Đăng ký bài báo cáo</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form name="create" method="post" action="{{ url('/baibaocao/create') }}">
+            <form name="create" onsubmit="return kiemtra();" method="post" action="{{ url('/baibaocao/create') }}">
                 @csrf
                 <div>
                     <div class="roww">
@@ -140,7 +144,7 @@
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
                         <input class="btn btn-success" id="btnSubmit" style="height: 10%;" type="submit" name="submit"
-                            value="Đăng ký">
+                            value="Đăng ký" onclick="return kiemtra();">
                         {{-- <a class="btn btn-secondary" style="height: 10%;" href="/dangkybbc">Trở về</a> --}}
                     </div>
 

@@ -19,5 +19,16 @@ class Thamdu extends Model
 
     public $timestamps = false;
 
+    public function LichBaoCao()
+    {
+        return $this->belongsTo('App\Models\Lichbaocao', 'ma_lich', 'ma_lich');
+    }
+
+    public function ThanhVien()
+    {
+        return $this->belongsTo('App\Models\ThanhVien', 'ma_thanh_vien', 'ma_thanh_vien');
+    }
+
+
 
 }

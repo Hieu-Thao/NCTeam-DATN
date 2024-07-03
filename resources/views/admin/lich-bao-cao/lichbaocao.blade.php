@@ -14,15 +14,20 @@
             <h4>Danh sách lịch báo cáo</h4>
         </div>
         @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-        <div class="card-btn btn-btnn" style="#">
-            <a href="/lichbaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
-                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
-            {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
+            <div class="card-btn btn-btnn" style="#">
+                <a href="/lichbaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
+                            src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">
+                        Thêm</button></a>
+                {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
-            {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
+                {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
                 <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
             </button> --}}
-        </div>
+
+                <button type="button" class="btn btn-danger btn-sm" id="btnz">
+                    <img src="../assets/css/icons/tabler-icons/img/device-laptop.png" width="15px" height="15px"><a
+                        class="btn-cn" href="/thamdu/create">Tham dự seminar</a></button>
+            </div>
         @endif
         <div class="tb">
             <div class="table-responsive">
@@ -64,16 +69,21 @@
                                 </td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
                                     @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                                    <a href="{{ route('lichbaocao.edit', $lbc->ma_lich) }}" class="btn btn-primary btn-sm"
-                                        id="btnz">
-                                        <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
-                                            height="15px">
-                                    </a>
+                                        <a href="{{ route('lichbaocao.edit', $lbc->ma_lich) }}"
+                                            class="btn btn-primary btn-sm" id="btnz">
+                                            <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
+                                                height="15px">
+                                        </a>
                                     @endif
 
-                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"><img
+                                    {{-- <button type="button" class="btn btn-warning btn-sm" id="btnz"><img
                                             src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
-                                            height="15px"></button>
+                                            height="15px"></button> --}}
+                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"
+                                        onclick="viewThamDu('{{ $lbc->ma_lich}}')">
+                                        <img src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
+                                            height="15px">
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
@@ -233,6 +243,11 @@
                     });
                 }
             });
+        }
+
+
+        function viewThamDu(ma_lich) {
+            window.location.href = '/thamdu?ma_lich=' + ma_lich;
         }
     </script>
 @endpush

@@ -51,7 +51,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Thêm mới tham gia công trình</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Thêm thành viên tham gia công trình</h4>
         </div>
         <div style="padding-top: 20px;">
             <form name="create" method="post" action="{{ url('/thamgia/create') }}">
@@ -126,7 +126,7 @@
                         }
                     },
                     error: function(xhr) {
-                        console.error('Error:', xhr); 
+                        console.error('Error:', xhr);
                         var response = JSON.parse(xhr.responseText);
                         if (response.error) {
                             callAlert('Lỗi máy chủ!', 'error', 1500, '');

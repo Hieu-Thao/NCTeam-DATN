@@ -14,11 +14,11 @@
 
     <style>
         input:invalid {
-            border: solid 1.5px red;
+            border: solid 1.5px red !important;
         }
 
         select:invalid {
-            border: solid 1.5px red;
+            border: solid 1.5px red !important;
         }
     </style>
 
@@ -161,5 +161,4 @@
         // Đặt giá trị min của input là ngày hiện tại
         ngayBaoCaoInput.setAttribute("min", today);
     </script> --}}
-
 @endpush

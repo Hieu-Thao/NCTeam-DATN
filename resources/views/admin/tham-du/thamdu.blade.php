@@ -1,16 +1,16 @@
 @extends('layouts.master')
 @section('title', 'Danh sách nhóm')
 @section('parent')
-    <a href="/nhom">Tham gia công trình</a>
+    <a href="/nhom">Tham dự Seminar</a>
 @endsection
 @section('child')
-    <a href="/nhom">Danh sách tham gia công trình</a>
+    <a href="/nhom">Danh sách thành viên tham dự Seminar</a>
 @endsection
 @section('content')
 
     <div class="container">
         <div class="card-title">
-            <h4>Danh sách tham gia công trình</h4>
+            <h4>Danh sách thành viên tham dự Seminar</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
             {{-- <a href="/congtrinh/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
@@ -20,39 +20,41 @@
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
             <button type="button" class="btn btn-secondary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/arrow-narrow-left.png" width="15px" height="15px"><a
-                    class="btn-cn" href="/congtrinh">Trở về</a></button>
+                    class="btn-cn" href="/lichbaocao">Trở về</a></button>
         </div>
         <div class="tb">
             <div class="table-responsive">
                 <table id="thamgia" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
-                            <th>Mã CT</th>
-                            <th>Tên công trình</th>
+                            <th>Mã lịch</th>
+                            <th>Tên lịch báo cáo</th>
                             <th>Mã TV</th>
                             <th>Thành viên</th>
-                            {{-- <th></th> --}}
+                            <th>Vai trò</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($thamgia as $tg)
+                        @foreach ($thamdu as $td)
                             <tr>
-                                <td>{{ $tg->ma_cong_trinh }}</td>
-                                <td>{{ $tg->CongTrinh->ten_cong_trinh }}</td>
-                                <td>{{ $tg->ma_thanh_vien }}</td>
-                                <td>{{ $tg->ThanhVien->ho_ten }}</td>
-                                {{-- <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
+                                <td>{{ $td->ma_lich }}</td>
+                                <td>{{ $td->Lichbaocao->ten_lich_bao_cao }}</td>
+                                <td>{{ $td->ma_thanh_vien }}</td>
+                                <td>{{ $td->ThanhVien->ho_ten }}</td>
+                                <td>{{ $td->vai_tro }}</td>
+                                <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
                                     <a href="#"
                                         class="btn btn-primary btn-sm" id="btnz">
                                         <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
                                             height="15px">
                                     </a>
                                     <button type="button" class="btn btn-danger btn-sm" id="btnz"
-                                        onclick="deleteCT('{{ $tg->ma_cong_trinh }}')">
+                                        onclick="deleteCT('{{ $td->ma_lich }}')">
                                         <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
                                             height="15px">
                                     </button>
-                                </td> --}}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

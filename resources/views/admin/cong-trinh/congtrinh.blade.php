@@ -83,12 +83,12 @@
                                         <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
                                             height="15px">
                                     </button> --}}
-                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"
+                                    {{-- <button type="button" class="btn btn-warning btn-sm" id="btnz"
                                         onclick="showMemberInfo('{{ $ct->ma_cong_trinh }}')">
                                         <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png"
                                             width="15px" height="15px">
-                                    </button>
-                                    <button type="button" class="btn btn-success btn-sm" id="btnz"
+                                    </button> --}}
+                                    <button type="button" class="btn btn-warning btn-sm" id="btnz"
                                         onclick="viewThamGia('{{ $ct->ma_cong_trinh }}')">
                                         <img src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
                                             height="15px">

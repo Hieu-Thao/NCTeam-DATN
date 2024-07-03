@@ -117,7 +117,7 @@ class TintucController extends Controller
             'ten_tin_tuc' => 'required|string|max:255|unique:tin_tuc,ten_tin_tuc',
             'ngay' => 'required|date',
             'noi_dung' => 'required|string',
-            'hinh_anh' => 'required|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'hinh_anh' => 'required|file|mimes:jpeg,png,jpg,gif',
             'trang_thai' => 'required|string|max:255',
         ]);
 
@@ -145,7 +145,7 @@ class TintucController extends Controller
 
             $tintuc->save();
 
-            return response()->json(['message' => 'success'], 200);
+            return response()->json('success', 200);
 
         } catch (\Exception $e) {
             \Log::error('Error in storing tin tuc: ' . $e->getMessage());
@@ -193,7 +193,7 @@ class TintucController extends Controller
                 Rule::unique('tin_tuc')->ignore($ma_tin_tuc, 'ma_tin_tuc'),
             ],
             'noi_dung' => 'required|string',
-            'hinh_anh' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'hinh_anh' => 'nullable|file|mimes:jpeg,png,jpg,gif',
             'ngay' => 'required|date',
         ]);
 

@@ -7,6 +7,15 @@
     <a href="/thanhvien"> Danh sách thành viên</a>
 @endsection
 @section('content')
+    <style>
+        .swal2-title {
+            /* display: block; */
+            color: #5D87FF;
+            text-transform: uppercase;
+            font-size: 18px;
+            padding-top: 20px;
+        }
+    </style>
 
     <div class="container">
         <div class="card-title">
@@ -267,17 +276,16 @@
                 type: "GET",
                 success: function(response) {
                     var memberInfoHtml = `
-                <div>
+                <div style='display: flex; flex-direction: column; align-items: flex-start; padding: 5px 10px;'>
                     <p><strong>Mã TV:</strong> ${response.ma_thanh_vien}</p>
                     <p><strong>Họ tên:</strong> ${response.ho_ten}</p>
                     <p><strong>Nhóm:</strong> ${response.nhom.ten_nhom}</p>
                     <p><strong>Số điện thoại:</strong> ${response.so_dien_thoai}</p>
                     <p><strong>Email:</strong> ${response.email}</p>
                     <p><strong>Vai trò:</strong> ${response.vai_tro}</p>
-                    <p><strong>Học hàm:</strong> ${response.hoc_ham}</p>
-                    <p><strong>Học vị:</strong> ${response.hoc_vi}</p>
+                    ${response.hoc_ham ? `<p><strong>Học hàm:</strong> ${response.hoc_ham}</p>` : ''}
+                    ${response.hoc_vi ? `<p><strong>Học vị:</strong> ${response.hoc_vi}</p>` : ''}
                     <p><strong>Nơi công tác:</strong> ${response.noi_cong_tac}</p>
-
                 </div>
             `;
 

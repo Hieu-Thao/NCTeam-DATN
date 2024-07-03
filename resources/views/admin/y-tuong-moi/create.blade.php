@@ -14,11 +14,15 @@
 
     <style>
         input:invalid {
-            border: solid 1.5px red;
+            border: solid 1.5px red !important;
         }
 
         select:invalid {
-            border: solid 1.5px red;
+            border: solid 1.5px red !important;
+        }
+
+        textarea:invalid {
+            border: solid 1.5px red !important;
         }
     </style>
 

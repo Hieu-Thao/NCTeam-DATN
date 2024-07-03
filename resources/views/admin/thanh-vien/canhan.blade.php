@@ -63,8 +63,12 @@
                             <div class="ttcn-nd">{{ $user->email }}</div>
                         </div>
                         <div class="ttcn">
-                            <div class="ttcn-td">Học hàm, học vị:</div>
-                            <div class="ttcn-nd">{{ $user->hoc_ham_hoc_vi }} </div>
+                            <div class="ttcn-td">Học hàm:</div>
+                            <div class="ttcn-nd">{{ $user->hoc_ham }} </div>
+                        </div>
+                        <div class="ttcn">
+                            <div class="ttcn-td">Học vị:</div>
+                            <div class="ttcn-nd">{{ $user->hoc_vi }} </div>
                         </div>
                         <div class="ttcn">
                             <div class="ttcn-td">Nơi công tác:</div>
