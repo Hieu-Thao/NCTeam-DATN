@@ -40,13 +40,24 @@ class ThanhvienController extends Controller
         return view('admin.thanh-vien.thanhvien', compact('thanhviens', 'vai_tro'));
     }
 
-    public function canhan()
-    {
-        $user = Auth::user();
-        $user->load(['nhom', 'lichbaocao']);
+    // public function canhan()
+    // {
+    //     $user = Auth::user();
+    //     $user->load(['nhom', 'lichbaocao']);
+    //     return view('admin.thanh-vien.canhan', compact('user'));
+    // }
 
-        return view('admin.thanh-vien.canhan', compact('user'));
-    }
+    public function canhan()
+{
+    $user = Auth::user();
+
+    // Load lichBaoCao relationship with pagination
+    $lichBaoCao = $user->lichbaocao()
+                       ->orderByDesc('ngay_bao_cao')
+                       ->paginate(5); // Chỉ hiển thị 5 lịch báo cáo mỗi trang
+
+    return view('admin.thanh-vien.canhan', compact('user', 'lichBaoCao'));
+}
 
     public function editcanhan($ma_thanh_vien)
     {

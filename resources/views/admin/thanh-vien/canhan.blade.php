@@ -12,6 +12,7 @@
     .lb-dataContainer {
         display: none !important;
     }
+
 </style>
 
 @section('content')
@@ -88,7 +89,7 @@
                     </div>
                 </div>
 
-                <div class="column-7" style="">
+                {{-- <div class="column-7" style="">
                     <div class="td-bbc" style="text-align: left !important;"><img
                             src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt-tr.png') }}" width="18px"
                             height="18px" alt="User Icon">Lịch báo cáo của tôi</div>
@@ -174,8 +175,100 @@
                         </div>
                     @endforeach
 
-                    <div class="btn-xemthem">Xem thêm</div>
+                    {{-- <button class="btn-xemthem">Xem thêm</button>
+                </div> --}}
+
+                <div class="column-7" style="">
+                    <div class="td-bbc" style="text-align: left !important;">
+                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt-tr.png') }}" width="18px" height="18px"
+                             alt="User Icon">Lịch báo cáo của tôi
+                    </div>
+
+                    @foreach ($lichBaoCao as $lich)
+                        <div class="bbcct">
+                            <div class="ttbbc-mb">
+                                <div class="ttbbc-tenbbc">{{ $lich->ten_lich_bao_cao }}</div>
+                                @if ($lich->trang_thai == 'Đã báo cáo')
+                                    <div class="trt-dbbc">
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/checks.png') }}" width="18px"
+                                             height="18px" alt="User Icon">Đã báo cáo
+                                    </div>
+                                @else
+                                    <div class="trt-cbbc">
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/copy-x.png') }}" width="18px"
+                                             height="18px" alt="User Icon">Chưa báo cáo
+                                    </div>
+                                @endif
+                            </div>
+                            <div class="ttbbc">
+                                <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}"
+                                                           width="18px" height="18px" alt="User Icon"></div>
+                                <div style="margin-right: 5px; font-size: 15px;">Ngày báo cáo: </div>
+                                <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
+                                    {{ \Carbon\Carbon::parse($lich->ngay_bao_cao)->format('d/m/Y') }}
+                                </div>
+                            </div>
+                            <div class="ttbbc">
+                                <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/map-pin.png') }}"
+                                                           width="18px" height="18px" alt="User Icon"></div>
+                                <div style="margin-right: 5px; font-size: 15px;">Địa điểm báo cáo: </div>
+                                <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
+                                    {{ $lich->dia_diem }}
+                                </div>
+                            </div>
+                            <div class="ttbbc">
+                                <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/user-check.png') }}"
+                                                           width="18px" height="18px" alt="User Icon"></div>
+                                <div style="margin-right: 5px; font-size: 15px;">Vai trò: </div>
+                                <div class="ttbbc-nd">
+                                    @if ($lich->pivot->vai_tro == 'Thư ký')
+                                        <div class="vt-tk">
+                                            <label>Thư ký</label>
+                                        </div>
+                                    @elseif ($lich->pivot->vai_tro == 'Người tham gia')
+                                        <div class="vt-ntg">
+                                            <label>Người tham gia</label>
+                                        </div>
+                                    @elseif ($lich->pivot->vai_tro == 'Khách mời')
+                                        <div class="vt-km">
+                                            <label>Khách mời</label>
+                                        </div>
+                                    @else
+                                        <div class="vt-nbc">
+                                            <label>Người báo cáo</label>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 20px;">
+                                <div class="ttbbc">
+                                    <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-2.png') }}"
+                                                               width="18px" height="18px" alt="User Icon"></div>
+                                    <div style="margin-right: 5px; font-size: 15px;">Thời gian bắt đầu: </div>
+                                    <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
+                                        {{ $lich->thoi_gian_bat_dau }}
+                                    </div>
+                                </div>
+                                <div class="ttbbc">
+                                    <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-5.png') }}"
+                                                               width="18px" height="18px" alt="User Icon"></div>
+                                    <div style="margin-right: 5px; font-size: 15px; ">Thời gian kết thúc: </div>
+                                    <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
+                                        {{ $lich->thoi_gian_ket_thuc }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    <div class="d-flex justify-content-center mt-4">
+                        {{ $lichBaoCao->links() }}
+                    </div>
+
+
+
                 </div>
+
             </div>
         </div>
 
