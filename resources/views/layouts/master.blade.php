@@ -135,15 +135,15 @@
                         </li>
 
                         @if (Auth::user()->ma_quyen == 1)
-                        <li class="sidebar-item">
-                            <a class="sidebar-link" href="/logs" aria-expanded="false">
-                                <span>
-                                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/brand-tabler.png') }}"
-                                        width="21px" height="21px" alt="News Icon">
-                                </span>
-                                <span class="hide-menu">Nhật ký hoạt động</span>
-                            </a>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/logs" aria-expanded="false">
+                                    <span>
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/brand-tabler.png') }}"
+                                            width="21px" height="21px" alt="News Icon">
+                                    </span>
+                                    <span class="hide-menu">Nhật ký hoạt động</span>
+                                </a>
+                            </li>
                         @endif
                         {{-- <li class="sidebar-item">
                             <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
@@ -154,7 +154,7 @@
                             </a>
                         </li> --}}
 
-                        @if (Auth::user()->ma_quyen == 1 || Auth::user()->vai_tro == "Trưởng nhóm")
+                        @if (Auth::user()->ma_quyen == 1 || Auth::user()->vai_tro == 'Trưởng nhóm')
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                                 <span class="hide-menu">THỐNG KÊ</span>
@@ -192,10 +192,6 @@
                                 <span class="hide-menu">Đăng ký bài báo cáo</span>
                             </a>
                         </li>
-
-
-
-
                     </ul>
                 </nav>
             </div>
@@ -204,14 +200,12 @@
         <div class="body-wrapper">
             <header class="app-header border-bottom">
                 <nav class="navbar navbar-expand-lg navbar-light">
-                    {{-- <div><i class="ti ti-baseline-density-small"></i></div> --}}
                     <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
                         <ul class="navbar-nav">
                         </ul>
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
                             <li class="nav-item">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)">
-                                    {{-- <i class="ti ti-bell-ringing"></i> --}}
                                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/bell-ringing.png') }}"
                                         width="21px" height="21px" alt="bell-ringing Icon">
                                     <div class="notification bg-primary rounded-circle"></div>
@@ -220,14 +214,11 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{-- <img src="{{ asset('/assets/images/profile/ava.jpg') }}" alt="" width="35"
-                    height="35" class="rounded-circle"> --}}
-
                                     @if (Auth::check() && Auth::user()->anh_dai_dien)
                                         <img src="{{ asset('storage/' . Auth::user()->anh_dai_dien) }}"
                                             alt="Avatar" width="35" height="35" class="rounded-circle">
                                     @else
-                                        <img src="{{ asset('/assets/images/default-avatar.jpg') }}"
+                                        <img src="{{ asset('/assets/images/profile/avatar-trang-4.jpg') }}"
                                             alt="Default Avatar" width="35" height="35"
                                             class="rounded-circle">
                                     @endif
@@ -237,12 +228,10 @@
                                     aria-labelledby="drop2">
                                     <div class="message-body">
                                         <div class="dp-email">
-                                            {{-- <p class="mb-0 fs-3" style="color: black; font-weight:600;">
-                                                srcfreen98@gmail.com</p> --}}
-                                            {{-- <p class="mb-0 fs-3" style="color: black; font-weight: 600;">
-                                                {{ $userEmail }}
-                                            </p> --}}
-                                            <p class="mb-0 fs-3" style="color: black; font-weight: 600;">
+                                            <p class="mb-0 fs-4" style="color: black; font-weight: 600;">
+                                                {{ Auth::user()->ho_ten }}
+                                            </p>
+                                            <p class="mb-0 fs-3" style="color: #8b8b8b;">
                                                 {{ Auth::user()->email }}
                                             </p>
                                         </div>

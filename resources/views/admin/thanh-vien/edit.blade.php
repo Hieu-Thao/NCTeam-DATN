@@ -87,7 +87,7 @@
             <form method="post" name="edit-thanhvien" action="{{ route('thanhvien.update', $thanhvien->ma_thanh_vien) }}"
                 enctype="multipart/form-data">
                 @csrf
-                @method('PUT')
+                @method('POST')
                 <div>
                     <div class="roww">
                         <div class="coll">
@@ -140,7 +140,7 @@
                                 <option value="Thành viên" {{ $thanhvien->vai_tro === 'Thành viên' ? 'selected' : '' }}>
                                     Thành viên</option>
                                 <option value="Admin" {{ $thanhvien->vai_tro === 'Admin' ? 'selected' : '' }}>
-                                        Admin</option>
+                                    Admin</option>
                             </select>
                         </div>
                         <div class="coll">
@@ -204,37 +204,41 @@
         }
 
         $(document).ready(function() {
-            $('form[name="edit-thanhvien"]').on('submit', function(e) {
-                e.preventDefault();
-                if (!kiemtra()) {
-                    return false;
+    $('form[name="edit-thanhvien"]').on('submit', function(e) {
+        e.preventDefault();
+        if (!kiemtra()) {
+            return false;
+        }
+
+        var formData = new FormData(this); // Tạo FormData từ form hiện tại
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ url('/thanhvien/edit/' . $thanhvien->ma_thanh_vien) }}',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response === "success") {
+                    callAlert('Thành công!', 'success', '1500', '');
+                    setTimeout(() => {
+                        window.location.href = '/thanhvien';
+                    }, 1000);
                 }
-                var formData = $(this).serialize();
-                $.ajax({
-                    type: 'PUT',
-                    url: '{{ url('/thanhvien/edit/' . $thanhvien->ma_thanh_vien) }}',
-                    data: formData,
-                    success: function(response) {
-                        if (response === "success") {
-                            callAlert('Thành công!', 'success', '1500', '');
-                            setTimeout(() => {
-                                window.location.href = '/thanhvien';
-                            }, 1000);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.so_dien_thoai) {
-                            callAlert('Số điện thoại đã tồn tại!', 'error', '1500', '');
-                        } else if (response.email) {
-                            callAlert('Email đã tồn tại!', 'error', '1500', '');
-                        } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', '1500',
-                                '');
-                        }
-                    }
-                });
-            });
+            },
+            error: function(xhr, status, error) {
+                var response = JSON.parse(xhr.responseText);
+                if (response.so_dien_thoai) {
+                    callAlert('Số điện thoại đã tồn tại!', 'error', '1500', '');
+                } else if (response.email) {
+                    callAlert('Email đã tồn tại!', 'error', '1500', '');
+                } else {
+                    callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', '1500', '');
+                }
+            }
         });
+    });
+});
+
     </script>
 @endpush

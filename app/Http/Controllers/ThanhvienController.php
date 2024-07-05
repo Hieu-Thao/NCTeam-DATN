@@ -48,6 +48,18 @@ class ThanhvienController extends Controller
         return view('admin.thanh-vien.canhan', compact('user'));
     }
 
+    public function editcanhan($ma_thanh_vien)
+    {
+        $user = Auth::user();
+        $thanhvien = ThanhVien::where('ma_thanh_vien', $ma_thanh_vien)->firstOrFail();
+
+        $nhom = Nhom::all();
+        $quyen = Quyen::all();
+
+        return view('admin.thanh-vien.edit-canhan', compact('user', 'thanhvien'));
+    }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -92,7 +104,7 @@ class ThanhvienController extends Controller
             $path = null;
             if ($request->hasFile('anh_dai_dien')) {
                 $file = $request->file('anh_dai_dien');
-                $path = $file->store('avartas', 'public'); // Lưu file vào thư mục public/avatars
+                $path = $file->store('avatars', 'public'); // Lưu file vào thư mục public/avatars
             }
 
             // Tạo mới thành viên
@@ -157,7 +169,7 @@ class ThanhvienController extends Controller
             'email' => 'required|string|email|max:255|unique:thanh_vien,email,' . $ma_thanh_vien . ',ma_thanh_vien',
             'mat_khau' => 'nullable|string|min:3',
             'quyen' => 'required|exists:quyen,ma_quyen',
-            'anh_dai_dien' => 'nullable|file|mimes:jpeg,png,jpg,gif',
+            'anh_dai_dien' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -168,11 +180,17 @@ class ThanhvienController extends Controller
             $thanhVien = Thanhvien::findOrFail($ma_thanh_vien);
 
             if ($request->hasFile('anh_dai_dien')) {
+                // Xóa ảnh cũ nếu có
+                if ($thanhVien->anh_dai_dien) {
+                    Storage::disk('public')->delete($thanhVien->anh_dai_dien);
+                }
+
                 $file = $request->file('anh_dai_dien');
                 $path = $file->store('avartas', 'public'); // Lưu file vào thư mục public/avatars
-                $thanhVien->hinh_anh = $path;
+                $thanhVien->anh_dai_dien = $path;
             }
 
+            // Cập nhật các trường khác
             $thanhVien->ho_ten = $request->ho_ten;
             $thanhVien->ma_nhom = $request->nhom;
             $thanhVien->so_dien_thoai = $request->so_dien_thoai;
@@ -190,12 +208,6 @@ class ThanhvienController extends Controller
 
             $thanhVien->save();
 
-            //Ghi logs
-            Log::create([
-                'user_id' => Auth::id(),
-                'activity' => 'Sửa thành viên có mã = ' . $thanhVien->ma_thanh_vien . '',
-            ]);
-
             return response()->json('success', 200);
 
         } catch (\Exception $e) {
@@ -204,6 +216,57 @@ class ThanhvienController extends Controller
         }
     }
 
+
+    public function updatecanhan(Request $request, $ma_thanh_vien)
+    {
+        $validator = Validator::make($request->all(), [
+            'ho_ten' => 'required|string|max:255',
+            'noi_cong_tac' => 'required|string|max:255',
+            'so_dien_thoai' => 'required|string|max:10|unique:thanh_vien,so_dien_thoai,' . $ma_thanh_vien . ',ma_thanh_vien',
+            'mat_khau' => 'nullable|string|min:3',
+            'anh_dai_dien' => 'nullable|file|mimes:jpeg,png,jpg,gif',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        try {
+            $thanhVien = Thanhvien::findOrFail($ma_thanh_vien);
+
+            // Handle file upload if applicable
+            if ($request->hasFile('anh_dai_dien')) {
+                // Delete old file if exists
+                if ($thanhVien->anh_dai_dien) {
+                    Storage::disk('public')->delete($thanhVien->anh_dai_dien);
+                }
+
+                // Store new file
+                $file = $request->file('anh_dai_dien');
+                $path = $file->store('avatars', 'public');
+                $thanhVien->anh_dai_dien = $path;
+            }
+
+            // Update other fields
+            $thanhVien->ho_ten = $request->ho_ten;
+            $thanhVien->so_dien_thoai = $request->so_dien_thoai;
+            $thanhVien->noi_cong_tac = $request->noi_cong_tac;
+
+            // Update password if provided
+            if ($request->filled('mat_khau')) {
+                $thanhVien->mat_khau = Hash::make($request->mat_khau);
+            }
+
+            // Save the updated model
+            $thanhVien->save();
+
+            return response()->json('success', 200);
+
+        } catch (\Exception $e) {
+            \Log::error('Error in updating thành viên: ' . $e->getMessage());
+            return response()->json(['error' => 'Đã có lỗi xảy ra. Vui lòng thử lại!'], 500);
+        }
+    }
 
 
     //Trong đoạn mã trên, chúng ta kiểm tra xem người dùng có nhập mật khẩu mới hay không.

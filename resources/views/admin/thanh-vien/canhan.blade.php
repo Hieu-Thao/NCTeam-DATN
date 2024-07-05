@@ -22,18 +22,25 @@
                     alt="User Icon">
             </div>
             <div class="ava">
-                <a href="{{ asset('storage/' . Auth::user()->anh_dai_dien) }}" data-lightbox="profile-image">
-                    <img src="{{ asset('storage/' . Auth::user()->anh_dai_dien) }}" width="120px" height="120px"
-                        alt="User Icon">
-
-
-                </a>
+                @if (Auth::user()->anh_dai_dien)
+                    <a href="{{ asset('storage/' . Auth::user()->anh_dai_dien) }}" data-lightbox="profile-image">
+                        <img src="{{ asset('storage/' . Auth::user()->anh_dai_dien) }}" width="120px" height="120px"
+                            alt="User Icon">
+                    </a>
+                @else
+                    <img src="{{ asset('/assets/images/profile/avatar-trang-4.jpg') }}" alt="Default Avatar" width="35"
+                        height="35" class="rounded-circle">
+                @endif
             </div>
+
             <div style="background: #fff;">
-                <button style="display: flex; align-items: center; gap: 5px;" type="button"
-                    class="btn btn-secondary btn-cstt"><img
-                        src="{{ asset('/assets/css/icons/tabler-icons/img/pencill.png') }}" width="15px" height="15px"
-                        alt="User Icon"> Chỉnh sửa thông tin</button>
+                <a href="{{ route('canhan.edit', ['ma_thanh_vien' => $user->ma_thanh_vien]) }}"
+                    style="display: flex; align-items: center; gap: 5px;" type="button" class="btn btn-secondary btn-cstt">
+                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/pencill.png') }}" width="15px" height="15px"
+                        alt="User Icon">
+                    Chỉnh sửa thông tin
+                </a>
+
                 <p class="cn-ten">{{ $user->ho_ten }}</p>
             </div>
             <div style="background: #fff; height:80px"></div>

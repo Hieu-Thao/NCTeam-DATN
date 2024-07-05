@@ -137,7 +137,12 @@ Route::middleware(['auth', 'role:2'])->group(function () {
         Route::get('/create-thanhvien', [ThanhvienController::class, 'create']);
         Route::post('/create-thanhvien', [ThanhvienController::class, 'store']);
         Route::get('/edit/{ma_thanh_vien}', [ThanhVienController::class, 'edit'])->name('thanhvien.edit');
-        Route::put('/edit/{ma_thanh_vien}', [ThanhVienController::class, 'update'])->name('thanhvien.update');
+        Route::post('/edit/{ma_thanh_vien}', [ThanhvienController::class, 'update'])->name('thanhvien.update');
+
+        Route::get('/edit-canhan/{ma_thanh_vien}', [ThanhVienController::class, 'editcanhan'])->name('canhan.edit');
+        Route::post('/edit-canhan/{ma_thanh_vien}', [ThanhvienController::class, 'updatecanhan'])->name('canhan.update');
+
+        // Route::post('/edit/{ma_thanh_vien}', [ThanhvienController::class, 'update'])->name('thanhvien.update');
         Route::delete('/{ma_thanh_vien}', [ThanhVienController::class, 'destroy'])->name('thanhvien.destroy');
         Route::get('/{ma_thanh_vien}', [ThanhVienController::class, 'show']);
         Route::post('/delete-multiple', [ThanhVienController::class, 'deleteMultiple']);

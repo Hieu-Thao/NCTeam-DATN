@@ -217,7 +217,7 @@
                 }
 
                 var formData = new FormData(this);
-                formData.append('_token', '{{ csrf_token() }}'); 
+                formData.append('_token', '{{ csrf_token() }}');
 
                 $.ajax({
                     type: 'POST',
