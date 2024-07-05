@@ -1,10 +1,10 @@
 @extends('layouts.master')
-@section('title', 'Danh sách thành viên')
+@section('title', 'Thống kê bài báo cá')
 @section('parent')
-    <a href="/thanhvien">Tin tức</a>
+    <a href="/thanhvien">Thống kê</a>
 @endsection
 @section('child')
-    <a href="/thanhvien"> Danh sách tin tức</a>
+    <a href="/thanhvien">Thống kê bài báo cáo</a>
 @endsection
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">

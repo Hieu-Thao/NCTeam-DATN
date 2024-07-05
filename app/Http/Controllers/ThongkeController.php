@@ -71,4 +71,28 @@ class ThongkeController extends Controller
     }
 
 
+    public function thongKeCongTrinh()
+    {
+        $user = Auth::user();
+
+        // Nếu là admin, lấy tất cả các thành viên và thống kê số lượng công trình mà họ tham gia
+        if ($user->ma_quyen == 1) {
+            $thanhViens = ThanhVien::withCount('congTrinhs')
+                ->orderByDesc('cong_trinhs_count')
+                ->get();
+        } else {
+            // Nếu không phải admin, chỉ lấy các thành viên trong cùng nhóm và thống kê số lượng công trình mà họ tham gia
+            $thanhViens = ThanhVien::where('ma_nhom', $user->ma_nhom)
+                ->withCount('congTrinhs')
+                ->orderByDesc('cong_trinhs_count')
+                ->get();
+        }
+
+        // Chuẩn bị dữ liệu cho biểu đồ
+        $thanhVienNames = $thanhViens->pluck('ho_ten')->toJson(); // Chuyển danh sách tên thành viên thành JSON
+        $congTrinhCounts = $thanhViens->pluck('cong_trinhs_count')->toJson(); // Chuyển danh sách số lượng công trình thành JSON
+
+        return view('admin.thongke-ct', compact('thanhViens', 'thanhVienNames', 'congTrinhCounts'));
+    }
+
 }

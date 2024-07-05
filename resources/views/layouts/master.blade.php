@@ -169,7 +169,7 @@
                                 </a>
                             </li>
                             <li class="sidebar-item">
-                                <a class="sidebar-link" href="/thongkeytm" aria-expanded="false">
+                                <a class="sidebar-link" href="/thongkect" aria-expanded="false">
                                     <span>
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/chart-bar.png') }}"
                                             width="21px" height="21px" alt="Chart Bar Icon">

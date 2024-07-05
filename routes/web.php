@@ -208,6 +208,7 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
 
     Route::get('/thongke', [ThongKeController::class, 'thongKeBaoCao'])->name('thongke');
+    Route::get('/thongkect', [ThongKeController::class, 'thongKeCongTrinh'])->name('thongkect');
 
 
 
