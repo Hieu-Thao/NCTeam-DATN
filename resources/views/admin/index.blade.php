@@ -2,7 +2,7 @@
 
 
 @section('content')
-    
-<h1>Hi, lại là Thảo đâyyyyyyyyyyyyyyy</h1>
+
+<h1>{{ __('hi') }}</h1>
 
 @stop

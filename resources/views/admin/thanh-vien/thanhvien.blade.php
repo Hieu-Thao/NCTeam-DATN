@@ -19,7 +19,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4>Danh sách thành viên</h4>
+            <h4>{{ __('danh_sach_thanh_vien') }}</h4>
         </div>
         {{-- <div class="card-btn btn-btnn" style="#">
             <a href="/thanhvien/create-thanhvien"><button type="button" class="btn btn-success btn-sm" id="btnz"><img

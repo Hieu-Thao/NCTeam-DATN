@@ -3605,6 +3605,7 @@ input[type="button"].btn-block {
   border-right: 0.3em solid transparent;
   border-bottom: 0;
   border-left: 0.3em solid transparent;
+  color: #a7a7a7;
 }
 
 .dropdown-toggle:empty::after {

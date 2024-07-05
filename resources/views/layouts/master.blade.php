@@ -65,7 +65,7 @@
                         </li> --}}
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">QUẢN LÝ</span>
+                            <span class="hide-menu">{{ __('quan_ly') }}</span>
                         </li>
                         @if (Auth::user()->ma_quyen == 1)
                             <li class="sidebar-item">
@@ -75,7 +75,7 @@
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/brand-teams.png') }}"
                                             width="21px" height="21px" alt="Brand Teams Icon">
                                     </span>
-                                    <span class="hide-menu">Nhóm nghiên cứu</span>
+                                    <span class="hide-menu">{{ __('nhom_nghien_cuu') }}</span>
                                 </a>
                             </li>
                         @endif
@@ -85,7 +85,7 @@
                                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/user.png') }}"
                                         width="21px" height="21px" alt="User Icon">
                                 </span>
-                                <span class="hide-menu">Thành viên</span>
+                                <span class="hide-menu">{{ __('thanh_vien') }}</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -94,7 +94,7 @@
                                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}"
                                         width="21px" height="21px" alt="Calendar Icon">
                                 </span>
-                                <span class="hide-menu">Lịch báo cáo</span>
+                                <span class="hide-menu">{{ __('lich_bao_cao') }}</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -103,7 +103,7 @@
                                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt.png') }}"
                                         width="21px" height="21px" alt="File Type PPT Icon">
                                 </span>
-                                <span class="hide-menu">Bài báo cáo</span>
+                                <span class="hide-menu">{{ __('bai_bao_cao') }}</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -112,7 +112,7 @@
                                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/devices.png') }}"
                                         width="21px" height="21px" alt="Devices Icon">
                                 </span>
-                                <span class="hide-menu">Công trình</span>
+                                <span class="hide-menu">{{ __('cong_trinh') }}</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -121,7 +121,7 @@
                                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/bulb.png') }}"
                                         width="21px" height="21px" alt="Bulb Icon">
                                 </span>
-                                <span class="hide-menu">Ý tưởng mới</span>
+                                <span class="hide-menu">{{ __('y_tuong_moi') }}</span>
                             </a>
                         </li>
                         <li class="sidebar-item">
@@ -130,7 +130,7 @@
                                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/news.png') }}"
                                         width="21px" height="21px" alt="News Icon">
                                 </span>
-                                <span class="hide-menu">Tin tức</span>
+                                <span class="hide-menu">{{ __('tin_tuc') }}</span>
                             </a>
                         </li>
 
@@ -141,7 +141,7 @@
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/brand-tabler.png') }}"
                                             width="21px" height="21px" alt="News Icon">
                                     </span>
-                                    <span class="hide-menu">Nhật ký hoạt động</span>
+                                    <span class="hide-menu">{{ __('nhat_ky_hoat_dong') }}</span>
                                 </a>
                             </li>
                         @endif
@@ -157,7 +157,7 @@
                         @if (Auth::user()->ma_quyen == 1 || Auth::user()->vai_tro == 'Trưởng nhóm')
                             <li class="nav-small-cap">
                                 <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                                <span class="hide-menu">THỐNG KÊ</span>
+                                <span class="hide-menu">{{ __('thong_ke') }}</span>
                             </li>
                             <li class="sidebar-item">
                                 <a class="sidebar-link" href="\thongke" aria-expanded="false">
@@ -165,7 +165,7 @@
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/chart-pie.png') }}"
                                             width="21px" height="21px" alt="Chart Bar Icon">
                                     </span>
-                                    <span class="hide-menu">Bài báo cáo</span>
+                                    <span class="hide-menu">{{ __('bai_bao_cao') }}</span>
                                 </a>
                             </li>
                             <li class="sidebar-item">
@@ -174,7 +174,7 @@
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/chart-bar.png') }}"
                                             width="21px" height="21px" alt="Chart Bar Icon">
                                     </span>
-                                    <span class="hide-menu">Công trình</span>
+                                    <span class="hide-menu">{{ __('cong_trinh') }}</span>
                                 </a>
                             </li>
                         @endif
@@ -189,7 +189,7 @@
                                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/laptop.png') }}"
                                         width="21px" height="21px" alt="File Type PPT Icon">
                                 </span>
-                                <span class="hide-menu">Đăng ký bài báo cáo</span>
+                                <span class="hide-menu">{{ __('dang_ky_bai_bao_cao') }}</span>
                             </a>
                         </li>
                     </ul>
@@ -204,13 +204,42 @@
                         <ul class="navbar-nav">
                         </ul>
                         <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
+
+                            {{-- <li class="nav-item">
+                                <a href="{{ route('lang.switch', 'vi') }}" class="nav-link nav-icon-hover" href="javascript:void(0)">VI</a>
+                            </li>
                             <li class="nav-item">
+                                <a href="{{ route('lang.switch', 'en') }}" class="nav-link nav-icon-hover" href="javascript:void(0)">EN</a>
+                            </li> --}}
+
+                            {{-- <li class="nav-item">
+                                <a href="{{ route('lang.switch', 'vi') }}" class="nav-link nav-icon-hover {{ App::getLocale() == 'vi' ? 'active-language' : '' }}">VI</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('lang.switch', 'en') }}" class="nav-link nav-icon-hover {{ App::getLocale() == 'en' ? 'active-language' : '' }}">EN</a>
+                            </li> --}}
+
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle btn-language" href="#" id="languageDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {{ strtoupper(App::getLocale()) }}
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="languageDropdown">
+                                    <a href="{{ route('lang.switch', 'vi') }}" class="dropdown-item {{ App::getLocale() == 'vi' ? 'active-language' : '' }}">{{ __('tieng_viet') }}</a>
+                                    <a href="{{ route('lang.switch', 'en') }}" class="dropdown-item {{ App::getLocale() == 'en' ? 'active-language' : '' }}">{{ __('tieng_anh') }}</a>
+                                </div>
+                            </li>
+
+
+
+
+                            {{-- <li class="nav-item">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)">
                                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/bell-ringing.png') }}"
                                         width="21px" height="21px" alt="bell-ringing Icon">
                                     <div class="notification bg-primary rounded-circle"></div>
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="nav-item dropdown">
                                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2"
                                     data-bs-toggle="dropdown" aria-expanded="false">
@@ -240,19 +269,16 @@
                                                 class="d-flex align-items-center gap-2 dropdown-item">
                                                 <img src="{{ asset('/assets/css/icons/tabler-icons/img/user.png') }}"
                                                     width="15px" height="15px" alt="User Icon">
-                                                <p class="mb-0 fs-3">Tài khoản của tôi</p>
+                                                <p class="mb-0 fs-3">{{ __('tai_khoan_cua_toi') }}</p>
                                             </a>
-                                            <a href="javascript:void(0)"
+                                            {{-- <a href="javascript:void(0)"
                                                 class="d-flex align-items-center gap-2 dropdown-item">
                                                 <img src="{{ asset('/assets/css/icons/tabler-icons/img/bell.png') }}"
                                                     width="15px" height="15px" alt="User Icon">
                                                 <p class="mb-0 fs-3">Thông báo</p>
-                                            </a>
-                                            {{-- <a href="javascript:void(0)"
-                                            class="d-flex align-items-center gap-2 dropdown-item">
-                                            <i class="ti ti-list-check fs-6"></i>
-                                            <p class="mb-0 fs-3">Lịch báo cáo</p>
-                                        </a> --}}
+                                            </a> --}}
+
+
                                             {{-- <a href="/login" class="btn btn-outline-primary mx-3 mt-2 d-block">Đăng
                                             xuất</a> --}}
                                         </div>
@@ -260,7 +286,7 @@
                                             style="display: flex; justify-content: center;">
                                             @csrf
                                             <button style="display: flex; width: 90%; justify-content: center;"
-                                                type="submit" class="btn btn-outline-primary">Đăng xuất</button>
+                                                type="submit" class="btn btn-outline-primary">{{ __('dang_xuat') }}</button>
                                         </form>
                                     </div>
                                 </div>
@@ -308,6 +334,9 @@
     <script src="{{ asset('/assets/js/responsive.bootstrap4.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets/editor/ckeditor.js') }}"></script>
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script> --}}
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     {{-- <script src="https://cdn.ckeditor.com/4.16.2/standard/ckeditor.js"></script>
     <script src="https://cdn.ckeditor.com/4.16.2/full/ckeditor.js"></script> --}}

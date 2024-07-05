@@ -20023,7 +20023,8 @@ fieldset:disabled .btn {
 
 .navbar-nav .dropdown-menu {
     position: absolute;
-    min-width: 200px
+    /* min-width: 200px */
+    min-width: 110px;
 }
 
 .navbar-nav .dropdown-menu .dropdown-item {
@@ -21110,4 +21111,10 @@ html {
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: rgba(93, 135, 255, 0.1) rgba(255, 255, 255, 1);
+}
+
+.btn-language{
+    font-size: 17px !important;
+    font-weight: 600;
+    color: #5d87ff !important;
 }

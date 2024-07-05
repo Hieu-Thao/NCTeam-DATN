@@ -15,18 +15,37 @@
 .menu-top-td {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 25px;
     padding: 10px 40px;
     font-size: 14px;
 }
 
-.menu-top-td>a {
+.vi-en{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.op-tvu{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    font-size: 14px;
+}
+
+.op-tvu>a{
     text-decoration: none;
     color: #000;
 }
 
-.menu-top-td>a:hover {
+.op-tvu>a {
+    text-decoration: none;
+    color: #000;
+}
+
+.op-tvu>a:hover {
     color: #003285;
     font-weight: 600;
     font-size: 15px;
@@ -321,5 +340,11 @@ input[type="checkbox"] {
     gap: 10px;
 }
 
+.font-weight-bold{
+    font-weight: bold;
+    color: #003285;
+}
 
-
+.dropdown-item{
+    color: #000 !important;
+}

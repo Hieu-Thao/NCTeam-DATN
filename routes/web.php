@@ -17,6 +17,7 @@ use App\Http\Controllers\LogsController;
 use App\Http\Controllers\ThongKeController;
 use App\Http\Controllers\BinhLuanController;
 use App\Http\Controllers\ThamduController;
+
 use App\Models\Baibaocao;
 use App\Models\Congtrinh;
 use App\Models\Lichbaocao;
@@ -44,7 +45,7 @@ Route::get('/thanhvien/edit-thanhvien', function () {
 Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
 
 
-
+Route::get('lang/{locale}', [App\Http\Controllers\LanguageController::class, 'switchLang'])->name('lang.switch');
 
 
 
@@ -212,6 +213,8 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
     Route::get('/baibaocao/{ma_bai_bao_cao}', [BinhLuanController::class, 'show'])->name('baibaocao.show');
     Route::post('/binhluan/store', [BinhLuanController::class, 'store'])->name('binhluan.store');
+
+
 
 
 

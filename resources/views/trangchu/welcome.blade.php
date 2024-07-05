@@ -25,20 +25,40 @@
     <div>
         <div class="menu-top">
             <div class="menu-top-td">
-                <a href="https://www.tvu.edu.vn/" target="_blank">Trang chủ TVU</a>
-                <a href="https://ttsv.tvu.edu.vn/#/home" target="_blank">Cổng thông tin sinh viên</a>
-                <a href="https://daotao.tvu.edu.vn/" target="_blank">Phòng đào tạo</a>
-                <a href="https://khaothi.tvu.edu.vn/" target="_blank">Phòng khảo thí</a>
-                <a href="https://ktcn.tvu.edu.vn/student-set.html" target="_blank">SET</a>
+                <div class="vi-en">
+                    <a href="{{ route('lang.switch', 'vi') }}" class="dropdown-item">
+                        @if (App::getLocale() == 'vi')
+                            <span class="font-weight-bold">{{ __('tieng_viet') }}</span>
+                        @else
+                        {{ __('tieng_viet') }}
+                        @endif
+                    </a>
+                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/arrows-exchange.png') }}" width="21px"
+                        height="21px" alt="File Type PPT Icon">
+                    <a href="{{ route('lang.switch', 'en') }}" class="dropdown-item">
+                        @if (App::getLocale() == 'en')
+                            <span class="font-weight-bold">{{ __('tieng_anh') }}</span>
+                        @else
+                        {{ __('tieng_anh') }}
+                        @endif
+                    </a>
+                </div>
+                <div class="op-tvu">
+                    <a href="https://www.tvu.edu.vn/" target="_blank">{{ __('trang_chu_TVU') }}</a>
+                    <a href="https://ttsv.tvu.edu.vn/#/home" target="_blank">{{ __('cong_thong_tin_sinh_vien') }}</a>
+                    <a href="https://daotao.tvu.edu.vn/" target="_blank">{{ __('phong_dao_tao') }}</a>
+                    <a href="https://khaothi.tvu.edu.vn/" target="_blank">{{ __('phong_khao_thi') }}</a>
+                    <a href="https://ktcn.tvu.edu.vn/student-set.html" target="_blank">SET</a>
+                </div>
             </div>
         </div>
         <img src="{{ asset('/assets\images\logos\bia-index-cam.png') }}" width="100%" height="250px" alt="User Icon">
         <div class="menu" id="menu">
-            <a href="{{ url('/') }}">Trang chủ</a>
-            <a href="{{ url('/gioithieu') }}">Giới thiệu</a>
-            <a href="{{ url('/tttintuc') }}">Tin tức</a>
-            <a href="{{ url('/lienhe') }}">Liên hệ</a>
-            <a href="{{ url('/login') }}">Đăng nhập</a>
+            <a href="{{ url('/') }}">{{ __('trang_chu') }}</a>
+            <a href="{{ url('/gioithieu') }}">{{ __('gioi_thieu') }}</a>
+            <a href="{{ url('/tttintuc') }}">{{ __('tin_tuc') }}</a>
+            <a href="{{ url('/lienhe') }}">{{ __('lien_he') }}</a>
+            <a href="{{ url('/login') }}">{{ __('dang_nhap') }}</a>
         </div>
         <div class="ct">
             <div class="ct-left">
@@ -54,7 +74,8 @@
                             <img class="mySlides" style="display: block; margin: 0 auto; border-radius: 10px;"
                                 src="{{ asset('/assets\images\backgrounds\TVU.jpg') }}" width="97%" height="450px">
                             <img class="mySlides" style="display: block; margin: 0 auto; border-radius: 10px;"
-                                src="{{ asset('/assets\images\backgrounds\TVU-1.jpg') }}" width="97%" height="450px">
+                                src="{{ asset('/assets\images\backgrounds\TVU-1.jpg') }}" width="97%"
+                                height="450px">
                         </a>
 
                         <div
@@ -98,17 +119,20 @@
 
                     {{-- Tin 1 --}}
                     @foreach ($tintuc as $tt)
-                    <a href="{{ route('viewtintuc.showview', $tt->ma_tin_tuc) }}">
-                        <div class="ttnb">
-                            <img style="width: 150px; height: 100px; border-radius: 5px;"
-                                src="{{ asset('storage/' . $tt->hinh_anh) }}">
-                            <div style="display: flex; flex-direction: column;">
-                                <label class="td-ttnb no-underline">{{ Str::limit($tt->ten_tin_tuc, 120, ' ...') }}</label>
-                                <label class="td-ngay no-underline">{{ \Carbon\Carbon::parse($tt->ngay)->format('d/m/Y') }}</label>
-                                <a class="btn-xemthem" href="{{ route('viewtintuc.showview', $tt->ma_tin_tuc) }}">Xem thêm</a>
+                        <a href="{{ route('viewtintuc.showview', $tt->ma_tin_tuc) }}">
+                            <div class="ttnb">
+                                <img style="width: 150px; height: 100px; border-radius: 5px;"
+                                    src="{{ asset('storage/' . $tt->hinh_anh) }}">
+                                <div style="display: flex; flex-direction: column;">
+                                    <label
+                                        class="td-ttnb no-underline">{{ Str::limit($tt->ten_tin_tuc, 120, ' ...') }}</label>
+                                    <label
+                                        class="td-ngay no-underline">{{ \Carbon\Carbon::parse($tt->ngay)->format('d/m/Y') }}</label>
+                                    <a class="btn-xemthem"
+                                        href="{{ route('viewtintuc.showview', $tt->ma_tin_tuc) }}">Xem thêm</a>
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
                     @endforeach
 
                     {{-- Tin 2 --}}
