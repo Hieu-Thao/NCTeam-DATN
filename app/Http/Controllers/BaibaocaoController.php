@@ -178,7 +178,6 @@ class BaibaocaoController extends Controller
     public function storedk(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            // 'thanh_vien' => 'required',
             'ngay_bao_cao' => 'required',
             'ten_bai_bao_cao' => 'required|string|max:255|unique:bai_bao_cao,ten_bai_bao_cao',
             'link_goc_bai_bao_cao' => 'required',
@@ -200,37 +199,32 @@ class BaibaocaoController extends Controller
         }
 
         $ma_thanh_vien = Auth::user()->ma_thanh_vien;
-
         $ho_ten = Auth::user()->ho_ten;
         $lich_bao_cao = LichBaoCao::find($request->ngay_bao_cao);
         $ngay_bao_cao = $lich_bao_cao ? $lich_bao_cao->ngay_bao_cao : null;
 
-        // $file_name = $ngay_bao_cao . '_' . $ho_ten . '_' . $request->ten_bai_bao_cao;
-        // $file_name = str_replace(' ', '', $file_name);
+        $file_ppt_path = null; // Mặc định không có file ppt
 
-        // $file_ppt_path = $request->file('file_ppt') ? $request->file('file_ppt')->storeAs('ppt', $file_name, 'public') : null;
+        if ($request->hasFile('file_ppt')) {
+            $file_extension = $request->file('file_ppt')->getClientOriginalExtension();
+            $file_name = $ngay_bao_cao . '_' . $ho_ten . '_' . $request->ten_bai_bao_cao . '.' . $file_extension;
+            $file_name = str_replace(' ', '', $file_name);
 
-
-        $file_extension = $request->file('file_ppt')->getClientOriginalExtension();
-        $file_name = $ngay_bao_cao . '_' . $ho_ten . '_' . $request->ten_bai_bao_cao . '.' . $file_extension;
-        $file_name = str_replace(' ', '', $file_name);
-
-        $file_ppt_path = $request->file('file_ppt') ? $request->file('file_ppt')->storeAs('ppt', $file_name, 'public') : null;
+            $file_ppt_path = $request->file('file_ppt')->storeAs('ppt', $file_name, 'public');
+        }
 
         $baibaocao = new Baibaocao([
             'ma_thanh_vien' => $ma_thanh_vien,
             'ten_bai_bao_cao' => $request->ten_bai_bao_cao,
             'ma_lich' => $request->ngay_bao_cao,
             'link_goc_bai_bao_cao' => $request->link_goc_bai_bao_cao,
-            // 'file_ppt' => $request->file('file_ppt') ? $request->file('file_ppt')->storeAs('public/ppt', $file_name) : null,
             'file_ppt' => $file_ppt_path,
             'trang_thai' => 'Đã đăng ký',
-
         ]);
 
         $baibaocao->save();
 
-
+        // Gửi email thông báo cho các thành viên trong nhóm
         $teamMembers = Thanhvien::where('ma_nhom', Auth::user()->ma_nhom)
             ->where('ma_thanh_vien', '!=', $ma_thanh_vien)
             ->get();
@@ -242,10 +236,10 @@ class BaibaocaoController extends Controller
             });
         }
 
-        //Ghi logs
+        // Ghi logs
         Log::create([
             'user_id' => Auth::id(),
-            'activity' => 'Đăng ký bài báo cáo có mã = ' . $baibaocao->ma_bai_bao_cao . '',
+            'activity' => 'Đăng ký bài báo cáo có mã = ' . $baibaocao->ma_bai_bao_cao,
         ]);
 
         return response()->json('success', 200);

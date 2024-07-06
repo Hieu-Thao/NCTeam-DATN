@@ -187,6 +187,8 @@ Route::middleware(['auth', 'role:2'])->group(function () {
         Route::get('/', [ThamgiaController::class, 'thamgia']);
         Route::get('/create', [ThamgiaController::class, 'create']);
         Route::post('/create', [ThamgiaController::class, 'store']);
+        Route::delete('/{ma_tham_gia}', [ThamgiaController::class, 'destroy']);
+
     });
 
 
@@ -194,7 +196,10 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     Route::prefix('/thamdu')->group(function () {
         Route::get('/', [ThamduController::class, 'thamdu']);
         Route::get('/create', [ThamduController::class, 'create']);
-        // Route::post('/create', [ThamgiaController::class, 'store']);
+        Route::post('/create', [ThamduController::class, 'store'])->name('thamdu.store');
+        Route::delete('/{ma_tham_du}', [ThamduController::class, 'destroy']);
+
+
 
     });
 

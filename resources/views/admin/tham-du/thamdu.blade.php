@@ -13,11 +13,6 @@
             <h4>Danh sách thành viên tham dự Seminar</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
-            {{-- <a href="/congtrinh/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
-                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a> --}}
-
-            {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
-                <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
             <button type="button" class="btn btn-secondary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/arrow-narrow-left.png" width="15px" height="15px"><a
                     class="btn-cn" href="/lichbaocao">Trở về</a></button>
@@ -27,6 +22,7 @@
                 <table id="thamgia" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
+                            {{-- <th>Mã tham dự</th> --}}
                             <th>Mã lịch</th>
                             <th>Tên lịch báo cáo</th>
                             <th>Mã TV</th>
@@ -38,22 +34,19 @@
                     <tbody>
                         @foreach ($thamdu as $td)
                             <tr>
+                                {{-- <td>{{ $td->ma_tham_du }}</td> --}}
                                 <td>{{ $td->ma_lich }}</td>
                                 <td>{{ $td->Lichbaocao->ten_lich_bao_cao }}</td>
                                 <td>{{ $td->ma_thanh_vien }}</td>
                                 <td>{{ $td->ThanhVien->ho_ten }}</td>
                                 <td>{{ $td->vai_tro }}</td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
-                                    <a href="#"
-                                        class="btn btn-primary btn-sm" id="btnz">
-                                        <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
-                                            height="15px">
-                                    </a>
-                                    <button type="button" class="btn btn-danger btn-sm" id="btnz"
-                                        onclick="deleteCT('{{ $td->ma_lich }}')">
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        onclick="deleteParticipation('{{ $td->ma_tham_du }}')">
                                         <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
                                             height="15px">
                                     </button>
+
                                 </td>
                             </tr>
                         @endforeach
@@ -77,7 +70,6 @@
                 animation: false
             });
         }
-
 
         $(document).ready(function() {
             $('#thamgia').DataTable({
@@ -107,13 +99,43 @@
                     "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
                 },
                 "pageLength": 10,
-                //"searching":false
                 "columnDefs": [{
-                        "orderable": false,
-                        "targets": 0
-                    }, // Disable sorting on the first column (checkbox column)
-                ]
+                    "orderable": false,
+                    "targets": 0
+                }]
             });
         });
+
+        function deleteParticipation(ma_tham_du) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/thamdu/${ma_tham_du}`, // Đảm bảo URL phù hợp với route của bạn
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            callAlert('Xóa tham dự thành công!', 'success', 1500, '');
+                            setTimeout(() => {
+                                window.location
+                            .reload(); // Tải lại trang sau khi xóa thành công
+                            }, 1500);
+                        },
+                        error: function(xhr, status, error) {
+                            callAlert('Xóa tham dự không thành công!', 'error', 1500, '');
+                        }
+                    });
+                }
+            });
+        }
     </script>
 @endpush

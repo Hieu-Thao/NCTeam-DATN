@@ -11,6 +11,8 @@ class Thamdu extends Model
 
     protected $table = 'tham_du';
 
+    protected $primaryKey = 'ma_tham_du';
+
     protected $fillable = [
         'ma_thanh_vien',
         'ma_lich',

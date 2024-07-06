@@ -31,7 +31,7 @@
                             <th>Tên công trình</th>
                             <th>Mã TV</th>
                             <th>Thành viên</th>
-                            {{-- <th></th> --}}
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -41,18 +41,18 @@
                                 <td>{{ $tg->CongTrinh->ten_cong_trinh }}</td>
                                 <td>{{ $tg->ma_thanh_vien }}</td>
                                 <td>{{ $tg->ThanhVien->ho_ten }}</td>
-                                {{-- <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
-                                    <a href="#"
+                                <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
+                                 {{--    <a href="#"
                                         class="btn btn-primary btn-sm" id="btnz">
                                         <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
                                             height="15px">
-                                    </a>
-                                    <button type="button" class="btn btn-danger btn-sm" id="btnz"
-                                        onclick="deleteCT('{{ $tg->ma_cong_trinh }}')">
+                                    </a>--}}
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                        onclick="deleteParticipation('{{ $tg->ma_tham_gia }}')">
                                         <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px"
                                             height="15px">
                                     </button>
-                                </td> --}}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -113,5 +113,37 @@
                 ]
             });
         });
+
+        function deleteParticipation(ma_tham_gia) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn xóa?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Xóa',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: `/thamgia/${ma_tham_gia}`, // Đảm bảo URL phù hợp với route của bạn
+                        type: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            callAlert('Xóa tham gia thành công!', 'success', 1500, '');
+                            setTimeout(() => {
+                                window.location
+                            .reload(); // Tải lại trang sau khi xóa thành công
+                            }, 1500);
+                        },
+                        error: function(xhr, status, error) {
+                            callAlert('Xóa tham gia không thành công!', 'error', 1500, '');
+                        }
+                    });
+                }
+            });
+        }
     </script>
 @endpush

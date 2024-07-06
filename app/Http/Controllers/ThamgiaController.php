@@ -110,8 +110,22 @@ class ThamgiaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($ma_tham_gia)
     {
-        //
+        try {
+            $thamGia = Thamgia::findOrFail($ma_tham_gia);
+            $thamGia->delete();
+
+            // Ghi logs
+            // Log::create([
+            //     'user_id' => Auth::id(),
+            //     'activity' => 'Xóa tham gia có mã = ' . $thamDu->ma_tham_gia,
+            // ]);
+
+            return response()->json('success', 200);
+        } catch (\Exception $e) {
+            \Log::error('Error deleting participation: ' . $e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
 }

@@ -11,6 +11,8 @@ class Thamgia extends Model
 
     protected $table = 'tham_gia';
 
+    protected $primaryKey = 'ma_tham_gia';
+
     protected $fillable = [
         'ma_thanh_vien',
         'ma_cong_trinh',

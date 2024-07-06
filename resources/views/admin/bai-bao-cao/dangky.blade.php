@@ -92,26 +92,26 @@
                                     <div class="tt-lbc">
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}"
                                             width="16px" height="16px" alt="User Icon">
-                                        <label>Ngày báo cáo:</label>
+                                        <label>Ngày báo cáo</label>
                                         <label style="font-weight: 500;" id="ngay-bao-cao"></label>
                                     </div>
                                     <div class="tt-lbc">
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/map-pin.png') }}"
                                             width="16px" height="16px" alt="User Icon">
-                                        <label>Địa điểm:</label>
+                                        <label>Địa điểm</label>
                                         <label style="font-weight: 500;" id="dia-diem"></label>
                                     </div>
                                     <div style="display: flex; gap: 20px;" class="tt-lbc">
                                         <div class="tt-lbc">
                                             <img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-2.png') }}"
                                                 width="16px" height="16px" alt="User Icon">
-                                            <label>Thời gian bắt đầu:</label>
+                                            <label>Thời gian bắt đầu</label>
                                             <label style="font-weight: 500;" id="bat-dau"></label>
                                         </div>
                                         <div class="tt-lbc">
                                             <img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-5.png') }}"
                                                 width="16px" height="16px" alt="User Icon">
-                                            <label>Thời gian kết thúc:</label>
+                                            <label>Thời gian kết thúc</label>
                                             <label style="font-weight: 500;" id="ket-thuc"></label>
                                         </div>
                                     </div>
@@ -122,22 +122,21 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tên bài bào cáo:</label>
+                            <label class="td-input">Tên bài bào cáo</label>
                             <textarea rows="3" type="text" name="ten_bai_bao_cao" id="ten_bai_bao_cao"></textarea>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Link gốc bài báo cáo:</label>
+                            <label class="td-input">Link gốc bài báo cáo</label>
                             <textarea type="text" rows="2" name="link_goc_bai_bao_cao" id="link_goc_bai_bao_cao"></textarea>
                         </div>
                     </div>
 
-
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">File PPT:</label>
+                            <label class="td-input">File PPT* <span style="color: #5d87ff; font-weight: 600;">(có thể không tải lên file PPT)</span></label>
                             <input type="file" name="file_ppt" id="file_ppt">
                         </div>
                     </div>
