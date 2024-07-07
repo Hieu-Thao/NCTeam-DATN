@@ -53,9 +53,9 @@
                             {{-- <th>Link gốc bài báo cáo</th>
                                 <th>File PPT</th> --}}
                             <th>Trạng thái</th>
-                            @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                            {{-- @if ($vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
                                 <th>Duyệt</th>
-                            @endif
+                            @endif --}}
                             <th></th>
                         </tr>
                     </thead>
@@ -73,20 +73,19 @@
                                 {{-- <td>{{ $bbc->trang_thai }}</td> --}}
                                 <td>
                                     @if ($bbc->trang_thai == 'Đã duyệt')
-                                        <button type="button" class="btn btn-outline-success btn-sm" id="#">Đã
+                                        <button type="button" class="btn btn-outline-info btn-sm" id="#">Đã
                                             duyệt</button>
                                     @elseif($bbc->trang_thai == 'Đã đăng ký')
-                                        <button type="button" class="btn btn-secondary btn-sm">Đã đăng ký</button>
+                                        <button type="button" class="btn btn-success btn-sm">Đã đăng ký</button>
                                     @endif
                                 </td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
 
-                                        <a href="#"
+                                        <a href="{{ route('baibaocao.edit', $bbc->ma_bai_bao_cao) }}"
                                             class="btn btn-primary btn-sm" id="btnz">
                                             <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
                                                 height="15px">
                                         </a>
-
 
                                     {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"></button> --}}
                                     {{-- <button type="button" class="btn btn-warning btn-sm" id="btnz"

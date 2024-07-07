@@ -13,12 +13,10 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red;
-        }
-
-        select:invalid {
-            border: solid 1.5px red;
+       input:invalid,
+        select:invalid,
+        textarea:invalid {
+            border: solid 1.5px red !important;
         }
     </style>
 
@@ -36,21 +34,26 @@
         }
 
         function kiemtra() {
-            if (document.forms["edit"]["ten_lich_bao_cao"].value == "") {
-                callAlert('Vui lòng nhập tên lịch báo cáo!', 'error', '1500', '');
-                document.forms["edit"]["ten_lich_bao_cao"].setAttribute('required', 'required');
+            if (document.forms["edit"]["dia_diem"].value == "") {
+                callAlert('Vui lòng nhập địa điểm báo cáo!', 'error', '1500', '');
+                document.forms["edit"]["dia_diem"].setAttribute('required', 'required');
                 return false;
             }
-            // if (document.forms["edit"]["nam"].value == "") {
-            //     callAlert('Vui lòng nhập năm!', 'error', '1500', '');
-            //     document.forms["edit"]["nam"].setAttribute('required', 'required');
-            //     return false;
-            // }
-            // if (document.forms["edit"]["thuoc_tap_chi"].value == "") {
-            //     callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
-            //     document.forms["edit"]["thuoc_tap_chi"].setAttribute('required', 'required');
-            //     return false;
-            // }
+            if (document.forms["edit"]["ngay_bao_cao"].value == "") {
+                callAlert('Vui lòng chọn ngày báo cáo!', 'error', '1500', '');
+                document.forms["edit"]["ngay_bao_cao"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["edit"]["thoi_gian_bat_dau"].value == "") {
+                callAlert('Vui lòng nhập thời gian bắt đầu!', 'error', '1500', '');
+                document.forms["edit"]["thoi_gian_bat_dau"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["edit"]["thoi_gian_ket_thuc"].value == "") {
+                callAlert('Vui lòng nhập thời gian kết thúc!', 'error', '1500', '');
+                document.forms["edit"]["thoi_gian_ket_thuc"].setAttribute('required', 'required');
+                return false;
+            }
             return true;
         }
     </script>
@@ -89,7 +92,7 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Tên lịch báo cáo:</label>
-                            <input type="text" name="ten_lich_bao_cao" id="ten_lich_bao_cao" value="{{ $lichbaocao->ten_lich_bao_cao }}" readonly>
+                            <input type="text" style="background: #ececec;" name="ten_lich_bao_cao" id="ten_lich_bao_cao" value="{{ $lichbaocao->ten_lich_bao_cao }}" readonly>
                         </div>
                     </div>
                 </div>

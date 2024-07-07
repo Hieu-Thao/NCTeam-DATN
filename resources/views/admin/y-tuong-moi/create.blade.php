@@ -13,21 +13,14 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red !important;
-        }
-
-        select:invalid {
-            border: solid 1.5px red !important;
-        }
-
+        input:invalid,
+        select:invalid,
         textarea:invalid {
             border: solid 1.5px red !important;
         }
     </style>
 
     <script>
-
         function callAlert(title, icon, timer, text) {
             Swal.fire({
                 position: "center",
@@ -41,22 +34,26 @@
         }
 
         function kiemtra() {
+            if (document.forms["create"]["bai_bao_cao"].value == "") {
+                callAlert('Vui lòng chọn bài báo cáo!', 'error', '1500', '');
+                document.forms["create"]["bai_bao_cao"].setAttribute('required', 'required');
+                return false;
+            }
             if (document.forms["create"]["noi_dung"].value == "") {
                 callAlert('Vui lòng nhập nội dung ý tưởng!', 'error', '1500', '');
                 document.forms["create"]["noi_dung"].setAttribute('required', 'required');
                 return false;
             }
-            // if (document.forms["create"]["nam"].value == "") {
-            //     callAlert('Vui lòng nhập năm!', 'error', '1500', '');
-            //     document.forms["create"]["nam"].setAttribute('required', 'required');
-            //     return false;
-            // }
-            // if (document.forms["create"]["thuoc_tap_chi"].value == "") {
-            //     callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
-            //     document.forms["create"]["thuoc_tap_chi"].setAttribute('required', 'required');
-            //     return false;
-            // }
-
+            if (document.forms["create"]["hinh_anh"].value == "") {
+                callAlert('Vui lòng nhập hình ảnh ý tưởng!', 'error', '1500', '');
+                document.forms["create"]["hinh_anh"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["create"]["trang_thai"].value == "") {
+                callAlert('Vui lòng chọn trạng thái ý tưởng!', 'error', '1500', '');
+                document.forms["create"]["trang_thai"].setAttribute('required', 'required');
+                return false;
+            }
             return true;
         }
     </script>
@@ -66,7 +63,7 @@
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Thêm mới ý tưởng mới</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form name="create" method="post" action="{{ url('/ytuongmoi/create') }}">
+            <form name="create" method="post" action="{{ url('/ytuongmoi/create') }}" enctype="multipart/form-data">
                 @csrf
                 <div>
                     <div class="roww">
@@ -84,14 +81,14 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Nội dung:</label>
-                            <textarea type="date" name="noi_dung" id="noi_dung"></textarea>
+                            <textarea name="noi_dung" id="noi_dung"></textarea>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Hình ảnh:</label>
-                            <input type="text" name="hinh_anh" id="hinh_anh" />
+                            <input type="file" name="hinh_anh" id="hinh_anh" />
                         </div>
                         <div class="coll">
                             <label class="td-input">Trạng thái:</label>
@@ -116,29 +113,19 @@
 
 @push('scripts')
     <script>
-        function callAlert(title, icon, timer, text) {
-            Swal.fire({
-                position: "center",
-                icon: `${icon}`,
-                title: `${title}`,
-                text: `${text}`,
-                showConfirmButton: false,
-                timer: `${timer}`,
-                animation: false
-            });
-        }
-
         $(document).ready(function() {
             $('form[name="create"]').on('submit', function(e) {
                 e.preventDefault();
                 if (!kiemtra()) {
                     return false;
                 }
-                var formData = $(this).serialize();
+                var formData = new FormData(this);
                 $.ajax({
                     type: 'POST',
                     url: '{{ url('/ytuongmoi/create') }}',
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         if (response === "success") {
                             callAlert('Thành công!', 'success', 1500, '');
@@ -152,8 +139,7 @@
                         if (response.ten_lich_bao_cao) {
                             callAlert('Tên lịch báo cáo đã tồn tại!', 'error', 1500, '');
                         } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
-                                '');
+                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500, '');
                         }
                     }
                 });

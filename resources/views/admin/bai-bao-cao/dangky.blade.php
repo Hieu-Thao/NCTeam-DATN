@@ -13,18 +13,12 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red !important;
-        }
-
-        select:invalid {
-            border: solid 1.5px red !important;
-        }
-
+        input:invalid,
+        select:invalid,
         textarea:invalid {
             border: solid 1.5px red !important;
         }
-
+        
         .overlay {
             position: fixed;
             top: 0;
@@ -51,6 +45,16 @@
         }
 
         function kiemtra() {
+            if (document.forms["create"]["ngay_bao_cao"].value == "") {
+                callAlert('Vui lòng chọn ngày báo cáo!', 'error', '1500', '');
+                document.forms["create"]["ngay_bao_cao"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["create"]["ten_bai_bao_cao"].value == "") {
+                callAlert('Vui lòng nhập tên bài báo cáo!', 'error', '1500', '');
+                document.forms["create"]["ten_bai_bao_cao"].setAttribute('required', 'required');
+                return false;
+            }
             if (document.forms["create"]["link_goc_bai_bao_cao"].value == "") {
                 callAlert('Vui lòng nhập link gốc bài báo cáo!', 'error', '1500', '');
                 document.forms["create"]["link_goc_bai_bao_cao"].setAttribute('required', 'required');
@@ -122,7 +126,7 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tên bài bào cáo</label>
+                            <label class="td-input">Tên bài báo cáo</label>
                             <textarea rows="3" type="text" name="ten_bai_bao_cao" id="ten_bai_bao_cao"></textarea>
                         </div>
                     </div>
@@ -136,7 +140,7 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">File PPT* <span style="color: #5d87ff; font-weight: 600;">(có thể không tải lên file PPT)</span></label>
+                            <label class="td-input">File PPT <span style="color: #5d87ff; font-weight: 600;">(có thể không tải lên file PPT)</span></label>
                             <input type="file" name="file_ppt" id="file_ppt">
                         </div>
                     </div>

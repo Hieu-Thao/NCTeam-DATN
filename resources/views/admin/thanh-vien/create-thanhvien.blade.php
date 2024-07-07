@@ -13,14 +13,11 @@
 @section('content')
 
     <style>
-        input:invalid {
+       input:invalid,
+        select:invalid,
+        textarea:invalid {
             border: solid 1.5px red !important;
         }
-
-        select:invalid {
-            border: solid 1.5px red !important;
-        }
-
     </style>
 
     <script>

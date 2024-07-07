@@ -13,12 +13,10 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red;
-        }
-
-        select:invalid {
-            border: solid 1.5px red;
+        input:invalid,
+        select:invalid,
+        textarea:invalid {
+            border: solid 1.5px red !important;
         }
     </style>
 
@@ -36,21 +34,36 @@
         }
 
         function kiemtra() {
+            if (document.forms["edit"]["loai_tin_tuc"].value == "") {
+                callAlert('Vui lòng chọn loại tin tức!', 'error', '1500', '');
+                document.forms["edit"]["loai_tin_tuc"].setAttribute('required', 'required');
+                return false;
+            }
             if (document.forms["edit"]["ten_tin_tuc"].value == "") {
-                callAlert('Vui lòng nhập tên bài báo cáo!', 'error', '1500', '');
+                callAlert('Vui lòng nhập tên tin tức!', 'error', '1500', '');
                 document.forms["edit"]["ten_tin_tuc"].setAttribute('required', 'required');
                 return false;
             }
-            // if (document.forms["edit"]["nam"].value == "") {
-            //     callAlert('Vui lòng nhập năm!', 'error', '1500', '');
-            //     document.forms["edit"]["nam"].setAttribute('required', 'required');
+            // if (document.forms["edit"]["noi_dung"].value == "") {
+            //     callAlert('Vui lòng nhập nội dung tin tức!', 'error', '1500', '');
+            //     document.forms["edit"]["noi_dung"].setAttribute('required', 'required');
             //     return false;
             // }
-            // if (document.forms["edit"]["thuoc_tap_chi"].value == "") {
-            //     callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
-            //     document.forms["edit"]["thuoc_tap_chi"].setAttribute('required', 'required');
+            // if (document.forms["edit"]["hinh_anh"].value == "") {
+            //     callAlert('Vui lòng nhập hình ảnh tin tức!', 'error', '1500', '');
+            //     document.forms["edit"]["hinh_anh"].setAttribute('required', 'required');
             //     return false;
             // }
+            if (document.forms["edit"]["ngay"].value == "") {
+                callAlert('Vui lòng chọn ngày đăng tin tức!', 'error', '1500', '');
+                document.forms["edit"]["ngay"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["edit"]["trang_thai"].value == "") {
+                callAlert('Vui lòng chọn trạng thái tin tức!', 'error', '1500', '');
+                document.forms["edit"]["trang_thai"].setAttribute('required', 'required');
+                return false;
+            }
 
             return true;
         }
@@ -69,14 +82,16 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Thành viên:</label>
-                            <select name="thanh_vien" id="thanh_vien">
+                            {{-- <select name="thanh_vien" id="thanh_vien">
                                 <option value="" disabled hidden>-- Chọn thành viên --</option>
                                 @foreach ($thanhvien as $tv)
                                     <option value="{{ $tv->ma_thanh_vien }}"
                                         {{ $tintuc->ma_thanh_vien == $tv->ma_thanh_vien ? 'selected' : '' }}>
                                         {{ $tv->ho_ten }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
+                            <input style="background: #f0f0f0" type="text" name="thanh_vien" id="thanh_vien"
+                                value="{{ Auth::user()->ho_ten }}" readonly />
                         </div>
                         <div class="coll">
                             <label class="td-input">Loại tin tức:</label>

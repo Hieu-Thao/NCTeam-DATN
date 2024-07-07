@@ -13,11 +13,9 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red;
-        }
-
-        select:invalid {
+        input:invalid,
+        select:invalid,
+        textarea:invalid {
             border: solid 1.5px red;
         }
     </style>
@@ -36,22 +34,21 @@
         }
 
         function kiemtra() {
+            if (document.forms["edit"]["bai_bao_cao"].value == "") {
+                callAlert('Vui lòng chọn bài báo cáo!', 'error', '1500', '');
+                document.forms["edit"]["bai_bao_cao"].setAttribute('required', 'required');
+                return false;
+            }
             if (document.forms["edit"]["noi_dung"].value == "") {
-                callAlert('Vui lòng nhập nội dung!', 'error', '1500', '');
+                callAlert('Vui lòng nhập nội dung ý tưởng!', 'error', '1500', '');
                 document.forms["edit"]["noi_dung"].setAttribute('required', 'required');
                 return false;
             }
-            // if (document.forms["edit"]["nam"].value == "") {
-            //     callAlert('Vui lòng nhập năm!', 'error', '1500', '');
-            //     document.forms["edit"]["nam"].setAttribute('required', 'required');
-            //     return false;
-            // }
-            // if (document.forms["edit"]["thuoc_tap_chi"].value == "") {
-            //     callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
-            //     document.forms["edit"]["thuoc_tap_chi"].setAttribute('required', 'required');
-            //     return false;
-            // }
-
+            if (document.forms["edit"]["trang_thai"].value == "") {
+                callAlert('Vui lòng chọn trạng thái ý tưởng!', 'error', '1500', '');
+                document.forms["edit"]["trang_thai"].setAttribute('required', 'required');
+                return false;
+            }
             return true;
         }
     </script>
@@ -87,8 +84,13 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Hình ảnh:</label>
-                            <input type="file" name="hinh_anh" id="hinh_anh" value="{{ $ytuongmoi->hinh_anh }}" />
-                            <label>Hình ảnh: &nbsp;{{ $ytuongmoi->hinh_anh }}"</label>
+                            <input type="file" name="hinh_anh" id="hinh_anh" />
+                            @if ($ytuongmoi->hinh_anh)
+                                <label>Hình ảnh hiện tại: <a href="{{ asset('storage/' . $ytuongmoi->hinh_anh) }}"
+                                        target="_blank">{{ $ytuongmoi->hinh_anh }}</a></label>
+                            @else
+                                <label>Không có hình ảnh</label>
+                            @endif
                         </div>
                         <div class="coll">
                             <label class="td-input">Trạng thái:</label>
@@ -104,7 +106,7 @@
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
                         <input class="btn btn-success" style="height: 10%;" type="submit" name="submit"
-                            onclick="return kiemtra();" value="Cập nhật">
+                            onclick="return kiemtra();" value="Cập nhật" />
                         <a class="btn btn-secondary" style="height: 10%;" href="/ytuongmoi">Trở về</a>
                     </div>
                 </div>
@@ -113,31 +115,22 @@
     </div>
 
 @endsection
+
 @push('scripts')
     <script>
-        function callAlert(title, icon, timer, text) {
-            Swal.fire({
-                position: "center",
-                icon: `${icon}`,
-                title: `${title}`,
-                text: `${text}`,
-                showConfirmButton: false,
-                timer: `${timer}`,
-                animation: false
-            });
-        }
-
         $(document).ready(function() {
             $('form[name="edit"]').on('submit', function(e) {
                 e.preventDefault();
                 if (!kiemtra()) {
                     return false;
                 }
-                var formData = $(this).serialize();
+                var formData = new FormData(this);
                 $.ajax({
-                    type: 'PUT',
+                    type: 'POST',
                     url: '{{ route('ytuongmoi.update', $ytuongmoi->ma_y_tuong_moi) }}',
                     data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         if (response === "success") {
                             callAlert('Thành công!', 'success', '1500', '');

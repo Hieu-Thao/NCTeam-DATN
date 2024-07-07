@@ -131,8 +131,10 @@ class TintucController extends Controller
                 $path = $file->store('uploads', 'public'); // Lưu file vào thư mục public/uploads
             }
 
+            $ma_thanh_vien = Auth::user()->ma_thanh_vien;
+
             $tintuc = new Tintuc([
-                'ma_thanh_vien' => $request->thanh_vien,
+                'ma_thanh_vien' => $ma_thanh_vien,
                 'ma_loai_tt' => $request->loai_tin_tuc,
                 'ten_tin_tuc' => $request->ten_tin_tuc,
                 'ngay' => $request->ngay,
@@ -184,7 +186,7 @@ class TintucController extends Controller
     public function update(Request $request, $ma_tin_tuc)
     {
         $validator = Validator::make($request->all(), [
-            'thanh_vien' => 'required',
+            // 'thanh_vien' => 'required',
             'loai_tin_tuc' => 'required',
             'ten_tin_tuc' => [
                 'required',
@@ -210,7 +212,7 @@ class TintucController extends Controller
                 $tintuc->hinh_anh = $path;
             }
 
-            $tintuc->ma_thanh_vien = $request->thanh_vien;
+            // $tintuc->ma_thanh_vien = $request->thanh_vien;
             $tintuc->ma_loai_tt = $request->loai_tin_tuc;
             $tintuc->ten_tin_tuc = $request->ten_tin_tuc;
             $tintuc->noi_dung = $request->noi_dung;

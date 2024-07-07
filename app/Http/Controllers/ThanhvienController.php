@@ -244,31 +244,24 @@ class ThanhvienController extends Controller
 
         try {
             $thanhVien = Thanhvien::findOrFail($ma_thanh_vien);
-
-            // Handle file upload if applicable
             if ($request->hasFile('anh_dai_dien')) {
-                // Delete old file if exists
                 if ($thanhVien->anh_dai_dien) {
                     Storage::disk('public')->delete($thanhVien->anh_dai_dien);
                 }
 
-                // Store new file
                 $file = $request->file('anh_dai_dien');
                 $path = $file->store('avatars', 'public');
                 $thanhVien->anh_dai_dien = $path;
             }
 
-            // Update other fields
             $thanhVien->ho_ten = $request->ho_ten;
             $thanhVien->so_dien_thoai = $request->so_dien_thoai;
             $thanhVien->noi_cong_tac = $request->noi_cong_tac;
 
-            // Update password if provided
             if ($request->filled('mat_khau')) {
                 $thanhVien->mat_khau = Hash::make($request->mat_khau);
             }
 
-            // Save the updated model
             $thanhVien->save();
 
             return response()->json('success', 200);
@@ -278,7 +271,6 @@ class ThanhvienController extends Controller
             return response()->json(['error' => 'Đã có lỗi xảy ra. Vui lòng thử lại!'], 500);
         }
     }
-
 
     //Trong đoạn mã trên, chúng ta kiểm tra xem người dùng có nhập mật khẩu mới hay không.
     //Nếu có, chúng ta mã hóa mật khẩu mới và lưu vào cơ sở dữ liệu, ngược lại chúng ta giữ nguyên mật khẩu cũ.

@@ -13,13 +13,11 @@
         display: none !important;
     }
 
-    input:invalid {
-        border: solid 1.5px red !important;
-    }
-
-    select:invalid {
-        border: solid 1.5px red !important;
-    }
+    input:invalid,
+        select:invalid,
+        textarea:invalid {
+            border: solid 1.5px red !important;
+        }
 </style>
 
 <script>

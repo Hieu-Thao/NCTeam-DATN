@@ -79,7 +79,7 @@ class YtuongmoiController extends Controller
         $validator = Validator::make($request->all(), [
             'bai_bao_cao' => 'required',
             'noi_dung' => 'required|string',
-            'hinh_anh' => 'required|string|max:255',
+            'hinh_anh' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
             'trang_thai' => 'required|string|max:255',
         ]);
 
@@ -87,17 +87,30 @@ class YtuongmoiController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $ytuongmoi = new Ytuongmoi([
-            'ma_bai_bao_cao' => $request->bai_bao_cao,
-            'noi_dung' => $request->noi_dung,
-            'hinh_anh' => $request->hinh_anh,
-            'trang_thai' => $request->trang_thai,
-        ]);
+        try {
+            $path = null;
+            if ($request->hasFile('hinh_anh')) {
+                $file = $request->file('hinh_anh');
+                $path = $file->store('ytuongmoi', 'public');
+            }
 
-        $ytuongmoi->save();
+            $ytuongmoi = new Ytuongmoi([
+                'ma_bai_bao_cao' => $request->bai_bao_cao,
+                'noi_dung' => $request->noi_dung,
+                'hinh_anh' => $path,
+                'trang_thai' => $request->trang_thai,
+            ]);
 
-        return response()->json('success', 200);
+            $ytuongmoi->save();
+
+            return response()->json('success', 200);
+        } catch (\Exception $e) {
+            \Log::error($e->getMessage());
+            return response()->json(['error' => 'Internal Server Error'], 500);
+        }
     }
+
+
 
 
     /**
@@ -115,34 +128,74 @@ class YtuongmoiController extends Controller
     }
 
 
+    // public function update(Request $request, $ma_y_tuong_moi)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'bai_bao_cao' => 'required|integer',
+    //         'noi_dung' => 'required|string',
+    //         'hinh_anh' => 'required|string|max:255',
+    //         'trang_thai' => 'required|string|max:255',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json($validator->errors(), 400);
+    //     }
+
+    //     $ytuongmoi = Ytuongmoi::find($ma_y_tuong_moi);
+
+    //     if (!$ytuongmoi) {
+    //         return response()->json('Ý tưởng mới không tồn tại.', 404);
+    //     }
+
+    //     $ytuongmoi->ma_bai_bao_cao = $request->bai_bao_cao;
+    //     $ytuongmoi->noi_dung = $request->noi_dung;
+    //     $ytuongmoi->hinh_anh = $request->hinh_anh;
+    //     $ytuongmoi->trang_thai = $request->trang_thai;
+
+    //     $ytuongmoi->save();
+
+    //     return response()->json('success', 200);
+    // }
+
     public function update(Request $request, $ma_y_tuong_moi)
-    {
-        $validator = Validator::make($request->all(), [
-            'bai_bao_cao' => 'required|integer',
-            'noi_dung' => 'required|string',
-            'hinh_anh' => 'required|string|max:255',
-            'trang_thai' => 'required|string|max:255',
-        ]);
+{
+    // Validate the incoming request data
+    $validator = Validator::make($request->all(), [
+        'bai_bao_cao' => 'required|integer',
+        'noi_dung' => 'required|string',
+        'hinh_anh' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
+        'trang_thai' => 'required|string|max:255',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $ytuongmoi = Ytuongmoi::find($ma_y_tuong_moi);
-
-        if (!$ytuongmoi) {
-            return response()->json('Ý tưởng mới không tồn tại.', 404);
-        }
-
-        $ytuongmoi->ma_bai_bao_cao = $request->bai_bao_cao;
-        $ytuongmoi->noi_dung = $request->noi_dung;
-        $ytuongmoi->hinh_anh = $request->hinh_anh;
-        $ytuongmoi->trang_thai = $request->trang_thai;
-
-        $ytuongmoi->save();
-
-        return response()->json('success', 200);
+    // Return validation errors if validation fails
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 400);
     }
+
+    // Find the Ytuongmoi instance by its ID
+    $ytuongmoi = Ytuongmoi::find($ma_y_tuong_moi);
+
+    // Return error response if the Ytuongmoi instance does not exist
+    if (!$ytuongmoi) {
+        return response()->json('Ý tưởng mới không tồn tại.', 404);
+    }
+
+    // Update the Ytuongmoi instance with the validated request data
+    $ytuongmoi->ma_bai_bao_cao = $request->bai_bao_cao;
+    $ytuongmoi->noi_dung = $request->noi_dung;
+    $ytuongmoi->trang_thai = $request->trang_thai;
+
+    // Update 'hinh_anh' field only if it is present in the request
+    if ($request->has('hinh_anh')) {
+        $ytuongmoi->hinh_anh = $request->hinh_anh;
+    }
+
+    // Save the updated Ytuongmoi instance
+    $ytuongmoi->save();
+
+    // Return success response
+    return response()->json('success', 200);
+}
 
 
     public function destroy($ma_y_tuong_moi)

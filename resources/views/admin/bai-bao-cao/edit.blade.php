@@ -13,12 +13,10 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red;
-        }
-
-        select:invalid {
-            border: solid 1.5px red;
+       input:invalid,
+        select:invalid,
+        textarea:invalid {
+            border: solid 1.5px red !important;
         }
     </style>
 
@@ -36,9 +34,14 @@
         }
 
         function kiemtra() {
-            if (document.forms["update"]["ten_bai_bao_cao"].value == "") {
+            if (document.forms["edit"]["ten_bai_bao_cao"].value == "") {
                 callAlert('Vui lòng nhập tên bài báo cáo!', 'error', '1500', '');
-                document.forms["update"]["ten_bai_bao_cao"].setAttribute('required', 'required');
+                document.forms["edit"]["ten_bai_bao_cao"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["edit"]["link_goc_bai_bao_cao"].value == "") {
+                callAlert('Vui lòng nhập link gốc bài báo cáo!', 'error', '1500', '');
+                document.forms["edit"]["link_goc_bai_bao_cao"].setAttribute('required', 'required');
                 return false;
             }
             return true;
@@ -50,7 +53,7 @@
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật bài báo cáo</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form name="edit" method="post" action="{{ route('baibaocao.update', $baibaocao->ma_bai_bao_cao) }}">
+            <form name="edit" method="post" onsubmit="return kiemtra();" action="{{ route('baibaocao.update', $baibaocao->ma_bai_bao_cao) }}">
                 @csrf
                 @method('PUT')
                 <div>
@@ -139,7 +142,7 @@
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" value="Cập nhật">
+                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" onclick="return kiemtra();" value="Cập nhật">
                     </div>
                 </div>
             </form>
@@ -162,22 +165,12 @@
             });
         }
 
-        // function kiemtra() {
-        //     var tenBaiBaoCao = document.forms["update"]["ten_bai_bao_cao"];
-        //     if (tenBaiBaoCao && tenBaiBaoCao.value.trim() === "") {
-        //         callAlert('Vui lòng nhập tên bài báo cáo!', 'error', '1500', '');
-        //         tenBaiBaoCao.setAttribute('required', 'required');
-        //         return false;
-        //     }
-        //     return true;
-        // }
-
         $(document).ready(function() {
             $('form[name="create"], form[name="edit"]').on('submit', function(e) {
                 e.preventDefault();
 
                 var formData = new FormData(this);
-                var method = $(this).attr('method'); 
+                var method = $(this).attr('method');
 
                 $('#overlay').show();
 
@@ -189,25 +182,25 @@
                     processData: false,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('Đăng ký thành công!', 'success', '1500', '');
+                            callAlert('Cập nhật thành công!', 'success', '1500', '');
                             setTimeout(() => {
-                                window.location.href = '/baibaocao';
+                                window.location.href = '/baibaocao/baibaocaocn';
                             }, 1000);
                         }
                     },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.ten_bai_bao_cao) {
-                            callAlert(response.ten_bai_bao_cao, 'error', '1500', '');
-                        } else if (response.link_goc_bai_bao_cao) {
-                            callAlert(response.link_goc_bai_bao_cao, 'error', '1500', '');
-                        } else if (response.file_ppt) {
-                            callAlert(response.file_ppt, 'error', '1500', '');
-                        } else {
-                            callAlert('Có lỗi xảy ra khi xử lý yêu cầu!', 'error', '1500', '');
-                        }
-                    },
+                    // error: function(xhr) {
+                    //     console.log(xhr.responseText);
+                    //     var response = JSON.parse(xhr.responseText);
+                    //     if (response.ten_bai_bao_cao) {
+                    //         callAlert('Tên bài báo cáo tồn tại', 'error', '1500', '');
+                    //     // } else if (response.link_goc_bai_bao_cao) {
+                    //     //     callAlert(response.link_goc_bai_bao_cao, 'error', '1500', '');
+                    //     // } else if (response.file_ppt) {
+                    //     //     callAlert(response.file_ppt, 'error', '1500', '');
+                    //     } else {
+                    //         callAlert('Có lỗi xảy ra khi xử lý yêu cầu!', 'error', '1500', '');
+                    //     }
+                    // },
                     complete: function() {
                         $('#overlay').hide();
                     }

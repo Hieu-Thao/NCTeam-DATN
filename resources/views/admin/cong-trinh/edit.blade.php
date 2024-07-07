@@ -13,12 +13,10 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red;
-        }
-
-        select:invalid {
-            border: solid 1.5px red;
+        input:invalid,
+        select:invalid,
+        textarea:invalid {
+            border: solid 1.5px red !important;
         }
     </style>
 
@@ -36,6 +34,11 @@
         }
 
         function kiemtra() {
+            if (document.forms["edit"]["loai_cong_trinh"].value == "") {
+                callAlert('Vui lòng chọn loại công trình!', 'error', '1500', '');
+                document.forms["edit"]["loai_cong_trinh"].setAttribute('required', 'required');
+                return false;
+            }
             if (document.forms["edit"]["ten_cong_trinh"].value == "") {
                 callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
                 document.forms["edit"]["ten_cong_trinh"].setAttribute('required', 'required');
@@ -47,8 +50,18 @@
                 return false;
             }
             if (document.forms["edit"]["thuoc_tap_chi"].value == "") {
-                callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
+                callAlert('Vui lòng nhập thuộc tạp chí nào!', 'error', '1500', '');
                 document.forms["edit"]["thuoc_tap_chi"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["edit"]["tinh_trang"].value == "") {
+                callAlert('Vui lòng chọn tình trạng công trình!', 'error', '1500', '');
+                document.forms["edit"]["tinh_trang"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["edit"]["trang_thai"].value == "") {
+                callAlert('Vui lòng chọn trạng thái công trình!', 'error', '1500', '');
+                document.forms["edit"]["trang_thai"].setAttribute('required', 'required');
                 return false;
             }
 
@@ -61,7 +74,8 @@
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật công trình</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form method="post" name="edit" action="{{ route('congtrinh.update', $congtrinh->ma_cong_trinh) }}">
+            <form method="post" name="edit" onsubmit="return kiemtra();"
+                action="{{ route('congtrinh.update', $congtrinh->ma_cong_trinh) }}">
                 @csrf
                 @method('PUT')
                 <div>
@@ -86,8 +100,7 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Tên công trình</label>
-                            <input type="text" name="ten_cong_trinh" id="ten_cong_trinh"
-                                value="{{ $congtrinh->ten_cong_trinh }}"></input>
+                            <textarea rows="4" type="text" name="ten_cong_trinh" id="ten_cong_trinh">{{ $congtrinh->ten_cong_trinh }}</textarea>
                         </div>
                     </div>
 

@@ -9,11 +9,9 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red !important;
-        }
-
-        select:invalid {
+        input:invalid,
+        select:invalid,
+        textarea:invalid {
             border: solid 1.5px red !important;
         }
     </style>

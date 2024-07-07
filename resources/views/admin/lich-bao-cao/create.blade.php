@@ -13,11 +13,9 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red !important;
-        }
-
-        select:invalid {
+        input:invalid,
+        select:invalid,
+        textarea:invalid {
             border: solid 1.5px red !important;
         }
     </style>
@@ -41,16 +39,21 @@
                 document.forms["create"]["dia_diem"].setAttribute('required', 'required');
                 return false;
             }
-            // if (document.forms["create"]["nam"].value == "") {
-            //     callAlert('Vui lòng nhập năm!', 'error', '1500', '');
-            //     document.forms["create"]["nam"].setAttribute('required', 'required');
-            //     return false;
-            // }
-            // if (document.forms["create"]["thuoc_tap_chi"].value == "") {
-            //     callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
-            //     document.forms["create"]["thuoc_tap_chi"].setAttribute('required', 'required');
-            //     return false;
-            // }
+            if (document.forms["create"]["ngay_bao_cao"].value == "") {
+                callAlert('Vui lòng chọn ngày báo cáo!', 'error', '1500', '');
+                document.forms["create"]["ngay_bao_cao"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["create"]["thoi_gian_bat_dau"].value == "") {
+                callAlert('Vui lòng nhập thời gian bắt đầu!', 'error', '1500', '');
+                document.forms["create"]["thoi_gian_bat_dau"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["create"]["thoi_gian_ket_thuc"].value == "") {
+                callAlert('Vui lòng nhập thời gian kết thúc!', 'error', '1500', '');
+                document.forms["create"]["thoi_gian_ket_thuc"].setAttribute('required', 'required');
+                return false;
+            }
 
             return true;
         }
@@ -89,7 +92,7 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Tên lịch báo cáo:</label>
-                            <input type="text" name="ten_lich_bao_cao" id="ten_lich_bao_cao" readonly></input>
+                            <input type="text" style="background: #ececec;" name="ten_lich_bao_cao" id="ten_lich_bao_cao" readonly></input>
                         </div>
                     </div>
 

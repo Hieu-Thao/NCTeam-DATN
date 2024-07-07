@@ -13,11 +13,9 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red !important;
-        }
-
-        select:invalid {
+        input:invalid,
+        select:invalid,
+        textarea:invalid {
             border: solid 1.5px red !important;
         }
     </style>
@@ -36,6 +34,11 @@
         }
 
         function kiemtra() {
+            if (document.forms["create"]["loai_cong_trinh"].value == "") {
+                callAlert('Vui lòng chọn loại công trình!', 'error', '1500', '');
+                document.forms["create"]["loai_cong_trinh"].setAttribute('required', 'required');
+                return false;
+            }
             if (document.forms["create"]["ten_cong_trinh"].value == "") {
                 callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
                 document.forms["create"]["ten_cong_trinh"].setAttribute('required', 'required');
@@ -49,6 +52,16 @@
             if (document.forms["create"]["thuoc_tap_chi"].value == "") {
                 callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
                 document.forms["create"]["thuoc_tap_chi"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["create"]["tinh_trang"].value == "") {
+                callAlert('Vui lòng chọn tình trạng công trình!', 'error', '1500', '');
+                document.forms["create"]["tinh_trang"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["create"]["trang_thai"].value == "") {
+                callAlert('Vui lòng chọn trạng thái công trình!', 'error', '1500', '');
+                document.forms["create"]["trang_thai"].setAttribute('required', 'required');
                 return false;
             }
 

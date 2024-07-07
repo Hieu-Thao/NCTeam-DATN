@@ -39,7 +39,7 @@ class AuthController extends Controller
                 'activity' => 'Đăng nhập vào hệ thống',
             ]);
 
-            return redirect('/index');
+            return redirect('/thanhvien');
         }
 
         return back()->withErrors([
@@ -49,7 +49,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        if (Auth::check()) { 
+        if (Auth::check()) {
             // Ghi logs
             // Log::create([
             //     'user_id' => Auth::user()->id,

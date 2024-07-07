@@ -12,13 +12,10 @@
 
 @section('content')
     <style>
-        /* input:invalid {
-            border: solid 1.5px red;
-        }
-
+        input:invalid,
         select:invalid {
-            border: solid 1.5px red;
-        } */
+            border: solid 1.5px red !important;
+        }
     </style>
 
     <script>
@@ -59,7 +56,7 @@
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Thêm thành viên tham dự báo cáo</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form name="create" method="post" action="{{ url('/thamdu/create') }}">
+            <form name="create" method="post" onsubmit="return kiemtra();" action="{{ url('/thamdu/create') }}">
                 @csrf
 
                 <div>
@@ -89,14 +86,16 @@
                             <select name="vai_tro" id="vai_tro" required>
                                 <option value="" disabled selected hidden>-- Chọn vai trò --</option>
                                 <option value="Người báo cáo">Người báo cáo</option>
-                                <option value="Người nghe">Người nghe</option>
+                                <option value="Người nghe">Người tham gia</option>
+                                <option value="Người nghe">Thư ký</option>
+                                <option value="Người nghe">Khách mời</option>
                                 <option value="Khác">Khác</option>
                             </select>
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" value="Lưu">
-                        <a class="btn btn-secondary" style="height: 10%;" href="/thamdu">Trở về</a>
+                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" onclick="return kiemtra();" value="Lưu">
+                        <a class="btn btn-secondary" style="height: 10%;" href="/lichbaocao">Trở về</a>
                     </div>
                 </div>
             </form>

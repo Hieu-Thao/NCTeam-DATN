@@ -20,7 +20,6 @@
         div:where(.swal2-container) .swal2-html-container {
             text-align: left;
         }
-
     </style>
 
     <div class="container">
@@ -61,9 +60,10 @@
                                 <td>{{ Str::limit($ytm->noi_dung, 50, '...') }}</td>
                                 {{-- <td>{{ $ytm->hinh_anh }}</td> --}}
                                 <td>
-                                    <a class="xem-anh" style="" href="{{ $ytm->hinh_anh }}" target="_blank">
+                                    <a class="xem-anh" href="{{ asset('storage/' . $ytm->hinh_anh) }}" target="_blank">
                                         Xem ảnh
                                     </a>
+
                                 </td>
                                 <td>
                                     @if ($ytm->trang_thai == 'Đã hoàn thành')
@@ -86,8 +86,8 @@
                                     </button>
                                     <button type="button" class="btn btn-warning btn-sm" id="btnz"
                                         onclick="showMemberInfo('{{ $ytm->ma_y_tuong_moi }}')">
-                                        <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png" width="15px"
-                                            height="15px">
+                                        <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png"
+                                            width="15px" height="15px">
                                     </button>
                                 </td>
                             </tr>
@@ -254,37 +254,36 @@
 
         //Hàm hiển thị thông tin thành viên
         function showMemberInfo(ma_y_tuong_moi) {
-    $.ajax({
-        url: "/ytuongmoi/" + ma_y_tuong_moi,
-        type: "GET",
-        success: function(response) {
-            var noidung = response.noi_dung.replace(/\n/g, '<br>');
+            $.ajax({
+                url: "/ytuongmoi/" + ma_y_tuong_moi,
+                type: "GET",
+                success: function(response) {
+                    var noidung = response.noi_dung.replace(/\n/g, '<br>');
 
-            var memberInfoHtml = `
+                    var memberInfoHtml = `
                 <div>
                     <p><strong>Mã ý tưởng:</strong> ${response.ma_y_tuong_moi}</p>
                     <p><strong>Tên bài báo cáo:</strong> ${response.baibaocao.ten_bai_bao_cao}</p>
                     <p style='text-align:justify;'><strong>Nội dung:</strong> ${noidung}</p>
-                    <p><strong>Hình ảnh:</strong> <a href="${response.hinh_anh}" target="_blank">${response.hinh_anh}</a></p>
+                    <p><strong>Hình ảnh:</strong> <a href="/storage/${response.hinh_anh}" target="_blank">${response.hinh_anh}</a></p>
                     <p><strong>Trạng thái:</strong> ${response.trang_thai}</p>
                 </div>
             `;
 
-            Swal.fire({
-                title: 'Thông tin ý tưởng mới',
-                html: memberInfoHtml,
-                showConfirmButton: false
-            });
-        },
-        error: function(xhr, status, error) {
-            Swal.fire({
-                title: 'Không thể lấy thông tin ý tưởng mới!',
-                icon: 'error',
-                timer: 1500,
+                    Swal.fire({
+                        title: 'Thông tin ý tưởng mới',
+                        html: memberInfoHtml,
+                        showConfirmButton: false
+                    });
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        title: 'Không thể lấy thông tin ý tưởng mới!',
+                        icon: 'error',
+                        timer: 1500,
+                    });
+                }
             });
         }
-    });
-}
-
     </script>
 @endpush

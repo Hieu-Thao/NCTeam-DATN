@@ -13,11 +13,9 @@
 @section('content')
 
     <style>
-        input:invalid {
-            border: solid 1.5px red !important;
-        }
-
-        select:invalid {
+        input:invalid,
+        select:invalid,
+        textarea:invalid {
             border: solid 1.5px red !important;
         }
     </style>
@@ -36,21 +34,36 @@
         }
 
         function kiemtra() {
+            if (document.forms["create"]["loai_tin_tuc"].value == "") {
+                callAlert('Vui lòng chọn loại tin tức!', 'error', '1500', '');
+                document.forms["create"]["loai_tin_tuc"].setAttribute('required', 'required');
+                return false;
+            }
             if (document.forms["create"]["ten_tin_tuc"].value == "") {
                 callAlert('Vui lòng nhập tên tin tức!', 'error', '1500', '');
                 document.forms["create"]["ten_tin_tuc"].setAttribute('required', 'required');
                 return false;
             }
-            // if (document.forms["create"]["nam"].value == "") {
-            //     callAlert('Vui lòng nhập năm!', 'error', '1500', '');
-            //     document.forms["create"]["nam"].setAttribute('required', 'required');
-            //     returen false;
-            // }
-            // if (document.forms["create"]["thuoc_tap_chi"].value == "") {
-            //     callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
-            //     document.forms["create"]["thuoc_tap_chi"].setAttribute('required', 'required');
+            // if (document.forms["create"]["noi_dung"].value == "") {
+            //     callAlert('Vui lòng nhập nội dung tin tức!', 'error', '1500', '');
+            //     document.forms["create"]["noi_dung"].setAttribute('required', 'required');
             //     return false;
             // }
+            if (document.forms["create"]["hinh_anh"].value == "") {
+                callAlert('Vui lòng nhập hình ảnh tin tức!', 'error', '1500', '');
+                document.forms["create"]["hinh_anh"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["create"]["ngay"].value == "") {
+                callAlert('Vui lòng chọn ngày đăng tin tức!', 'error', '1500', '');
+                document.forms["create"]["ngay"].setAttribute('required', 'required');
+                return false;
+            }
+            if (document.forms["create"]["trang_thai"].value == "") {
+                callAlert('Vui lòng chọn trạng thái tin tức!', 'error', '1500', '');
+                document.forms["create"]["trang_thai"].setAttribute('required', 'required');
+                return false;
+            }
 
             return true;
         }
@@ -68,12 +81,14 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Thành viên:</label>
-                            <select name="thanh_vien" id="thanh_vien">
+                            {{-- <select name="thanh_vien" id="thanh_vien">
                                 <option value="" disabled selected hidden>-- Chọn thành viên --</option>
                                 @foreach ($thanhvien as $tv)
                                     <option value="{{ $tv->ma_thanh_vien }}">{{ $tv->ho_ten }}</option>
                                 @endforeach
-                            </select>
+                            </select> --}}
+                            <input style="background: #f0f0f0" type="text" name="thanh_vien" id="thanh_vien"
+                                value="{{ Auth::user()->ho_ten }}" readonly />
                         </div>
                         <div class="coll">
                             <label class="td-input">Loại tin tức:</label>
@@ -88,7 +103,7 @@
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">Tên tin tức:</label>
-                            <input type="text" name="ten_tin_tuc" id="ten_tin_tuc" />
+                            <textarea rows="3" type="text" name="ten_tin_tuc" id="ten_tin_tuc"></textarea>
                         </div>
                     </div>
                     <div class="roww">
@@ -102,12 +117,12 @@
                             <label class="td-input">Hình ảnh:</label>
                             <input type="file" name="hinh_anh" id="hinh_anh"></input>
                         </div>
+                    </div>
+                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Ngày đăng:</label>
                             <input type="date" name="ngay" id="ngay" />
                         </div>
-                    </div>
-                    <div class="roww">
                         <div class="coll">
                             <label class="td-input">Trạng thái:</label>
                             <select name="trang_thai" id="trang_thai">
@@ -116,6 +131,9 @@
                                 <option value="Không công khai">Không công khai</option>
                             </select>
                         </div>
+                    </div>
+                    <div class="roww">
+
                         {{-- <div class="coll">
                             <label class="td-input">Tin nổi bật:</label>
                             <select name="noi_bat" id="noi_bat">
@@ -188,15 +206,15 @@
                             }, 1000);
                         }
                     },
-                    error: function(xhr) {
-                        var response = JSON.parse(xhr.responseText);
-                        if (response.ten_tin_tuc) {
-                            callAlert('Tên tin tức đã tồn tại!', 'error', 1500, '');
-                        } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
-                                '');
-                        }
-                    }
+                    // error: function(xhr) {
+                    //     var response = JSON.parse(xhr.responseText);
+                    //     if (response.ten_tin_tuc) {
+                    //         callAlert('Tên tin tức đã tồn tại!', 'error', 1500, '');
+                    //     } else {
+                    //         callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
+                    //             '');
+                    //     }
+                    // }
                 });
             });
         });
