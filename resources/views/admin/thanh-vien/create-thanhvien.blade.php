@@ -63,6 +63,7 @@
             if (document.forms["create-thanhvien"]["so_dien_thoai"].value.length !== 10) {
                 callAlert('{{ __('vui_long_nhap_du_10_sdt') }}', 'error', '1500', '');
                 document.forms["create-thanhvien"]["so_dien_thoai"].classList.add('invalid');
+                // document.forms["create-thanhvien"]["so_dien_thoai"].setAttribute('required', 'required');
                 return false;
             }
 
@@ -118,7 +119,7 @@
                             <label class="td-input">{{ __('nhom') }}</label>
                             <select name="nhom" id="nhom">
                                 @foreach ($nhom as $nh)
-                                    <option value="" disabled selected hidden>-- Chọn nhóm --</option>
+                                    <option value="" disabled selected hidden>-- {{ __('chon_nhom') }} --</option>
                                     <option value="{{ $nh->ma_nhom }}">{{ $nh->ten_nhom }}</option>
                                 @endforeach
                             </select>

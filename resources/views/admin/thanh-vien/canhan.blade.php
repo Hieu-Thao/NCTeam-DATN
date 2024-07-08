@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('title', 'Danh sách thành viên')
 @section('parent')
-    <a href="/thanhvien">Thành viên</a>
+    <a href="/thanhvien">{{ __('thanh_vien') }}</a>
 @endsection
 @section('child')
-    <a href="/thanhvien/canhan"> Tài khoản của tôi</a>
+    <a href="/thanhvien/canhan">{{ __('tai_khoan_cua_toi') }}</a>
 @endsection
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet" />
@@ -12,7 +12,6 @@
     .lb-dataContainer {
         display: none !important;
     }
-
 </style>
 
 @section('content')
@@ -38,8 +37,7 @@
                 <a href="{{ route('canhan.edit', ['ma_thanh_vien' => $user->ma_thanh_vien]) }}"
                     style="display: flex; align-items: center; gap: 5px;" type="button" class="btn btn-secondary btn-cstt">
                     <img src="{{ asset('/assets/css/icons/tabler-icons/img/pencill.png') }}" width="15px" height="15px"
-                        alt="User Icon">
-                    Chỉnh sửa thông tin
+                        alt="User Icon">{{ __('chinh_sua_thong_tin') }}
                 </a>
 
                 <p class="cn-ten">{{ $user->ho_ten }}</p>
@@ -52,18 +50,18 @@
                 <div class="column-3">
 
                     <div class="td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/user-tr.png') }}"
-                            width="18px" height="18px" alt="User Icon">Thông tin cá nhân</div>
+                            width="18px" height="18px" alt="User Icon">{{ __('thong_tin_ca_nhan') }}</div>
                     <div style="padding-top: 15px">
                         <div class="ttcn">
-                            <div class="ttcn-td">Họ tên:</div>
+                            <div class="ttcn-td">{{ __('ho_ten') }}:</div>
                             <div class="ttcn-nd">{{ $user->ho_ten }}</div>
                         </div>
                         <div class="ttcn">
-                            <div class="ttcn-td">Nhóm:</div>
+                            <div class="ttcn-td">{{ __('nhom') }}:</div>
                             <div class="ttcn-nd">{{ $user->nhom->ten_nhom }} </div>
                         </div>
                         <div class="ttcn">
-                            <div class="ttcn-td">Số điện thoại:</div>
+                            <div class="ttcn-td">{{ __('so_dien_thoai') }}:</div>
                             <div class="ttcn-nd">{{ $user->so_dien_thoai }}</div>
                         </div>
                         <div class="ttcn">
@@ -71,19 +69,19 @@
                             <div class="ttcn-nd">{{ $user->email }}</div>
                         </div>
                         <div class="ttcn">
-                            <div class="ttcn-td">Học hàm:</div>
+                            <div class="ttcn-td">{{ __('hoc_ham') }}:</div>
                             <div class="ttcn-nd">{{ $user->hoc_ham }} </div>
                         </div>
                         <div class="ttcn">
-                            <div class="ttcn-td">Học vị:</div>
+                            <div class="ttcn-td">{{ __('hoc_vi') }}:</div>
                             <div class="ttcn-nd">{{ $user->hoc_vi }} </div>
                         </div>
                         <div class="ttcn">
-                            <div class="ttcn-td">Nơi công tác:</div>
+                            <div class="ttcn-td">{{ __('noi_cong_tac') }}:</div>
                             <div class="ttcn-nd">{{ $user->noi_cong_tac }}</div>
                         </div>
                         <div class="ttcn">
-                            <div class="ttcn-td">Vai trò:</div>
+                            <div class="ttcn-td">{{ __('vai_tro') }}:</div>
                             <div class="ttcn-nd">{{ $user->vai_tro }}</div>
                         </div>
                     </div>
@@ -180,79 +178,83 @@
 
                 <div class="column-7" style="">
                     <div class="td-bbc" style="text-align: left !important;">
-                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt-tr.png') }}" width="18px" height="18px"
-                             alt="User Icon">Lịch báo cáo của tôi
+                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt-tr.png') }}" width="18px"
+                            height="18px" alt="User Icon">{{ __('lich_bao_cao_cua_toi') }}
                     </div>
-
                     @foreach ($lichBaoCao as $lich)
                         <div class="bbcct">
                             <div class="ttbbc-mb">
                                 <div class="ttbbc-tenbbc">{{ $lich->ten_lich_bao_cao }}</div>
                                 @if ($lich->trang_thai == 'Đã báo cáo')
                                     <div class="trt-dbbc">
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/checks.png') }}" width="18px"
-                                             height="18px" alt="User Icon">Đã báo cáo
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/checks.png') }}"
+                                            width="18px" height="18px" alt="User Icon">{{ __('da_bao_cao') }}
                                     </div>
                                 @else
                                     <div class="trt-cbbc">
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/copy-x.png') }}" width="18px"
-                                             height="18px" alt="User Icon">Chưa báo cáo
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/copy-x.png') }}"
+                                            width="18px" height="18px" alt="User Icon">{{ __('chua_bao_cao') }}
                                     </div>
                                 @endif
                             </div>
                             <div class="ttbbc">
-                                <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}"
-                                                           width="18px" height="18px" alt="User Icon"></div>
-                                <div style="margin-right: 5px; font-size: 15px;">Ngày báo cáo: </div>
+                                <div class="ttbbc-td"><img
+                                        src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}" width="18px"
+                                        height="18px" alt="User Icon"></div>
+                                <div style="margin-right: 5px; font-size: 15px;">{{ __('ngay_bao_cao') }}: </div>
                                 <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
                                     {{ \Carbon\Carbon::parse($lich->ngay_bao_cao)->format('d/m/Y') }}
                                 </div>
                             </div>
                             <div class="ttbbc">
-                                <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/map-pin.png') }}"
-                                                           width="18px" height="18px" alt="User Icon"></div>
-                                <div style="margin-right: 5px; font-size: 15px;">Địa điểm báo cáo: </div>
+                                <div class="ttbbc-td"><img
+                                        src="{{ asset('/assets/css/icons/tabler-icons/img/map-pin.png') }}" width="18px"
+                                        height="18px" alt="User Icon"></div>
+                                <div style="margin-right: 5px; font-size: 15px;">{{ __('dia_diem_bao_cao') }}: </div>
                                 <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
                                     {{ $lich->dia_diem }}
                                 </div>
                             </div>
                             <div class="ttbbc">
-                                <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/user-check.png') }}"
-                                                           width="18px" height="18px" alt="User Icon"></div>
-                                <div style="margin-right: 5px; font-size: 15px;">Vai trò: </div>
+                                <div class="ttbbc-td"><img
+                                        src="{{ asset('/assets/css/icons/tabler-icons/img/user-check.png') }}"
+                                        width="18px" height="18px" alt="User Icon"></div>
+                                <div style="margin-right: 5px; font-size: 15px;">{{ __('vai_tro') }}: </div>
                                 <div class="ttbbc-nd">
                                     @if ($lich->pivot->vai_tro == 'Thư ký')
                                         <div class="vt-tk">
-                                            <label>Thư ký</label>
+                                            <label>{{ __('thu_ky') }}</label>
                                         </div>
                                     @elseif ($lich->pivot->vai_tro == 'Người tham gia')
                                         <div class="vt-ntg">
-                                            <label>Người tham gia</label>
+                                            <label>{{ __('nguoi_tham_gia') }}</label>
                                         </div>
                                     @elseif ($lich->pivot->vai_tro == 'Khách mời')
                                         <div class="vt-km">
-                                            <label>Khách mời</label>
+                                            <label>{{ __('khach_moi') }}</label>
                                         </div>
                                     @else
                                         <div class="vt-nbc">
-                                            <label>Người báo cáo</label>
+                                            <label>{{ __('nguoi_bao_cao') }}</label>
                                         </div>
                                     @endif
                                 </div>
                             </div>
                             <div style="display: flex; align-items: center; gap: 20px;">
                                 <div class="ttbbc">
-                                    <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-2.png') }}"
-                                                               width="18px" height="18px" alt="User Icon"></div>
-                                    <div style="margin-right: 5px; font-size: 15px;">Thời gian bắt đầu: </div>
+                                    <div class="ttbbc-td"><img
+                                            src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-2.png') }}"
+                                            width="18px" height="18px" alt="User Icon"></div>
+                                    <div style="margin-right: 5px; font-size: 15px;">{{ __('thoi_gian_bat_dau') }}: </div>
                                     <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
                                         {{ $lich->thoi_gian_bat_dau }}
                                     </div>
                                 </div>
                                 <div class="ttbbc">
-                                    <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-5.png') }}"
-                                                               width="18px" height="18px" alt="User Icon"></div>
-                                    <div style="margin-right: 5px; font-size: 15px; ">Thời gian kết thúc: </div>
+                                    <div class="ttbbc-td"><img
+                                            src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-5.png') }}"
+                                            width="18px" height="18px" alt="User Icon"></div>
+                                    <div style="margin-right: 5px; font-size: 15px; ">{{ __('thoi_gian_ket_thuc') }}: </div>
                                     <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
                                         {{ $lich->thoi_gian_ket_thuc }}
                                     </div>
