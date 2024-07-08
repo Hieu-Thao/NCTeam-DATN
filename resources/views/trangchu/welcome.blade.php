@@ -64,8 +64,7 @@
             <div class="ct-left">
                 <div class="ct-intro">
                     <label
-                        style="text-transform: uppercase; color: #ef5c2c; font-weight: 700; font-size: 16px; margin-left: 10px;">Giới
-                        thiệu trường đại học Trà Vinh</label>
+                        style="text-transform: uppercase; color: #ef5c2c; font-weight: 700; font-size: 16px; margin-left: 10px;">{{ __('gioi_thieu_tvu') }}</label>
                     <div class="ct-nd">
 
                         {{-- <img style="display: block; margin: 0 auto; border-radius: 10px;"
@@ -106,16 +105,14 @@
                                 Nam.</label>
                         </div>
                         <a href="{{ url('/gioithieu') }}"
-                            style="font-size: 13px; color: #ef5c2c; font-weight: 600; text-align: end; padding-right: 15px; text-decoration: none;">Xem
-                            thêm</a>
+                            style="font-size: 13px; color: #ef5c2c; font-weight: 600; text-align: end; padding-right: 15px; text-decoration: none;">{{ __('xem_them') }}</a>
                     </div>
                 </div>
             </div>
 
             <div class="ct-right">
                 <div class="ct-tt">
-                    <label style="text-transform: uppercase; color: #ef5c2c; font-weight: 700; font-size: 16px;">tin tức
-                        nổi bật</label>
+                    <label style="text-transform: uppercase; color: #ef5c2c; font-weight: 700; font-size: 16px;">{{ __('tin_tuc_noi_bat') }}</label>
 
                     {{-- Tin 1 --}}
                     @foreach ($tintuc as $tt)
@@ -129,7 +126,7 @@
                                     <label
                                         class="td-ngay no-underline">{{ \Carbon\Carbon::parse($tt->ngay)->format('d/m/Y') }}</label>
                                     <a class="btn-xemthem"
-                                        href="{{ route('viewtintuc.showview', $tt->ma_tin_tuc) }}">Xem thêm</a>
+                                        href="{{ route('viewtintuc.showview', $tt->ma_tin_tuc) }}">{{ __('xem_them') }}</a>
                                 </div>
                             </div>
                         </a>
@@ -152,8 +149,7 @@
 
         <div style="display: flex; justify-content: center; align-items: center; margin-top: 50px;">
             <label
-                style="text-align: center; text-transform: uppercase; color: #ef5c2c; font-size: 18px; font-weight: 700;">Đối
-                tác của chúng tôi</label>
+                style="text-align: center; text-transform: uppercase; color: #ef5c2c; font-size: 18px; font-weight: 700;">{{ __('doi_tac_cua_chung_toi') }}</label>
         </div>
         <img src="{{ asset('/assets\images\logos\bia-ht.png') }}" width="100%" height="250px" alt="User Icon">
 
@@ -166,19 +162,18 @@
             <div
                 style="background: #003285; flex: 3; height: auto; display: flex; flex-direction: column; color: #fff; gap: 5px; justify-content: center;">
                 <label
-                    style="text-transform: uppercase;font-weight: 600; font-size: 18px; padding: 10px; padding-left: 35px;">Researches
+                    style="text-transform: uppercase;font-weight: 600; font-size: 18px; padding: 10px; padding-left: 35px;">Researchers
                     Team</label>
                 <div
                     style="display: flex; flex-direction: column; font-size: 14px; line-height: 25px; padding: 0px 10px; padding-left: 35px;">
-                    <label>Số 126 Nguyễn Thiện Thành - Khóm 4, Phường 5, Thành phố Trà Vinh, tỉnh Trà Vinh</label>
-                    <label>Điện thoại: (+84).2555.855.963</label>
+                    <label>{{ __('dia_chi_researchers') }}</label>
+                    <label>{{ __('dien_thoai_rt') }}: (+84).2555.855.963</label>
                     <label>Email: researchersteam@tvu.edu.vn</label>
                 </div>
             </div>
             <div class="tt-lh">
                 <label
-                    style="font-size: 14px; text-transform: uppercase; color: #fff; font-weight: 500; margin-bottom: 15px;">Kết
-                    nối với Researches Team</label>
+                    style="font-size: 14px; text-transform: uppercase; color: #fff; font-weight: 500; margin-bottom: 15px;">{{ __('ket_noi_researchers') }}</label>
                 <div>
                     <a href="https://zalo.me/0866475515" target="_blank"><img
                             src="{{ asset('/assets/css/icons/tabler-icons/img/zaloo.png') }}" width="35px"

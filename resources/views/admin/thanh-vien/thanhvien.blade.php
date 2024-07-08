@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Danh sách thành viên')
 @section('parent')
-    <a href="/thanhvien">Thành viên</a>
+    <a href="/thanhvien">{{ __('thanh_vien') }}</a>
 @endsection
 @section('child')
     <a href="/thanhvien"> Danh sách thành viên</a>

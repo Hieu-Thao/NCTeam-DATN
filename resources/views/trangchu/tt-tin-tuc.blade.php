@@ -19,28 +19,48 @@
 </head>
 
 <body>
-    <div class="menu-top">
-        <div class="menu-top-td">
-            <a href="https://www.tvu.edu.vn/" target="_blank">Trang chủ TVU</a>
-            <a href="https://ttsv.tvu.edu.vn/#/home" target="_blank">Cổng thông tin sinh viên</a>
-            <a href="https://daotao.tvu.edu.vn/" target="_blank">Phòng đào tạo</a>
-            <a href="https://khaothi.tvu.edu.vn/" target="_blank">Phòng khảo thí</a>
-            <a href="https://ktcn.tvu.edu.vn/student-set.html" target="_blank">SET</a>
+    <div>
+        <div class="menu-top">
+            <div class="menu-top-td">
+                <div class="vi-en">
+                    <a href="{{ route('lang.switch', 'vi') }}" class="dropdown-item">
+                        @if (App::getLocale() == 'vi')
+                            <span class="font-weight-bold">{{ __('tieng_viet') }}</span>
+                        @else
+                        {{ __('tieng_viet') }}
+                        @endif
+                    </a>
+                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/arrows-exchange.png') }}" width="21px"
+                        height="21px" alt="File Type PPT Icon">
+                    <a href="{{ route('lang.switch', 'en') }}" class="dropdown-item">
+                        @if (App::getLocale() == 'en')
+                            <span class="font-weight-bold">{{ __('tieng_anh') }}</span>
+                        @else
+                        {{ __('tieng_anh') }}
+                        @endif
+                    </a>
+                </div>
+                <div class="op-tvu">
+                    <a href="https://www.tvu.edu.vn/" target="_blank">{{ __('trang_chu_TVU') }}</a>
+                    <a href="https://ttsv.tvu.edu.vn/#/home" target="_blank">{{ __('cong_thong_tin_sinh_vien') }}</a>
+                    <a href="https://daotao.tvu.edu.vn/" target="_blank">{{ __('phong_dao_tao') }}</a>
+                    <a href="https://khaothi.tvu.edu.vn/" target="_blank">{{ __('phong_khao_thi') }}</a>
+                    <a href="https://ktcn.tvu.edu.vn/student-set.html" target="_blank">SET</a>
+                </div>
+            </div>
         </div>
-    </div>
-    <img src="{{ asset('/assets\images\logos\bia-index-cam.png') }}" width="100%" height="250px" alt="User Icon">
-    <div class="menu" id="menu">
-        <a href="{{ url('/') }}">Trang chủ</a>
-        <a href="{{ url('/gioithieu') }}">Giới thiệu</a>
-        <a href="{{ url('/tttintuc') }}">Tin tức</a>
-        <a href="{{ url('/lienhe') }}">Liên hệ</a>
-        <a href="{{ url('/login') }}">Đăng nhập</a>
-    </div>
+        <img src="{{ asset('/assets\images\logos\bia-index-cam.png') }}" width="100%" height="250px" alt="User Icon">
+        <div class="menu" id="menu">
+            <a href="{{ url('/') }}">{{ __('trang_chu') }}</a>
+            <a href="{{ url('/gioithieu') }}">{{ __('gioi_thieu') }}</a>
+            <a href="{{ url('/tttintuc') }}">{{ __('tin_tuc') }}</a>
+            <a href="{{ url('/lienhe') }}">{{ __('lien_he') }}</a>
+            <a href="{{ url('/login') }}">{{ __('dang_nhap') }}</a>
+        </div>
 
     <div style="background: #fff; display: flex; margin-bottom: 50px;">
         <div class="tt-left">
-            <label style="color: #ef5c2c; font-size: 20px; font-weight: 700; margin-bottom: 20px;">KHÁM PHÁ TẤT CẢ TIN
-                TỨC</label>
+            <label style="color: #ef5c2c; font-size: 20px; font-weight: 700; margin-bottom: 20px;">{{ __('kham_pha_tat_ca_tin_tuc') }}</label>
 
             <div style="margin-left: 20px; width: 100%; display: flex; align-items: center; justify-content: center;">
                 <form action="{{ route('tintuc.index') }}" method="GET"
@@ -56,7 +76,7 @@
 
             <div class="dropdown">
                 <div class="dd-top">
-                    <button class="dropdown-button">Theo phân loại</button>
+                    <button class="dropdown-button">{{ __('theo_phan_loai') }}</button>
                     <img class="chevron-right"
                         src="{{ asset('/assets/css/icons/tabler-icons/img/chevron-right.png') }}" width="15px"
                         height="15px" alt="User Icon">
@@ -114,28 +134,31 @@
         <div
             style="background: #003285; flex: 3; height: auto; display: flex; flex-direction: column; color: #fff; gap: 5px; justify-content: center;">
             <label
-                style="text-transform: uppercase;font-weight: 600; font-size: 18px; padding: 10px; padding-left: 35px;">Researches
+                style="text-transform: uppercase;font-weight: 600; font-size: 18px; padding: 10px; padding-left: 35px;">Researchers
                 Team</label>
             <div
                 style="display: flex; flex-direction: column; font-size: 14px; line-height: 25px; padding: 0px 10px; padding-left: 35px;">
-                <label>Số 126 Nguyễn Thiện Thành - Khóm 4, Phường 5, Thành phố Trà Vinh, tỉnh Trà Vinh</label>
-                <label>Điện thoại: (+84).2555.855.963</label>
+                <label>{{ __('dia_chi_researchers') }}</label>
+                <label>{{ __('dien_thoai_rt') }}: (+84).2555.855.963</label>
                 <label>Email: researchersteam@tvu.edu.vn</label>
             </div>
         </div>
         <div class="tt-lh">
             <label
-                style="font-size: 14px; text-transform: uppercase; color: #fff; font-weight: 500; margin-bottom: 15px;">Kết
-                nối với Researches Team</label>
+                style="font-size: 14px; text-transform: uppercase; color: #fff; font-weight: 500; margin-bottom: 15px;">{{ __('ket_noi_researchers') }}</label>
             <div>
-                <img src="{{ asset('/assets/css/icons/tabler-icons/img/zaloo.png') }}" width="35px" height="35px"
-                    alt="User Icon">
-                <img src="{{ asset('/assets/css/icons/tabler-icons/img/fb.png') }}" width="35px" height="35px"
-                    alt="User Icon">
-                <img src="{{ asset('/assets/css/icons/tabler-icons/img/youtube.png') }}" width="35px" height="35px"
-                    alt="User Icon">
-                <img src="{{ asset('/assets/css/icons/tabler-icons/img/tiktok.png') }}" width="35px"
-                    height="35px" alt="User Icon">
+                <a href="https://zalo.me/0866475515" target="_blank"><img
+                        src="{{ asset('/assets/css/icons/tabler-icons/img/zaloo.png') }}" width="35px"
+                        height="35px" alt="User Icon"></a>
+                <a href="https://www.facebook.com/TraVinhUniversity.TVU" target="_blank"><img
+                        src="{{ asset('/assets/css/icons/tabler-icons/img/fb.png') }}" width="35px"
+                        height="35px" alt="User Icon"></a>
+                <a href="https://www.youtube.com/@aiHocTraVinhTVU" target="_blank"><img
+                        src="{{ asset('/assets/css/icons/tabler-icons/img/youtube.png') }}" width="35px"
+                        height="35px" alt="User Icon"></a>
+                <a href="https://www.tiktok.com/@tvugreencampus" target="_blank"><img
+                        src="{{ asset('/assets/css/icons/tabler-icons/img/tiktok.png') }}" width="35px"
+                        height="35px" alt="User Icon"></a>
             </div>
         </div>
     </div>

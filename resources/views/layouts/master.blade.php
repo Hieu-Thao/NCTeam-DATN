@@ -181,7 +181,7 @@
 
                         <li class="nav-small-cap">
                             <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
-                            <span class="hide-menu">ĐĂNG KÝ</span>
+                            <span class="hide-menu">{{ __('dang_ky') }}</span>
                         </li>
                         <li class="sidebar-item">
                             <a class="sidebar-link" href="/dangkybbc" aria-expanded="false">
@@ -314,7 +314,7 @@
                 </div>
             </div>
             <div class="py-6 px-6 text-center border-top">
-                <p class="mb-0 fs-4">Design by <span style="color: #5d87ff; font-weight:600;">Hieuthao</span></p>
+                <p class="mb-0 fs-4">&copy;{{ __('thiet_ke_boi') }} <span style="color: #5d87ff; font-weight:600;">Hieuthao</span></p>
             </div>
 
         </div>
