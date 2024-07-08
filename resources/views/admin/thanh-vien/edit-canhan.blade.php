@@ -4,7 +4,7 @@
     <a href="/thanhvien">{{ __('thanh_vien') }}</a>
 @endsection
 @section('child')
-    <a href="/thanhvien/canhan"> Cập nhật thông tin cá nhân</a>
+    <a href="/thanhvien/canhan">{{ __('cap_nhat_thong_tin_ca_nhan') }}</a>
 @endsection
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet" />
@@ -91,7 +91,7 @@
             <div style="background: #fff; height:80px">
                 <h3
                     style="text-align: center; padding-top: 30px; text-transform: uppercase; color: #5d87ff; font-weight: 600;">
-                    Cập nhật thông tin cá nhân</h3>
+                    {{ __('cap_nhat_thong_tin_ca_nhan') }}</h3>
             </div>
             <div style="background:  #fff; height: auto">
                 <form method="post" name="edit-canhan" action="{{ route('canhan.update', $thanhvien->ma_thanh_vien) }}"
@@ -101,12 +101,12 @@
                     <div style="padding: 0px 30px;">
                         <div class="roww">
                             <div class="coll">
-                                <label class="td-input">Họ tên</label>
+                                <label class="td-input">{{ __('ho_ten') }}</label>
                                 <input type="text" name="ho_ten" id="ho_ten" value="{{ $thanhvien->ho_ten }}" />
                             </div>
 
                             <div class="coll">
-                                <label class="td-input">Số điện thoại</label>
+                                <label class="td-input">{{ __('so_dien_thoai') }}</label>
                                 <input type="text" name="so_dien_thoai" id="so_dien_thoai"
                                     value="{{ $thanhvien->so_dien_thoai }}" />
                             </div>
@@ -114,30 +114,30 @@
 
                         <div class="roww">
                             <div class="coll">
-                                <label class="td-input">Nơi công tác</label>
+                                <label class="td-input">{{ __('noi_cong_tac') }}</label>
                                 <input type="text" name="noi_cong_tac" id="noi_cong_tac"
                                     value="{{ $thanhvien->noi_cong_tac }}" />
                             </div>
                             <div class="coll">
-                                <label class="td-input">Mật khẩu</label>
+                                <label class="td-input">{{ __('mat_khau') }}</label>
                                 <input type="password" name="mat_khau" id="mat_khau" value="" />
                             </div>
                         </div>
                         <div class="roww">
                             <div class="coll">
-                                <label class="td-input">Ảnh đại diện</label>
+                                <label class="td-input">{{ __('anh_dai_dien') }}</label>
                                 <input type="file" name="anh_dai_dien" id="anh_dai_dien">
                                 @if ($thanhvien->anh_dai_dien)
-                                    <span>Ảnh đại diện: </span><i>{{ $thanhvien->anh_dai_dien }}</i>
+                                    <span>{{ __('anh_dai_dien') }}: </span><i>{{ $thanhvien->anh_dai_dien }}</i>
                                 @else
-                                    <span>Ảnh đại diện: </span><i>Chưa có ảnh đại diện</i>
+                                    <span>{{ __('anh_dai_dien') }}: </span><i>{{ __('chua_co_anh_dai_dien') }}</i>
                                 @endif
                             </div>
                         </div>
                         <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
                             <input class="btn btn-success" style="height: 10%;" type="submit" name="submit"
-                                onclick="return kiemtra();" value="Cập nhật">
-                            <a class="btn btn-secondary" style="height: 10%;" href="/thanhvien/canhan">Trở về</a>
+                                onclick="return kiemtra();" value="{{ __('cap_nhat') }}">
+                            <a class="btn btn-secondary" style="height: 10%;" href="/thanhvien/canhan">{{ __('tro_ve') }}</a>
                         </div>
                     </div>
                 </form>
