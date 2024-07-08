@@ -4,15 +4,15 @@
     <a href="/thanhvien">{{ __('thanh_vien') }}</a>
 @endsection
 @section('child')
-    <a href="/thanhvien"> Danh sách thành viên</a>
+    <a href="/thanhvien"> {{ __('danh_sach_thanh_vien') }}</a>
 @endsection
 @section('content')
     <style>
         .swal2-title {
             /* display: block; */
-            color: #5D87FF;
-            text-transform: uppercase;
-            font-size: 18px;
+            /* color: #5D87FF; */
+            /* text-transform: uppercase; */
+            /* font-size: 18px; */
             padding-top: 20px;
         }
     </style>
@@ -33,11 +33,11 @@
             <div class="card-btn btn-btnn" style="#">
                 <a href="/thanhvien/create-thanhvien">
                     <button type="button" class="btn btn-success btn-sm" id="btnz">
-                        <img src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm
+                        <img src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> {{ __('them') }}
                     </button>
                 </a>
                 <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
-                    <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
+                    <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> {{ __('xoa') }}
                 </button>
             </div>
         @endif
@@ -52,15 +52,15 @@
                                     <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
                                 </th>
                             @endif
-                            <th>Mã TV</th>
-                            <th>Họ tên</th>
-                            <th>Nhóm</th>
-                            <th>Số điện thoại</th>
+                            <th>{{ __('ma_tv') }}</th>
+                            <th>{{ __('ho_ten') }}</th>
+                            <th>{{ __('nhom') }}</th>
+                            <th>{{ __('so_dien_thoai') }}</th>
                             {{-- <th>Học hàm, học vị</th> --}}
                             {{-- <th>Nơi công tác</th> --}}
-                            <th>Vai trò</th>
+                            <th>{{ __('vai_tro') }}</th>
                             <th>Email</th>
-                            <th>Tính năng</th>
+                            <th>{{ __('tuy_chon') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -121,39 +121,38 @@
             $('#thanhvien').DataTable({
                 language: {
                     "decimal": "",
-                    "emptyTable": "Không có dữ liệu",
-                    "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                    "infoEmpty": "Đang hiển thị 0 đến 0 của 0 mục",
-                    "infoFiltered": "(đã lọc từ tổng số _MAX_ mục)",
+                    "emptyTable": "{{ __('khong_co_du_lieu') }}",
+                    "info": "{{ __('dang_hien_thi') }} _START_ {{ __('den') }} _END_ {{ __('cua') }} _TOTAL_ {{ __('muc') }}",
+                    "infoEmpty": "{{ __('dang_hien_thi') }} 0 {{ __('den') }} 0 {{ __('cua') }} 0 {{ __('muc') }}",
+                    "infoFiltered": "({{ __('da_loc_tu_tong_so') }} _MAX_ {{ __('muc') }})",
                     "infoPostFix": "",
                     "thousands": ",",
-                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "lengthMenu": "{{ __('hien_thi') }} _MENU_ {{ __('muc') }}",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
                     "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
-                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
+                    "zeroRecords": "{{ __('khong_tim_thay_ket_qua_phu_hop') }}",
                     "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Tiếp",
-                        "previous": "Trước"
+                        "first": "{{ __('dau') }}",
+                        "last": "{{ __('cuoi') }}",
+                        "next": "{{ __('tiep') }}",
+                        "previous": "{{ __('truoc') }}"
                     },
                     "aria": {
                         "sortAscending": ": sắp xếp tăng dần",
                         "sortDescending": ": sắp xếp giảm dần"
                     },
-                    "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
+                    "searchPlaceholder": "{{ __('tim_kiem_o_day_ne') }} ...!"
                 },
                 "pageLength": 10,
                 //"searching":false
                 "columnDefs": [{
                         "orderable": false,
                         "targets": 0
-                    }, // Disable sorting on the first column (checkbox column)
+                    },
                 ]
             });
         });
-
 
 
         function callAlert(title, icon, timer, text) {
@@ -196,13 +195,13 @@
 
             if (selected.length > 0) {
                 Swal.fire({
-                    title: 'Bạn có chắc chắn muốn xóa các thành viên đã chọn?',
+                    title: '{{ __('ban_co_chac_xoa_nhung_thanh_vien_da_chon') }}',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Xóa',
-                    cancelButtonText: 'Hủy'
+                    confirmButtonText: '{{ __('xoa') }}',
+                    cancelButtonText: '{{ __('huy') }}'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
@@ -215,20 +214,20 @@
                                 ma_thanh_vien: selected
                             },
                             success: function(response) {
-                                callAlert('Xóa thành viên thành công', 'success', '1500', '');
+                                callAlert('{{ __('xoa_thanh_vien_thanh_cong') }}', 'success', '1500', '');
                                 setTimeout(() => {
                                     window.location.reload();
                                 }, 1500);
                             },
                             error: function(xhr, status, error) {
-                                callAlert('Xóa thành viên không thành công!', 'error', '1500', '');
+                                callAlert('{{ __('xoa_thanh_vien_khong_thanh_cong') }}', 'error', '1500', '');
                             }
                         });
                     }
                 });
             } else {
                 Swal.fire({
-                    title: 'Vui lòng chọn ít nhất một thành viên để xóa!',
+                    title: '{{ __('vui_long_chon_it_nhat_mot_thanh_vien_de_xoa') }}',
                     icon: 'warning',
                     timer: 1500,
                     showConfirmButton: false
@@ -240,13 +239,13 @@
         // Hàm xóa thành viên
         function deleteMember(ma_thanh_vien) {
             Swal.fire({
-                title: 'Bạn có chắc chắn muốn xóa?',
+                title: '{{ __('ban_co_chac_chan_muon_xoa') }}',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
+                confirmButtonText: '{{ __('xoa') }}',
+                cancelButtonText: '{{ __('huy') }}'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -256,13 +255,13 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(response) {
-                            callAlert('Xóa thành viên thành công', 'success', '1500', '');
+                            callAlert('{{ __('xoa_thanh_vien_thanh_cong') }}', 'success', '1500', '');
                             setTimeout(() => {
                                 window.location.reload();
                             }, 1500);
                         },
                         error: function(xhr, status, error) {
-                            callAlert('Xóa thành viên không thành công!', 'error', '1500', '');
+                            callAlert('{{ __('xoa_thanh_vien_khong_thanh_cong') }}', 'error', '1500', '');
                         }
                     });
                 }
@@ -277,27 +276,27 @@
                 success: function(response) {
                     var memberInfoHtml = `
                 <div style='display: flex; flex-direction: column; align-items: flex-start; padding: 5px 10px;'>
-                    <p><strong>Mã TV:</strong> ${response.ma_thanh_vien}</p>
-                    <p><strong>Họ tên:</strong> ${response.ho_ten}</p>
-                    <p><strong>Nhóm:</strong> ${response.nhom.ten_nhom}</p>
-                    <p><strong>Số điện thoại:</strong> ${response.so_dien_thoai}</p>
+                    <p><strong>{{ __('ma_tv') }}:</strong> ${response.ma_thanh_vien}</p>
+                    <p><strong>{{ __('ho_ten') }}:</strong> ${response.ho_ten}</p>
+                    <p><strong>{{ __('nhom') }}:</strong> ${response.nhom.ten_nhom}</p>
+                    <p><strong>{{ __('so_dien_thoai') }}:</strong> ${response.so_dien_thoai}</p>
                     <p><strong>Email:</strong> ${response.email}</p>
-                    <p><strong>Vai trò:</strong> ${response.vai_tro}</p>
-                    ${response.hoc_ham ? `<p><strong>Học hàm:</strong> ${response.hoc_ham}</p>` : ''}
-                    ${response.hoc_vi ? `<p><strong>Học vị:</strong> ${response.hoc_vi}</p>` : ''}
-                    <p><strong>Nơi công tác:</strong> ${response.noi_cong_tac}</p>
+                    <p><strong>{{ __('vai_tro') }}:</strong> ${response.vai_tro}</p>
+                    ${response.hoc_ham ? `<p><strong>{{ __('hoc_ham') }}:</strong> ${response.hoc_ham}</p>` : ''}
+                    ${response.hoc_vi ? `<p><strong>{{ __('hoc_vi') }}:</strong> ${response.hoc_vi}</p>` : ''}
+                    <p><strong>{{ __('noi_cong_tac') }}:</strong> ${response.noi_cong_tac}</p>
                 </div>
             `;
 
                     Swal.fire({
-                        title: 'Thông tin thành viên',
+                        title: '{{ __('thong_tin_thanh_vien') }}',
                         html: memberInfoHtml,
                         showConfirmButton: false
                     });
                 },
                 error: function(xhr, status, error) {
                     Swal.fire({
-                        title: 'Không thể lấy thông tin thành viên!',
+                        title: '{{ __('khong_the_lay_thong_tin_thanh_vien') }}',
                         icon: 'error',
                         timer: 1500,
                     });
