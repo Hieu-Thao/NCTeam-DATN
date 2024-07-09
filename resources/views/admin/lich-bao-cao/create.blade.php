@@ -3,11 +3,11 @@
 @section('title', 'Thêm mới lịch báo cáo')
 
 @section('parent')
-    <a href="/lichbaocao">Lịch báo cáo</a>
+    <a href="/lichbaocao">{{ __('lich_bao_cao') }}</a>
 @endsection
 
 @section('child')
-    <a href="/lichbaocao/create"> Thêm mới lịch báo cáo</a>
+    <a href="/lichbaocao/create"> {{ __('them_moi_lich_bao_cao') }}</a>
 @endsection
 
 @section('content')
@@ -35,22 +35,22 @@
 
         function kiemtra() {
             if (document.forms["create"]["dia_diem"].value == "") {
-                callAlert('Vui lòng nhập địa điểm báo cáo!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_nhap_dia_diem_bao_cao') }}', 'error', '1500', '');
                 document.forms["create"]["dia_diem"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["ngay_bao_cao"].value == "") {
-                callAlert('Vui lòng chọn ngày báo cáo!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_chon_ngay_bao_cao') }}', 'error', '1500', '');
                 document.forms["create"]["ngay_bao_cao"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["thoi_gian_bat_dau"].value == "") {
-                callAlert('Vui lòng nhập thời gian bắt đầu!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_nhap_thoi_gian_bat_dau') }}', 'error', '1500', '');
                 document.forms["create"]["thoi_gian_bat_dau"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["thoi_gian_ket_thuc"].value == "") {
-                callAlert('Vui lòng nhập thời gian kết thúc!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_nhap_thoi_gian_ket_thuc') }}', 'error', '1500', '');
                 document.forms["create"]["thoi_gian_ket_thuc"].setAttribute('required', 'required');
                 return false;
             }
@@ -61,7 +61,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Thêm mới lịch báo cáo</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">{{ __('them_moi_lich_bao_cao') }}</h4>
         </div>
         <div style="padding-top: 20px;">
             <form name="create" method="post" action="{{ url('/lichbaocao/create') }}">
@@ -69,36 +69,37 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Địa điểm báo cáo:</label>
+                            <label class="td-input">{{ __('dia_diem_bao_cao') }}:</label>
                             <input type="text" name="dia_diem" id="dia_diem" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">Ngày báo cáo:</label>
+                            <label class="td-input">{{ __('ngay_bao_cao') }}:</label>
                             <input type="date" name="ngay_bao_cao" id="ngay_bao_cao" />
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Thời gian bắt đầu:</label>
+                            <label class="td-input">{{ __('thoi_gian_bat_dau') }}:</label>
                             <input type="text" name="thoi_gian_bat_dau" id="thoi_gian_bat_dau" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">Thời gian kết thúc:</label>
+                            <label class="td-input">{{ __('thoi_gian_ket_thuc') }}:</label>
                             <input type="text" name="thoi_gian_ket_thuc" id="thoi_gian_ket_thuc" />
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tên lịch báo cáo:</label>
-                            <input type="text" style="background: #ececec;" name="ten_lich_bao_cao" id="ten_lich_bao_cao" readonly></input>
+                            <label class="td-input">{{ __('ten_lich_bao_cao') }}:</label>
+                            <input type="text" style="background: #ececec;" name="ten_lich_bao_cao" id="ten_lich_bao_cao"
+                                readonly></input>
                         </div>
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" type="submit" name="submit" value="Lưu">
-                        <a class="btn btn-secondary" href="/lichbaocao">Trở về</a>
+                        <input class="btn btn-success" type="submit" name="submit" value="{{ __('luu') }}">
+                        <a class="btn btn-secondary" href="/lichbaocao">{{ __('tro_ve') }}</a>
                     </div>
                 </div>
             </form>
@@ -134,21 +135,20 @@
                     data: formData,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('Thành công!', 'success', 1500, '');
+                            callAlert('{{ __('them_lich_bao_cao_thanh_cong') }}', 'success',
+                                1500, '');
                             setTimeout(() => {
                                 window.location.href = '/lichbaocao';
                             }, 1000);
                         }
                     },
-                    // error: function(xhr) {
-                    //     var response = JSON.parse(xhr.responseText);
-                    //     if (response.dia_diem) {
-                    //         callAlert('Tên lịch báo cáo đã tồn tại!', 'error', 1500, '');
-                    //     } else {
-                    //         callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
-                    //             '');
-                    //     }
-                    // }
+                    error: function(xhr) {
+                        error: function(xhr) {
+                            var response = JSON.parse(xhr.responseText);
+                            callAlert('{{ __('ban_chua_nhap_du_thong_tin_can_thiet') }}', 'error',
+                                1500, '');
+                        }
+                    }
                 });
             });
         });

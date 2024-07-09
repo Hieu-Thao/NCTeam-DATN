@@ -1,23 +1,22 @@
 @extends('layouts.master')
 @section('title', 'Danh sách nhóm')
 @section('parent')
-    <a href="/nhom">
-        Lịch báo cáo</a>
+    <a href="/nhom">{{ __('lich_bao_cao') }}</a>
 @endsection
 @section('child')
-    <a href="/nhom">Danh sách lịch báo cáo</a>
+    <a href="/nhom">{{ __('danh_sach_lich_bao_cao') }}</a>
 @endsection
 @section('content')
 
     <div class="container">
         <div class="card-title">
-            <h4>Danh sách lịch báo cáo</h4>
+            <h4>{{ __('danh_sach_lich_bao_cao') }}</h4>
         </div>
         @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
             <div class="card-btn btn-btnn" style="#">
                 <a href="/lichbaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
                             src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">
-                        Thêm</button></a>
+                            {{ __('them') }}</button></a>
                 {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
                 {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
@@ -26,7 +25,7 @@
 
                 <button type="button" class="btn btn-danger btn-sm" id="btnz">
                     <img src="../assets/css/icons/tabler-icons/img/device-laptop.png" width="15px" height="15px"><a
-                        class="btn-cn" href="/thamdu/create">Tham dự seminar</a></button>
+                        class="btn-cn" href="/thamdu/create">{{ __('tham_du_seminar') }}</a></button>
             </div>
         @endif
         <div class="tb">
@@ -37,14 +36,14 @@
                             {{-- <th>
                                 <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
                             </th> --}}
-                            <th>Mã lịch</th>
-                            <th>Tên lịch báo cáo</th>
-                            <th>Ngày báo cáo</th>
-                            <th>Địa điểm</th>
-                            <th>Thời gian bắt đầu</th>
-                            <th>Thời gian kết thúc</th>
-                            <th>Trạng thái</th>
-                            <th></th>
+                            <th>{{ __('ma_lich') }}</th>
+                            <th>{{ __('ten_lich_bao_cao') }}</th>
+                            <th>{{ __('ngay_bao_cao') }}</th>
+                            <th>{{ __('dia_diem_bao_cao') }}</th>
+                            <th>{{ __('thoi_gian_bat_dau') }}</th>
+                            <th>{{ __('thoi_gian_ket_thuc') }}</th>
+                            <th>{{ __('trang_thai') }}</th>
+                            <th>{{ __('tuy_chon') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -80,7 +79,7 @@
                                             src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
                                             height="15px"></button> --}}
                                     <button type="button" class="btn btn-warning btn-sm" id="btnz"
-                                        onclick="viewThamDu('{{ $lbc->ma_lich}}')">
+                                        onclick="viewThamDu('{{ $lbc->ma_lich }}')">
                                         <img src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px"
                                             height="15px">
                                     </button>
@@ -102,34 +101,36 @@
             $('#lichbaocao').DataTable({
                 language: {
                     "decimal": "",
-                    "emptyTable": "Không có dữ liệu",
-                    "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                    "infoEmpty": "Đang hiển thị 0 đến 0 của 0 mục",
-                    "infoFiltered": "(đã lọc từ tổng số _MAX_ mục)",
+                    "emptyTable": "{{ __('khong_co_du_lieu') }}",
+                    "info": "{{ __('dang_hien_thi') }} _START_ {{ __('den') }} _END_ {{ __('cua') }} _TOTAL_ {{ __('muc') }}",
+                    "infoEmpty": "{{ __('dang_hien_thi') }} 0 {{ __('den') }} 0 {{ __('cua') }} 0 {{ __('muc') }}",
+                    "infoFiltered": "({{ __('da_loc_tu_tong_so') }} _MAX_ {{ __('muc') }})",
                     "infoPostFix": "",
                     "thousands": ",",
-                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "lengthMenu": "{{ __('hien_thi') }} _MENU_ {{ __('muc') }}",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
                     "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
-                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
+                    "zeroRecords": "{{ __('khong_tim_thay_ket_qua_phu_hop') }}",
                     "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Tiếp",
-                        "previous": "Trước"
+                        "first": "{{ __('dau') }}",
+                        "last": "{{ __('cuoi') }}",
+                        "next": "{{ __('tiep') }}",
+                        "previous": "{{ __('truoc') }}"
                     },
                     "aria": {
                         "sortAscending": ": sắp xếp tăng dần",
                         "sortDescending": ": sắp xếp giảm dần"
                     },
-                    "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
+                    "searchPlaceholder": "{{ __('tim_kiem_o_day_ne') }} ...!"
                 },
                 "pageLength": 10,
+                //"searching":false
                 "columnDefs": [{
-                    "orderable": false,
-                    "targets": 0
-                }, ]
+                        "orderable": false,
+                        "targets": 0
+                    },
+                ]
             });
         });
 
@@ -251,3 +252,6 @@
         }
     </script>
 @endpush
+
+
+
