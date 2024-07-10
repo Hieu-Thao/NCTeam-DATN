@@ -3,11 +3,11 @@
 @section('title', 'Thêm mới công trình')
 
 @section('parent')
-    <a href="/congtrinh">Công trình</a>
+    <a href="/congtrinh">{{ __('cong_trinh') }}</a>
 @endsection
 
 @section('child')
-    <a href="/congtrinh/create"> Thêm mới công trình</a>
+    <a href="/congtrinh/create">{{ __('them_moi_cong_trinh') }}</a>
 @endsection
 
 @section('content')
@@ -35,32 +35,32 @@
 
         function kiemtra() {
             if (document.forms["create"]["loai_cong_trinh"].value == "") {
-                callAlert('Vui lòng chọn loại công trình!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_chon_loai_cong_trinh') }}', 'error', '1500', '');
                 document.forms["create"]["loai_cong_trinh"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["ten_cong_trinh"].value == "") {
-                callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_nhap_ten_cong_trinh') }}', 'error', '1500', '');
                 document.forms["create"]["ten_cong_trinh"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["nam"].value == "") {
-                callAlert('Vui lòng nhập năm!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_nhap_nam') }}', 'error', '1500', '');
                 document.forms["create"]["nam"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["thuoc_tap_chi"].value == "") {
-                callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_nhap_tap_chi') }}', 'error', '1500', '');
                 document.forms["create"]["thuoc_tap_chi"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["tinh_trang"].value == "") {
-                callAlert('Vui lòng chọn tình trạng công trình!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_chon_tinh_trang_cong_trinh') }}', 'error', '1500', '');
                 document.forms["create"]["tinh_trang"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["trang_thai"].value == "") {
-                callAlert('Vui lòng chọn trạng thái công trình!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_chon_trang_thai_cong_trinh') }}', 'error', '1500', '');
                 document.forms["create"]["trang_thai"].setAttribute('required', 'required');
                 return false;
             }
@@ -71,7 +71,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Thêm mới công trình</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">{{ __('them_moi_cong_trinh') }}</h4>
         </div>
         <div style="padding-top: 20px;">
             <form name="create" method="post" action="{{ url('/congtrinh/create') }}">
@@ -82,49 +82,49 @@
                         <div class="coll">
                             <label class="td-input">Loại công trình:</label>
                             <select name="loai_cong_trinh" id="loai_cong_trinh">
-                                <option value="" disabled selected hidden>-- Chọn loại công trình --</option>
+                                <option value="" disabled selected hidden>-- {{ __('chon_loai_cong_trinh') }} --</option>
                                 @foreach ($loaicongtrinh as $lct)
                                     <option value="{{ $lct->ma_loai }}">{{ $lct->ten_loai }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input">Tên công trình:</label>
+                            <label class="td-input">{{ __('ten_cong_trinh') }}:</label>
                             <input type="text" name="ten_cong_trinh" id="ten_cong_trinh" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">Năm:</label>
+                            <label class="td-input">{{ __('nam') }}:</label>
                             <input type="text" name="nam" id="nam" />
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Thuộc tạp chí:</label>
+                            <label class="td-input">{{ __('thuoc_tap_chi') }}:</label>
                             <input type="text" name="thuoc_tap_chi" id="thuoc_tap_chi" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">Tình trạng:</label>
+                            <label class="td-input">{{ __('tinh_trang') }}:</label>
                             <select name="tinh_trang" id="tinh_trang">
-                                <option value="" disabled selected hidden>-- Chọn tình trạng --</option>
-                                <option value="Đã xuất bản">Đã xuất bản</option>
-                                <option value="Chưa xuất bản">Chưa xuất bản</option>
+                                <option value="" disabled selected hidden>-- {{ __('chon_tinh_trang') }} --</option>
+                                <option value="Đã xuất bản">{{ __('da_xuat_ban') }}</option>
+                                <option value="Chưa xuất bản">{{ __('chua_xuat_ban') }}</option>
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input" for="trang_thai">Trạng thái:</label>
+                            <label class="td-input" for="trang_thai">{{ __('trang_thai') }}:</label>
                             <select name="trang_thai" id="trang_thai">
-                                <option value="" disabled selected hidden>-- Chọn trạng thái --</option>
-                                <option value="1">Công khai</option>
-                                <option value="0">Không công khai</option>
+                                <option value="" disabled selected hidden>-- {{ __('chon_trang_thai') }} --</option>
+                                <option value="1">{{ __('cong_khai') }}</option>
+                                <option value="0">{{ __('khong_cong_khai') }}</option>
                             </select>
                         </div>
                     </div>
 
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" value="Lưu">
-                        <a class="btn btn-secondary" style="height: 10%;" href="/congtrinh">Trở về</a>
+                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" value="{{ __('luu') }}">
+                        <a class="btn btn-secondary" style="height: 10%;" href="/congtrinh">{{ __('tro_ve') }}</a>
                     </div>
                 </div>
             </form>
@@ -161,7 +161,7 @@
                     data: formData,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('Thành công!', 'success', 1500, '');
+                            callAlert('{{ __('them_cong_trinh_thanh_cong') }}', 'success', 1500, '');
                             setTimeout(() => {
                                 window.location.href = '/congtrinh';
                             }, 1000);
@@ -170,9 +170,9 @@
                     error: function(xhr) {
                         var response = JSON.parse(xhr.responseText);
                         if (response.ten_cong_trinh) {
-                            callAlert('Tên công trình đã tồn tại!', 'error', 1500, '');
+                            callAlert('{{ __('ten_cong_trinh_da_ton_tai') }}', 'error', 1500, '');
                         } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
+                            callAlert('{{ __('ban_chua_nhap_du_thong_tin_can_thiet') }}', 'error', 1500,
                                 '');
                         }
                     }

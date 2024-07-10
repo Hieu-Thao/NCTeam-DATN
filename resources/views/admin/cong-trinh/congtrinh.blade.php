@@ -1,22 +1,22 @@
 @extends('layouts.master')
 @section('title', 'Danh sách nhóm')
 @section('parent')
-    <a href="/nhom">Công trình</a>
+    <a href="/nhom">{{ __('cong_trinh') }}</a>
 @endsection
 @section('child')
-    <a href="/nhom">Danh sách công trình</a>
+    <a href="/nhom">{{ __('danh_sach_cong_trinh') }}</a>
 @endsection
 
 @section('content')
 
     <div class="container">
         <div class="card-title">
-            <h4>Danh sách công trình</h4>
+            <h4>{{ __('danh_sach_cong_trinh') }}</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
            @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
             <a href="/congtrinh/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
-                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
+                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> {{ __('them') }}</button></a>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
             {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
@@ -24,11 +24,11 @@
             </button> --}}
             <button type="button" class="btn btn-info btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/clipboard-list.png" width="15px" height="15px"><a
-                    class="btn-cn" href="/congtrinh/loaicongtrinh">Loại công trình</a></button>
+                    class="btn-cn" href="/congtrinh/loaicongtrinh">{{ __('loai_cong_trinh') }}</a></button>
 
             <button type="button" class="btn btn-danger btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/device-laptop.png" width="15px" height="15px"><a
-                    class="btn-cn" href="/thamgia/create">Tham gia công trình</a></button>
+                    class="btn-cn" href="/thamgia/create">{{ __('tham_gia_cong_trinh') }}</a></button>
             @endif
         </div>
         <div class="tb">
@@ -39,13 +39,13 @@
                             {{-- <th width="5%">
                                 <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
                             </th> --}}
-                            <th>Mã CT</th>
-                            <th>Loại công trình</th>
-                            <th>Tên công trình</th>
-                            <th>Năm</th>
+                            <th>{{ __('ma_ct') }}</th>
+                            <th>{{ __('loai_cong_trinh') }}</th>
+                            <th>{{ __('ten_cong_trinh') }}</th>
+                            <th>{{ __('nam') }}</th>
                             {{-- <th>Thuộc tạp chí</th> --}}
-                            <th>Tình trạng</th>
-                            <th>Trạng thái</th>
+                            <th>{{ __('tinh_trang') }}</th>
+                            <th>{{ __('trang_thai') }}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -122,35 +122,35 @@
             $('#congtrinh').DataTable({
                 language: {
                     "decimal": "",
-                    "emptyTable": "Không có dữ liệu",
-                    "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                    "infoEmpty": "Đang hiển thị 0 đến 0 của 0 mục",
-                    "infoFiltered": "(đã lọc từ tổng số _MAX_ mục)",
+                    "emptyTable": "{{ __('khong_co_du_lieu') }}",
+                    "info": "{{ __('dang_hien_thi') }} _START_ {{ __('den') }} _END_ {{ __('cua') }} _TOTAL_ {{ __('muc') }}",
+                    "infoEmpty": "{{ __('dang_hien_thi') }} 0 {{ __('den') }} 0 {{ __('cua') }} 0 {{ __('muc') }}",
+                    "infoFiltered": "({{ __('da_loc_tu_tong_so') }} _MAX_ {{ __('muc') }})",
                     "infoPostFix": "",
                     "thousands": ",",
-                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "lengthMenu": "{{ __('hien_thi') }} _MENU_ {{ __('muc') }}",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
                     "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
-                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
+                    "zeroRecords": "{{ __('khong_tim_thay_ket_qua_phu_hop') }}",
                     "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Tiếp",
-                        "previous": "Trước"
+                        "first": "{{ __('dau') }}",
+                        "last": "{{ __('cuoi') }}",
+                        "next": "{{ __('tiep') }}",
+                        "previous": "{{ __('truoc') }}"
                     },
                     "aria": {
                         "sortAscending": ": sắp xếp tăng dần",
                         "sortDescending": ": sắp xếp giảm dần"
                     },
-                    "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
+                    "searchPlaceholder": "{{ __('tim_kiem_o_day_ne') }} ...!"
                 },
                 "pageLength": 10,
                 //"searching":false
                 "columnDefs": [{
                         "orderable": false,
                         "targets": 0
-                    }, // Disable sorting on the first column (checkbox column)
+                    },
                 ]
             });
         });
