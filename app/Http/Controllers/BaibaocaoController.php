@@ -185,17 +185,7 @@ class BaibaocaoController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $errors = $validator->errors();
-            $response = [];
-
-            if ($errors->has('ten_bai_bao_cao')) {
-                $response['ten_bai_bao_cao'] = 'Tên bài báo cáo đã tồn tại';
-            }
-
-            if ($errors->has('link_goc_bai_bao_cao')) {
-                $response['link_goc_bai_bao_cao'] = 'Link bài báo cáo đã tồn tại';
-            }
-            return response()->json($response, 400);
+            return response()->json($validator->errors(), 400);
         }
 
         $ma_thanh_vien = Auth::user()->ma_thanh_vien;

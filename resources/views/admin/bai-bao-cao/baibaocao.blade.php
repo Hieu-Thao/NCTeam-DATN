@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('title', 'Danh sách nhóm')
 @section('parent')
-    <a href="/nhom">Bài báo cáo</a>
+    <a href="/nhom">{{ __('bai_bao_cao') }}</a>
 @endsection
 @section('child')
-    <a href="/nhom">Danh sách bài báo cáo</a>
+    <a href="/nhom">{{ __('danh_sach_bai_bao_cao') }}</a>
 @endsection
 @section('content')
 
@@ -79,13 +79,12 @@
 
     <div class="container">
         <div class="card-title">
-            <h4>Danh sách bài báo cáo</h4>
+            <h4>{{ __('danh_sach_bai_bao_cao') }}</h4>
         </div>
         <div class="card-btn btn-btnn">
             <a href="/baibaocao/baibaocaocn">
                 <button type="button" class="btn btn-light btn-sm" id="btnz">
-                    <img src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px" height="15px"> Bài báo
-                    cáo của tôi
+                    <img src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px" height="15px"> {{ __('bai_bao_cao_cua_toi') }}
                 </button>
             </a>
         </div>
@@ -94,12 +93,12 @@
                 <table id="baibaocao" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
-                            <th>STT</th>
-                            <th>Thành viên</th>
-                            <th width="10%">Tên bài báo cáo</th>
-                            <th>Ngày báo cáo</th>
-                            <th>Trạng thái</th>
-                            <th></th>
+                            <th>{{ __('ma_bai_bao_cao') }}</th>
+                            <th>{{ __('ho_ten') }}</th>
+                            <th width="10%">{{ __('ten_bai_bao_cao') }}</th>
+                            <th>{{ __('ngay_bao_cao') }}</th>
+                            <th>{{ __('trang_thai') }}</th>
+                            <th>{{ __('tuy_chon') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,17 +127,17 @@
                                 <div class="popup-tt">
                                     <p
                                         style="font-size: 18px;text-align: center;font-weight: 700; color: #5D87FF; margin-bottom: 0px;">
-                                        THÔNG TIN BÀI BÁO CÁO</p>
+                                        {{ __('thong_tin_bai_bao_cao') }}</p>
                                     <div class="pu-ttbbc">
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/user.png') }}" width="18px"
                                             height="18px" alt="User Icon">
-                                        <p class="pu-td">Thành viên:</p>
+                                        <p class="pu-td">{{ __('ho_ten') }}:</p>
                                         <p class="pu-nd">{{ $bbc->ThanhVien->ho_ten }}</p>
                                     </div>
                                     <div class="pu-ttbbc">
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}"
                                             width="18px" height="18px" alt="User Icon">
-                                        <p class="pu-td">Ngày báo cáo:</p>
+                                        <p class="pu-td">{{ __('ngay_bao_cao') }}:</p>
                                         <p class="pu-nd">
                                             {{ \Carbon\Carbon::parse($bbc->LichBaoCao->ngay_bao_cao)->format('d/m/Y') }}
                                         </p>
@@ -146,14 +145,14 @@
                                     <div class="pu-ttbbc">
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/laptop.png') }}"
                                             width="18px" height="18px" alt="User Icon">
-                                        <p class="pu-td">Tên bài báo cáo:</p>
+                                        <p class="pu-td">{{ __('ten_bai_bao_cao') }}:</p>
                                         <p class="pu-nd">{{ $bbc->ten_bai_bao_cao }}</p>
                                     </div>
 
                                     <div class="pu-ttbbc">
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/link.png') }}"
                                             width="18px" height="18px" alt="User Icon">
-                                        <p class="pu-td">Link gốc bài báo cáo:</p>
+                                        <p class="pu-td">{{ __('link_goc_bai_bao_cao') }}:</p>
                                         <p class="pu-nd"><a style="color: #5D87FF; font-size:15px;"
                                                 href="{{ $bbc->link_goc_bai_bao_cao }}"
                                                 target="_blank">{{ $bbc->link_goc_bai_bao_cao }}</a></p>
@@ -161,14 +160,14 @@
                                     <div class="pu-ttbbc">
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt.png') }}"
                                             width="18px" height="18px" alt="User Icon">
-                                        <p class="pu-td">Link file PPT:</p>
+                                        <p class="pu-td">{{ __('link_file_ppt') }}:</p>
                                         <p class="pu-nd">
                                             {{-- <a style="color: #5D87FF; font-size:15px;"
                                                 href="{{ asset('storage/' . $bbc->file_ppt) }}"
                                                 download="{{ basename($bbc->file_ppt) }}">
                                                 {{ basename($bbc->file_ppt) }}
                                             </a> --}}
-                                            <a href="{{ asset('storage/' . $bbc->file_ppt) }}" download>Download PPT</a>
+                                            <a href="{{ asset('storage/' . $bbc->file_ppt) }}" download>{{ __('tai_xuong') }}</a>
 
                                         </p>
                                     </div>
@@ -177,7 +176,7 @@
                                 <!-- Bình luận -->
                                 <div
                                     style="font-size: 16px; margin-top: 30px; color: #5D87FF; font-weight: 600; margin-left: 15px; margin-bottom: 20px;">
-                                    Tất cả bình luận
+                                    {{ __('tat_ca_binh_luan') }}
                                 </div>
                                 <div class="comments-container">
                                     <!-- Các bình luận -->
@@ -204,10 +203,10 @@
                                         <input type="hidden" name="ma_bai_bao_cao" value="{{ $bbc->ma_bai_bao_cao }}">
                                         <div class="form-group">
 
-                                            <textarea class="form-control" id="noi_dung" name="noi_dung" rows="3" placeholder="Viết bình luận..."></textarea>
+                                            <textarea class="form-control" id="noi_dung" name="noi_dung" rows="3" placeholder="{{ __('viet_binh_luan') }}"></textarea>
                                         </div>
                                         <div style="position: absolute; z-index: 100; top: 50px; right: 20px;">
-                                            <button style="border: none; background: none;" type="submit"><img
+                                            <button style="border: none; background: none;" type="submit" title="{{ __('gui') }}" ><img
                                                     src="{{ asset('/assets/css/icons/tabler-icons/img/send.png') }}"
                                                     width="25px" height="25px" alt="User Icon"></button>
                                         </div>
@@ -250,34 +249,36 @@
             $('#baibaocao').DataTable({
                 language: {
                     "decimal": "",
-                    "emptyTable": "Không có dữ liệu",
-                    "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                    "infoEmpty": "Đang hiển thị 0 đến 0 của 0 mục",
-                    "infoFiltered": "(đã lọc từ tổng số _MAX_ mục)",
+                    "emptyTable": "{{ __('khong_co_du_lieu') }}",
+                    "info": "{{ __('dang_hien_thi') }} _START_ {{ __('den') }} _END_ {{ __('cua') }} _TOTAL_ {{ __('muc') }}",
+                    "infoEmpty": "{{ __('dang_hien_thi') }} 0 {{ __('den') }} 0 {{ __('cua') }} 0 {{ __('muc') }}",
+                    "infoFiltered": "({{ __('da_loc_tu_tong_so') }} _MAX_ {{ __('muc') }})",
                     "infoPostFix": "",
                     "thousands": ",",
-                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "lengthMenu": "{{ __('hien_thi') }} _MENU_ {{ __('muc') }}",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
                     "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
-                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
+                    "zeroRecords": "{{ __('khong_tim_thay_ket_qua_phu_hop') }}",
                     "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Tiếp",
-                        "previous": "Trước"
+                        "first": "{{ __('dau') }}",
+                        "last": "{{ __('cuoi') }}",
+                        "next": "{{ __('tiep') }}",
+                        "previous": "{{ __('truoc') }}"
                     },
                     "aria": {
                         "sortAscending": ": sắp xếp tăng dần",
                         "sortDescending": ": sắp xếp giảm dần"
                     },
-                    "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
+                    "searchPlaceholder": "{{ __('tim_kiem_o_day_ne') }} ...!"
                 },
                 "pageLength": 10,
+                //"searching":false
                 "columnDefs": [{
-                    "orderable": false,
-                    "targets": 0
-                }]
+                        "orderable": false,
+                        "targets": 0
+                    },
+                ]
             });
         });
     </script>

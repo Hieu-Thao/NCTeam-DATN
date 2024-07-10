@@ -3,11 +3,11 @@
 @section('title', 'Cập nhật bài báo cáo')
 
 @section('parent')
-    <a href="/baibaocao">Bài báo cáo</a>
+    <a href="/baibaocao">{{ __('bai_bao_cao') }}</a>
 @endsection
 
 @section('child')
-    <a href="/baibaocao/edit/{{ $baibaocao->ma_bai_bao_cao }}">Cập nhật bài báo cáo</a>
+    <a href="/baibaocao/edit/{{ $baibaocao->ma_bai_bao_cao }}">{{ __('cap_nhat_bai_bao_cao') }}</a>
 @endsection
 
 @section('content')
@@ -50,7 +50,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật bài báo cáo</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">{{ __('cap_nhat_bai_bao_cao') }}</h4>
         </div>
         <div style="padding-top: 20px;">
             <form name="edit" method="post" onsubmit="return kiemtra();" action="{{ route('baibaocao.update', $baibaocao->ma_bai_bao_cao) }}">
@@ -59,14 +59,14 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Thành viên:</label>
+                            <label class="td-input">{{ __('ho_ten') }}:</label>
                             <input style="background: #f0f0f0" type="text" name="thanh_vien" id="thanh_vien"
                                 value="{{ Auth::user()->ho_ten }}" readonly />
                         </div>
                         <div class="coll">
-                            <label class="td-input">Ngày báo cáo:</label>
+                            <label class="td-input">{{ __('ngay_bao_cao') }}:</label>
                             <select name="ngay_bao_cao" id="ngay_bao_cao" style="margin-bottom: 15px">
-                                <option value="" disabled selected hidden>-- Chọn lịch báo cáo --</option>
+                                <option value="" disabled selected hidden>-- {{ __('chon_lich_bao_cao') }} --</option>
                                 @foreach ($lichbaocao as $lbc)
                                     <option value="{{ $lbc->ma_lich }}"
                                         {{ $lbc->ma_lich == $baibaocao->ma_lich ? 'selected' : '' }}>
@@ -77,32 +77,32 @@
                             <div class="tt-lich" id="tt-lich" style="display: none;">
                                 <label
                                     style="text-transform: uppercase; font-weight: 700; font-size: 15px; color: #5d87ff; margin-bottom: 5px;">
-                                    Thông tin ngày báo cáo
+                                    {{ __('thong_tin_ngay_bao_cao') }}
                                 </label>
                                 <div style="margin-left: 10px;">
                                     <div class="tt-lbc">
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}"
                                             width="16px" height="16px" alt="User Icon">
-                                        <label>Ngày báo cáo:</label>
+                                        <label>{{ __('ngay_bao_cao') }}:</label>
                                         <label style="font-weight: 500;" id="ngay-bao-cao"></label>
                                     </div>
                                     <div class="tt-lbc">
                                         <img src="{{ asset('/assets/css/icons/tabler-icons/img/map-pin.png') }}"
                                             width="16px" height="16px" alt="User Icon">
-                                        <label>Địa điểm:</label>
+                                        <label>{{ __('dia_diem_bao_cao') }}:</label>
                                         <label style="font-weight: 500;" id="dia-diem"></label>
                                     </div>
                                     <div style="display: flex; gap: 20px;" class="tt-lbc">
                                         <div class="tt-lbc">
                                             <img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-2.png') }}"
                                                 width="16px" height="16px" alt="User Icon">
-                                            <label>Thời gian bắt đầu:</label>
+                                            <label>{{ __('thoi_gian_bat_dau') }}:</label>
                                             <label style="font-weight: 500;" id="bat-dau"></label>
                                         </div>
                                         <div class="tt-lbc">
                                             <img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-5.png') }}"
                                                 width="16px" height="16px" alt="User Icon">
-                                            <label>Thời gian kết thúc:</label>
+                                            <label>{{ __('thoi_gian_ket_thuc') }}:</label>
                                             <label style="font-weight: 500;" id="ket-thuc"></label>
                                         </div>
                                     </div>
@@ -113,21 +113,21 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tên bài báo cáo:</label>
+                            <label class="td-input">{{ __('ten_bai_bao_cao') }}:</label>
                             <textarea rows="3" type="text" name="ten_bai_bao_cao" id="ten_bai_bao_cao">{{ $baibaocao->ten_bai_bao_cao }}</textarea>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Link gốc bài báo cáo:</label>
+                            <label class="td-input">{{ __('link_goc_bai_bao_cao') }}:</label>
                             <textarea type="text" rows="2" name="link_goc_bai_bao_cao" id="link_goc_bai_bao_cao">{{ $baibaocao->link_goc_bai_bao_cao }}</textarea>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">File PPT:</label>
+                            <label class="td-input">{{ __('tep_ppt') }}:</label>
                             <input type="file" name="file_ppt" id="file_ppt" />
                             @if ($baibaocao->file_ppt)
                                 <p>File hiện tại:
@@ -142,7 +142,8 @@
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" onclick="return kiemtra();" value="Cập nhật">
+                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" onclick="return kiemtra();" value="{{ __('cap_nhat') }}">
+                        <a class="btn btn-secondary" style="height: 10%;" href="/baibaocao/baibaocaocn">{{ __('tro_ve') }}</a>
                     </div>
                 </div>
             </form>
@@ -182,25 +183,25 @@
                     processData: false,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('Cập nhật thành công!', 'success', '1500', '');
+                            callAlert('{{ __('cap_nhat_bai_bao_cao_thanh_cong') }}', 'success', '1500', '');
                             setTimeout(() => {
                                 window.location.href = '/baibaocao/baibaocaocn';
                             }, 1000);
                         }
                     },
-                    // error: function(xhr) {
-                    //     console.log(xhr.responseText);
-                    //     var response = JSON.parse(xhr.responseText);
-                    //     if (response.ten_bai_bao_cao) {
-                    //         callAlert('Tên bài báo cáo tồn tại', 'error', '1500', '');
-                    //     // } else if (response.link_goc_bai_bao_cao) {
-                    //     //     callAlert(response.link_goc_bai_bao_cao, 'error', '1500', '');
-                    //     // } else if (response.file_ppt) {
-                    //     //     callAlert(response.file_ppt, 'error', '1500', '');
-                    //     } else {
-                    //         callAlert('Có lỗi xảy ra khi xử lý yêu cầu!', 'error', '1500', '');
-                    //     }
-                    // },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                        var response = JSON.parse(xhr.responseText);
+                        if (response.ten_bai_bao_cao) {
+                            callAlert('{{ __('ten_bai_bao_cao_da_ton_tai') }}', 'error', '1500', '');
+                        // } else if (response.link_goc_bai_bao_cao) {
+                        //     callAlert(response.link_goc_bai_bao_cao, 'error', '1500', '');
+                        // } else if (response.file_ppt) {
+                        //     callAlert(response.file_ppt, 'error', '1500', '');
+                        } else {
+                            callAlert('{{ __('co_loi_vui_long_thu_lai') }}', 'error', '1500', '');
+                        }
+                    },
                     complete: function() {
                         $('#overlay').hide();
                     }
@@ -235,7 +236,7 @@
                             ttLichDiv.style.display = 'block';
                         },
                         error: function(xhr) {
-                            console.error('Lỗi khi lấy dữ liệu:', xhr);
+                            console.error('{{ __('loi_khi_lay_du_lieu') }}', xhr);
                         }
                     });
                 }
