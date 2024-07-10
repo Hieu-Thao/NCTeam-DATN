@@ -1,34 +1,34 @@
 @extends('layouts.master')
 @section('title', 'Danh sách nhóm')
 @section('parent')
-    <a href="/nhom">Tham dự Seminar</a>
+    <a href="/nhom">{{ __('tham_du_seminar') }}</a>
 @endsection
 @section('child')
-    <a href="/nhom">Danh sách thành viên tham dự Seminar</a>
+    <a href="/nhom">{{ __('danh_sach_thanh_vien_tham_du_seminar') }}</a>
 @endsection
 @section('content')
 
     <div class="container">
         <div class="card-title">
-            <h4>Danh sách thành viên tham dự Seminar</h4>
+            <h4>{{ __('danh_sach_thanh_vien_tham_du_seminar') }}</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
             <button type="button" class="btn btn-secondary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/arrow-narrow-left.png" width="15px" height="15px"><a
-                    class="btn-cn" href="/lichbaocao">Trở về</a></button>
+                    class="btn-cn" href="/lichbaocao">{{ __('tro_ve') }}</a></button>
         </div>
         <div class="tb">
             <div class="table-responsive">
-                <table id="thamgia" class="table table-bordered w-100 text-nowrap table-hover">
+                <table id="thamdu" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
                             {{-- <th>Mã tham dự</th> --}}
-                            <th>Mã lịch</th>
-                            <th>Tên lịch báo cáo</th>
-                            <th>Mã TV</th>
-                            <th>Thành viên</th>
-                            <th>Vai trò</th>
-                            <th></th>
+                            <th>{{ __('ma_lich') }}</th>
+                            <th>{{ __('ten_lich_bao_cao') }}</th>
+                            <th>{{ __('ma_tv') }}</th>
+                            <th>{{ __('ho_ten') }}</th>
+                            <th>{{ __('vai_tro') }}</th>
+                            <th>{{ __('tuy_chon') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -72,66 +72,68 @@
         }
 
         $(document).ready(function() {
-            $('#thamgia').DataTable({
+            $('#thamdu').DataTable({
                 language: {
                     "decimal": "",
-                    "emptyTable": "Không có dữ liệu",
-                    "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                    "infoEmpty": "Đang hiển thị 0 đến 0 của 0 mục",
-                    "infoFiltered": "(đã lọc từ tổng số _MAX_ mục)",
+                    "emptyTable": "{{ __('khong_co_du_lieu') }}",
+                    "info": "{{ __('dang_hien_thi') }} _START_ {{ __('den') }} _END_ {{ __('cua') }} _TOTAL_ {{ __('muc') }}",
+                    "infoEmpty": "{{ __('dang_hien_thi') }} 0 {{ __('den') }} 0 {{ __('cua') }} 0 {{ __('muc') }}",
+                    "infoFiltered": "({{ __('da_loc_tu_tong_so') }} _MAX_ {{ __('muc') }})",
                     "infoPostFix": "",
                     "thousands": ",",
-                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "lengthMenu": "{{ __('hien_thi') }} _MENU_ {{ __('muc') }}",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
                     "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
-                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
+                    "zeroRecords": "{{ __('khong_tim_thay_ket_qua_phu_hop') }}",
                     "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Tiếp",
-                        "previous": "Trước"
+                        "first": "{{ __('dau') }}",
+                        "last": "{{ __('cuoi') }}",
+                        "next": "{{ __('tiep') }}",
+                        "previous": "{{ __('truoc') }}"
                     },
                     "aria": {
                         "sortAscending": ": sắp xếp tăng dần",
                         "sortDescending": ": sắp xếp giảm dần"
                     },
-                    "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
+                    "searchPlaceholder": "{{ __('tim_kiem_o_day_ne') }} ...!"
                 },
                 "pageLength": 10,
+                //"searching":false
                 "columnDefs": [{
-                    "orderable": false,
-                    "targets": 0
-                }]
+                        "orderable": false,
+                        "targets": 0
+                    },
+                ]
             });
         });
 
         function deleteParticipation(ma_tham_du) {
             Swal.fire({
-                title: 'Bạn có chắc chắn muốn xóa?',
+                title: '{{ __('ban_co_chac_chan_muon_xoa') }}',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
+                confirmButtonText: '{{ __('xoa') }}',
+                cancelButtonText: '{{ __('huy') }}'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: `/thamdu/${ma_tham_du}`, // Đảm bảo URL phù hợp với route của bạn
+                        url: `/thamdu/${ma_tham_du}`,
                         type: 'DELETE',
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(response) {
-                            callAlert('Xóa tham dự thành công!', 'success', 1500, '');
+                            callAlert('{{ __('xoa_tham_du_thanh_cong') }}', 'success', 1500, '');
                             setTimeout(() => {
                                 window.location
-                            .reload(); // Tải lại trang sau khi xóa thành công
+                            .reload();
                             }, 1500);
                         },
                         error: function(xhr, status, error) {
-                            callAlert('Xóa tham dự không thành công!', 'error', 1500, '');
+                            callAlert('{{ __('xoa_tham_du_khong_thanh_cong') }}', 'error', 1500, '');
                         }
                     });
                 }

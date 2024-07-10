@@ -3,11 +3,11 @@
 @section('title', 'Thêm mới tham dự báo cáo')
 
 @section('parent')
-    <a href="/thamdu">Tham dự báo cáo</a>
+    <a href="/thamdu">{{ __('tham_du_seminar') }}</a>
 @endsection
 
 @section('child')
-    <a href="/thamdu/create"> Thêm mới tham dự báo cáo</a>
+    <a href="/thamdu/create"> {{ __('them_thanh_vien_tham_du_seminar') }}</a>
 @endsection
 
 @section('content')
@@ -33,17 +33,17 @@
 
         function kiemtra() {
             if (document.forms["create"]["lich_bao_cao"].value == "") {
-                callAlert('Vui lòng chọn lịch báo cáo!', 'error', 1500, '');
+                callAlert('{{ __('vui_long_chon_lich_bao_cao') }}', 'error', 1500, '');
                 document.forms["create"]["lich_bao_cao"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["thanh_vien"].value == "") {
-                callAlert('Vui lòng chọn thành viên!', 'error', 1500, '');
+                callAlert('{{ __('vui_long_chon_thanh_vien') }}', 'error', 1500, '');
                 document.forms["create"]["thanh_vien"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["vai_tro"].value == "") {
-                callAlert('Vui lòng chọn vai trò!', 'error', 1500, '');
+                callAlert('{{ __('vui_long_chon_vai_tro') }}', 'error', 1500, '');
                 document.forms["create"]["vai_tro"].setAttribute('required', 'required');
                 return false;
             }
@@ -53,7 +53,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Thêm thành viên tham dự báo cáo</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">{{ __('them_thanh_vien_tham_du_seminar') }}</h4>
         </div>
         <div style="padding-top: 20px;">
             <form name="create" method="post" onsubmit="return kiemtra();" action="{{ url('/thamdu/create') }}">
@@ -62,7 +62,7 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Lịch báo cáo:</label>
+                            <label class="td-input">{{ __('lich_bao_cao') }}:</label>
                             <select name="lich_bao_cao" id="lich_bao_cao" required>
                                 <option value="" disabled selected hidden>-- Chọn lịch báo cáo --</option>
                                 @foreach ($lichbaocao as $lbc)
@@ -72,7 +72,7 @@
                         </div>
 
                         <div class="coll">
-                            <label class="td-input">Thành viên:</label>
+                            <label class="td-input">{{ __('ho_ten') }}:</label>
                             <select name="thanh_vien" id="thanh_vien" required>
                                 <option value="" disabled selected hidden>-- Chọn thành viên --</option>
                                 @foreach ($thanhvien as $tv)
@@ -82,20 +82,19 @@
                         </div>
 
                         <div class="coll">
-                            <label class="td-input">Vai trò:</label>
+                            <label class="td-input">{{ __('vai_tro') }}:</label>
                             <select name="vai_tro" id="vai_tro" required>
-                                <option value="" disabled selected hidden>-- Chọn vai trò --</option>
-                                <option value="Người báo cáo">Người báo cáo</option>
-                                <option value="Người nghe">Người tham gia</option>
-                                <option value="Người nghe">Thư ký</option>
-                                <option value="Người nghe">Khách mời</option>
-                                <option value="Khác">Khác</option>
+                                <option value="" disabled selected hidden>-- {{ __('chon_vai_tro') }} --</option>
+                                <option value="Người báo cáo">{{ __('nguoi_bao_cao') }}</option>
+                                <option value="Người nghe">{{ __('nguoi_tham_gia') }}</option>
+                                <option value="Thư ký">{{ __('thu_ky') }}</option>
+                                <option value="Khách mời">{{ __('khach_moi') }}</option>
                             </select>
                         </div>
                     </div>
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" onclick="return kiemtra();" value="Lưu">
-                        <a class="btn btn-secondary" style="height: 10%;" href="/lichbaocao">Trở về</a>
+                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" onclick="return kiemtra();" value="{{ __('luu') }}">
+                        <a class="btn btn-secondary" style="height: 10%;" href="/lichbaocao">{{ __('tro_ve') }}</a>
                     </div>
                 </div>
             </form>
@@ -130,7 +129,7 @@
                     data: formData,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('Thành công!', 'success', 1500, '');
+                            callAlert('{{ __('them_thanh_vien_tham_du_seminar_thanh_cong') }}', 'success', 1500, '');
                             setTimeout(() => {
                                 window.location.href = '/lichbaocao';
                             }, 1000);
@@ -140,11 +139,9 @@
                         console.error('Error:', xhr);
                         var response = JSON.parse(xhr.responseText);
                         if (response.error) {
-                            callAlert('Lỗi máy chủ!', 'error', 1500, '');
-                        } else if (response.vai_tro) {
-                            callAlert('Vai trò đã tồn tại!', 'error', 1500, '');
+                            callAlert('{{ __('loi_may_chu') }}', 'error', 1500, '');
                         } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
+                            callAlert('{{ __('ban_chua_nhap_du_thong_tin_can_thiet') }}', 'error', 1500,
                                 '');
                         }
                     }
