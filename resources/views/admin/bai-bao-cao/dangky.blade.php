@@ -28,6 +28,7 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 9999;
             display: none;
+            margin: 0 auto;
         }
 
         .xdtb {
@@ -180,7 +181,15 @@
                     </div>
 
                     <div class="overlay" id="overlay">
-                        {{ __('dang_xu_ly') }}
+                        <label style="display: flex;
+    align-items: center;
+    text-align: center;
+    bottom: 50%;
+    position: absolute;
+    justify-content: center;
+    left: 50%;
+    font-size: 17px;
+    color: white;">{{ __('dang_xu_ly') }}</label>
                     </div>
                 </div>
             </form>
