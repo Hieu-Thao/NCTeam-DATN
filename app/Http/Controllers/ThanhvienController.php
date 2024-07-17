@@ -26,12 +26,16 @@ class ThanhvienController extends Controller
         $user = Auth::user();
 
         if ($user->ma_quyen == 1) {
-            // Nếu ma_quyen = 1, lấy toàn bộ các thành viên từ các nhóm
-            $thanhviens = Thanhvien::with('nhom')->get();
+            // Nếu ma_quyen = 1, lấy toàn bộ các thành viên từ các nhóm và sắp xếp theo nhóm và vai trò tùy chỉnh
+            $thanhviens = Thanhvien::with('nhom')
+                ->orderBy('ma_nhom')
+                ->orderByRaw("FIELD(vai_tro, 'Trưởng nhóm', 'Phó nhóm', 'Thành viên')")
+                ->get();
         } else {
-            // Nếu ma_quyen != 1, chỉ lấy thành viên từ nhóm của người dùng đang đăng nhập
+            // Nếu ma_quyen != 1, chỉ lấy thành viên từ nhóm của người dùng đang đăng nhập và sắp xếp theo vai trò tùy chỉnh
             $thanhviens = Thanhvien::where('ma_nhom', $user->ma_nhom)
                 ->with('nhom')
+                ->orderByRaw("FIELD(vai_tro, 'Trưởng nhóm', 'Phó nhóm', 'Thành viên')")
                 ->get();
         }
 
@@ -39,6 +43,7 @@ class ThanhvienController extends Controller
 
         return view('admin.thanh-vien.thanhvien', compact('thanhviens', 'vai_tro'));
     }
+
 
     // public function canhan()
     // {
@@ -48,16 +53,16 @@ class ThanhvienController extends Controller
     // }
 
     public function canhan()
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    // Load lichBaoCao relationship with pagination
-    $lichBaoCao = $user->lichbaocao()
-                       ->orderByDesc('ngay_bao_cao')
-                       ->paginate(5); // Chỉ hiển thị 5 lịch báo cáo mỗi trang
+        // Load lichBaoCao relationship with pagination
+        $lichBaoCao = $user->lichbaocao()
+            ->orderByDesc('ngay_bao_cao')
+            ->paginate(5); // Chỉ hiển thị 5 lịch báo cáo mỗi trang
 
-    return view('admin.thanh-vien.canhan', compact('user', 'lichBaoCao'));
-}
+        return view('admin.thanh-vien.canhan', compact('user', 'lichBaoCao'));
+    }
 
     public function editcanhan($ma_thanh_vien)
     {
@@ -217,6 +222,11 @@ class ThanhvienController extends Controller
 
             $thanhVien->ma_quyen = $request->quyen;
 
+            //Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Cập nhật thành viên có mã = ' . $thanhVien->ma_thanh_vien . '',
+            ]);
             $thanhVien->save();
 
             return response()->json('success', 200);
@@ -262,6 +272,11 @@ class ThanhvienController extends Controller
                 $thanhVien->mat_khau = Hash::make($request->mat_khau);
             }
 
+            //Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Cập nhật thông tin cá nhân có mã = ' . $thanhVien->ma_thanh_vien . '',
+            ]);
             $thanhVien->save();
 
             return response()->json('success', 200);

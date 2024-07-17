@@ -68,7 +68,7 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Bài báo cáo:</label>
+                            <label class="td-input">Bài báo cáo:<span style="color: red"> *</span></label>
                             <select name="bai_bao_cao" id="bai_bao_cao">
                                 <option value="" disabled selected hidden>-- Chọn bài báo cáo --</option>
                                 @foreach ($baibaocao as $bbc)
@@ -80,18 +80,23 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Nội dung:</label>
+                            <label class="td-input">Nội dung:<span style="color: red"> *</span></label>
                             <textarea name="noi_dung" id="noi_dung"></textarea>
                         </div>
                     </div>
-
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Hình ảnh:</label>
+                            <label class="td-input">File word:<span style="color: red"> *</span></label>
+                            <input type="file" name="file_word" id="file_word" />
+                        </div>
+                    </div>
+                    <div class="roww">
+                        <div class="coll">
+                            <label class="td-input">Hình ảnh:<span style="color: red"> *</span></label>
                             <input type="file" name="hinh_anh" id="hinh_anh" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">Trạng thái:</label>
+                            <label class="td-input">Trạng thái:<span style="color: red"> *</span></label>
                             <select name="trang_thai" id="trang_thai">
                                 <option value="" disabled selected hidden>-- Chọn trạng thái --</option>
                                 <option value="Đã hoàn thành">Đã hoàn thành</option>
@@ -139,7 +144,8 @@
                         if (response.ten_lich_bao_cao) {
                             callAlert('Tên lịch báo cáo đã tồn tại!', 'error', 1500, '');
                         } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500, '');
+                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
+                                '');
                         }
                     }
                 });

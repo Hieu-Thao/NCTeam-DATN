@@ -80,7 +80,7 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Loại công trình:</label>
+                            <label class="td-input">Loại công trình:<span style="color: red"> *</span></label>
                             <select name="loai_cong_trinh" id="loai_cong_trinh">
                                 <option value="" disabled selected hidden>-- {{ __('chon_loai_cong_trinh') }} --</option>
                                 @foreach ($loaicongtrinh as $lct)
@@ -89,22 +89,22 @@
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('ten_cong_trinh') }}:</label>
+                            <label class="td-input">{{ __('ten_cong_trinh') }}:<span style="color: red"> *</span></label>
                             <input type="text" name="ten_cong_trinh" id="ten_cong_trinh" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('nam') }}:</label>
+                            <label class="td-input">{{ __('nam') }}:<span style="color: red"> *</span></label>
                             <input type="text" name="nam" id="nam" />
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('thuoc_tap_chi') }}:</label>
+                            <label class="td-input">{{ __('thuoc_tap_chi') }}:<span style="color: red"> *</span></label>
                             <input type="text" name="thuoc_tap_chi" id="thuoc_tap_chi" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('tinh_trang') }}:</label>
+                            <label class="td-input">{{ __('tinh_trang') }}:<span style="color: red"> *</span></label>
                             <select name="tinh_trang" id="tinh_trang">
                                 <option value="" disabled selected hidden>-- {{ __('chon_tinh_trang') }} --</option>
                                 <option value="Đã xuất bản">{{ __('da_xuat_ban') }}</option>
@@ -112,7 +112,7 @@
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input" for="trang_thai">{{ __('trang_thai') }}:</label>
+                            <label class="td-input" for="trang_thai">{{ __('trang_thai') }}:<span style="color: red"> *</span></label>
                             <select name="trang_thai" id="trang_thai">
                                 <option value="" disabled selected hidden>-- {{ __('chon_trang_thai') }} --</option>
                                 <option value="1">{{ __('cong_khai') }}</option>

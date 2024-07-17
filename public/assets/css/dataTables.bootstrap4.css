@@ -90,7 +90,7 @@ table.dataTable thead > tr > td.dt-orderable-desc,
 table.dataTable thead > tr > td.dt-ordering-asc,
 table.dataTable thead > tr > td.dt-ordering-desc {
   position: relative;
-  padding-right: 30px;
+  /* padding-right: 30px; */
   border-bottom: none;
   text-align: center;
 }

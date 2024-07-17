@@ -3,11 +3,11 @@
 @section('title', 'Cập nhật công trình')
 
 @section('parent')
-    <a href="/congtrinh">Công trình</a>
+    <a href="/congtrinh">{{ __('cong_trinh') }}</a>
 @endsection
 
 @section('child')
-    <a href="/congtrinh/edit"> Cập nhật công trình</a>
+    <a href="/congtrinh/edit"> {{ __('cap_nhat_cong_trinh') }}</a>
 @endsection
 
 @section('content')
@@ -71,7 +71,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Cập nhật công trình</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">{{ __('cap_nhat_cong_trinh') }}</h4>
         </div>
         <div style="padding-top: 20px;">
             <form method="post" name="edit" onsubmit="return kiemtra();"
@@ -81,7 +81,7 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Loại công trình</label>
+                            <label class="td-input">Loại công trình:<span style="color: red"> *</span></label>
                             <select name="loai_cong_trinh" id="loai_cong_trinh">
                                 <option value="" disabled hidden>-- Chọn loại công trình --</option>
                                 @foreach ($loaicongtrinh as $lct)
@@ -92,21 +92,21 @@
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input">Năm</label>
+                            <label class="td-input">Năm:<span style="color: red"> *</span></label>
                             <input type="text" name="nam" id="nam" value="{{ $congtrinh->nam }}" />
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tên công trình</label>
+                            <label class="td-input">Tên công trình:<span style="color: red"> *</span></label>
                             <textarea rows="4" type="text" name="ten_cong_trinh" id="ten_cong_trinh">{{ $congtrinh->ten_cong_trinh }}</textarea>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Thuộc tạp chí</label>
+                            <label class="td-input">Thuộc tạp chí:<span style="color: red"> *</span></label>
                             <input type="text" name="thuoc_tap_chi" id="thuoc_tap_chi"
                                 value="{{ $congtrinh->thuoc_tap_chi }}" />
                         </div>
@@ -114,7 +114,7 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tình trạng</label>
+                            <label class="td-input">Tình trạng:<span style="color: red"> *</span></label>
                             <select name="tinh_trang" id="tinh_trang">
                                 <option value="" disabled>-- Chọn tình trạng --</option>
                                 <option value="Đã xuất bản" {{ $congtrinh->tinh_trang == 'Đã xuất bản' ? 'selected' : '' }}>
@@ -124,7 +124,7 @@
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input" for="trang_thai">Trạng thái</label>
+                            <label class="td-input" for="trang_thai">Trạng thái:<span style="color: red"> *</span></label>
                             <select name="trang_thai" id="trang_thai">
                                 <option value="" disabled>-- Chọn trạng thái --</option>
                                 <option value="1" {{ $congtrinh->trang_thai == 1 ? 'selected' : '' }}>Công khai

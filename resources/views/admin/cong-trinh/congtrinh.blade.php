@@ -14,21 +14,22 @@
             <h4>{{ __('danh_sach_cong_trinh') }}</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
-           @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-            <a href="/congtrinh/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
-                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> {{ __('them') }}</button></a>
-            {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
+            @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                <a href="/congtrinh/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
+                            src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">
+                        {{ __('them') }}</button></a>
+                {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
-            {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
+                {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
                 <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
             </button> --}}
-            <button type="button" class="btn btn-info btn-sm" id="btnz">
-                <img src="../assets/css/icons/tabler-icons/img/clipboard-list.png" width="15px" height="15px"><a
-                    class="btn-cn" href="/congtrinh/loaicongtrinh">{{ __('loai_cong_trinh') }}</a></button>
+                <button type="button" class="btn btn-info btn-sm" id="btnz">
+                    <img src="../assets/css/icons/tabler-icons/img/clipboard-list.png" width="15px" height="15px"><a
+                        class="btn-cn" href="/congtrinh/loaicongtrinh">{{ __('loai_cong_trinh') }}</a></button>
 
-            <button type="button" class="btn btn-danger btn-sm" id="btnz">
-                <img src="../assets/css/icons/tabler-icons/img/device-laptop.png" width="15px" height="15px"><a
-                    class="btn-cn" href="/thamgia/create">{{ __('tham_gia_cong_trinh') }}</a></button>
+                <button type="button" class="btn btn-danger btn-sm" id="btnz">
+                    <img src="../assets/css/icons/tabler-icons/img/device-laptop.png" width="15px" height="15px"><a
+                        class="btn-cn" href="/thamgia/create">{{ __('tham_gia_cong_trinh') }}</a></button>
             @endif
         </div>
         <div class="tb">
@@ -39,7 +40,8 @@
                             {{-- <th width="5%">
                                 <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
                             </th> --}}
-                            <th>{{ __('ma_ct') }}</th>
+                            <th>{{ __('STT') }}</th>
+                            {{-- <th>{{ __('ma_ct') }}</th> --}}
                             <th>{{ __('loai_cong_trinh') }}</th>
                             <th>{{ __('ten_cong_trinh') }}</th>
                             <th>{{ __('nam') }}</th>
@@ -54,7 +56,8 @@
                             <tr>
                                 {{-- <td><input type="checkbox" name="checkbox[]" value="{{ $ct->ma_cong_trinh }}"
                                         class="edit-checkbox"></td> --}}
-                                <td>{{ $ct->ma_cong_trinh }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                {{-- <td>{{ $ct->ma_cong_trinh }}</td> --}}
                                 <td>{{ $ct->LoaiCongTrinh->ten_loai }}</td>
                                 {{-- <td>{{ $ct->ten_cong_trinh }}</td> --}}
                                 <td>{{ Str::limit($ct->ten_cong_trinh, 50, '...') }}</td>
@@ -71,12 +74,12 @@
                                     @endif
                                 </td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
-                                   @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                                    <a href="{{ route('congtrinh.edit', $ct->ma_cong_trinh) }}"
-                                        class="btn btn-primary btn-sm" id="btnz">
-                                        <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
-                                            height="15px">
-                                    </a>
+                                    @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
+                                        <a href="{{ route('congtrinh.edit', $ct->ma_cong_trinh) }}"
+                                            class="btn btn-primary btn-sm" id="btnz">
+                                            <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
+                                                height="15px">
+                                        </a>
                                     @endif
                                     {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"
                                         onclick="deleteCT('{{ $ct->ma_cong_trinh }}')">
@@ -148,10 +151,9 @@
                 "pageLength": 10,
                 //"searching":false
                 "columnDefs": [{
-                        "orderable": false,
-                        "targets": 0
-                    },
-                ]
+                    "orderable": false,
+                    "targets": 0
+                }, ]
             });
         });
     </script>

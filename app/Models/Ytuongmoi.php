@@ -19,6 +19,7 @@ class Ytuongmoi extends Model
         'ma_bai_bao_cao',
         'noi_dung',
         'hinh_anh',
+        'file_word',
         'trang_thai',
     ];
 

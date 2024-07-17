@@ -8,6 +8,7 @@ use App\Models\LoaiCongTrinh;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 use Auth;
+use App\Models\Log;
 
 
 class CongtrinhController extends Controller
@@ -68,6 +69,12 @@ class CongtrinhController extends Controller
 
         $congTrinh->save();
 
+        // Ghi log sau khi lưu công trình mới
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Thêm công trình mới có mã = ' . $congTrinh->ma_cong_trinh,
+        ]);
+
         return response()->json('success', 200);
     }
 
@@ -115,6 +122,12 @@ class CongtrinhController extends Controller
 
         $congtrinh->save();
 
+        //Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Cập nhật công trình có mã = ' . $congtrinh->ma_cong_trinh . '',
+        ]);
+
         return response()->json('success', 200);
     }
 
@@ -125,18 +138,23 @@ class CongtrinhController extends Controller
 
         $congtrinh->delete();
 
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Xóa công trình có mã = ' . $congtrinh->ma_cong_trinh . '',
+        ]);
+
         return response()->json('Xóa công trình thành công', 200);
     }
 
-    public function deleteMultiple(Request $request)
-    {
-        $macongtrinhArray = $request->input('ma_cong_trinh');
+    // public function deleteMultiple(Request $request)
+    // {
+    //     $macongtrinhArray = $request->input('ma_cong_trinh');
 
-        if (!empty($macongtrinhArray)) {
-            Congtrinh::whereIn('ma_cong_trinh', $macongtrinhArray)->delete();
-            return response()->json('Xóa công trình thành công', 200);
-        } else {
-            return response()->json('Không có công trình nào được chọn', 400);
-        }
-    }
+    //     if (!empty($macongtrinhArray)) {
+    //         Congtrinh::whereIn('ma_cong_trinh', $macongtrinhArray)->delete();
+    //         return response()->json('Xóa công trình thành công', 200);
+    //     } else {
+    //         return response()->json('Không có công trình nào được chọn', 400);
+    //     }
+    // }
 }

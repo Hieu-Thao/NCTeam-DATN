@@ -14,7 +14,14 @@
             grid-column: 2;
             grid-row: 2;
             place-self: center center;
-            width: 1000px !important;
+            width: auto !important;
+            text-align: justify;
+        }
+
+        .member-info {
+
+            width:950px;
+            margin: 0 auto;
             text-align: justify;
         }
 
@@ -101,7 +108,7 @@
                     <thead>
                         <tr>
                             <th width="5%">
-                                <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
+                                <div><input type="checkbox" id="check-all"></div>
                             </th>
                             <th>STT</th>
                             <th>Tên thành viên</th>
@@ -121,7 +128,8 @@
                             <tr>
                                 <td><input type="checkbox" name="checkbox[]" value="{{ $tt->ma_tin_tuc }}"
                                         class="edit-checkbox"></td>
-                                <td>{{ $tt->ma_tin_tuc }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                {{-- <td>{{ $tt->ma_tin_tuc }}</td> --}}
                                 <td>{{ $tt->ThanhVien->ho_ten }}</td>
                                 <td>{{ Str::limit($tt->ten_tin_tuc, 40, '...') }}</td>
                                 {{-- <td>{{ Str::limit($tt->noi_dung, 30, '...') }}</td> --}}
@@ -264,7 +272,7 @@
                 type: "GET",
                 success: function(response) {
                     var memberInfoHtml = `
-                <div>
+                <div class="member-info">
                     <p><strong>Mã tin tức:</strong> ${response.ma_tin_tuc}</p>
                     <p><strong>Thành viên:</strong> ${response.thanhvien.ho_ten}</p>
                     <p><strong>Nội dung:</strong> ${response.noi_dung}</p>
@@ -411,7 +419,7 @@
                         callAlert('Cập nhật thành công!', 'success', '1500', '');
                         setTimeout(function() {
                             location
-                        .reload();
+                                .reload();
                         }, 1500);
                     },
                     error: function() {

@@ -25,19 +25,47 @@ class BaibaocaoController extends Controller
     //     return view('admin.bai-bao-cao.baibaocao', compact('baibaocao'));
     // }
 
+    // public function baibaocao()
+    // {
+    //     $user = Auth::user();
+
+    //     if ($user->ma_quyen == 1) {
+    //         // Nếu ma_quyen = 1, lấy tất cả các bài báo cáo
+    //         $baibaocao = Baibaocao::with('thanhVien')->get();
+    //     } else {
+    //         // Nếu ma_quyen != 1, chỉ lấy các bài báo cáo của thành viên trong cùng nhóm
+    //         $baibaocao = Baibaocao::whereHas('thanhVien', function ($query) use ($user) {
+    //             $query->where('ma_nhom', $user->ma_nhom);
+    //         })
+    //             ->with('thanhVien')
+    //             ->get();
+    //     }
+
+    //     $vai_tro = $user->vai_tro;
+
+    //     return view('admin.bai-bao-cao.baibaocao', compact('baibaocao', 'vai_tro'));
+    // }
+
     public function baibaocao()
     {
         $user = Auth::user();
 
         if ($user->ma_quyen == 1) {
-            // Nếu ma_quyen = 1, lấy tất cả các bài báo cáo
-            $baibaocao = Baibaocao::with('thanhVien')->get();
+            // Nếu ma_quyen = 1, lấy tất cả các bài báo cáo và sắp xếp theo ngày báo cáo giảm dần
+            $baibaocao = Baibaocao::with('thanhVien', 'LichBaoCao')
+                ->join('lich_bao_cao', 'bai_bao_cao.ma_lich', '=', 'lich_bao_cao.ma_lich')
+                ->orderByDesc('lich_bao_cao.ngay_bao_cao')
+                ->select('bai_bao_cao.*')
+                ->get();
         } else {
-            // Nếu ma_quyen != 1, chỉ lấy các bài báo cáo của thành viên trong cùng nhóm
+            // Nếu ma_quyen != 1, chỉ lấy các bài báo cáo của thành viên trong cùng nhóm và sắp xếp theo ngày báo cáo giảm dần
             $baibaocao = Baibaocao::whereHas('thanhVien', function ($query) use ($user) {
                 $query->where('ma_nhom', $user->ma_nhom);
             })
-                ->with('thanhVien')
+                ->with('thanhVien', 'LichBaoCao')
+                ->join('lich_bao_cao', 'bai_bao_cao.ma_lich', '=', 'lich_bao_cao.ma_lich')
+                ->orderByDesc('lich_bao_cao.ngay_bao_cao')
+                ->select('bai_bao_cao.*')
                 ->get();
         }
 
@@ -45,6 +73,7 @@ class BaibaocaoController extends Controller
 
         return view('admin.bai-bao-cao.baibaocao', compact('baibaocao', 'vai_tro'));
     }
+
 
     public function baibaocaocn()
     {
@@ -111,41 +140,49 @@ class BaibaocaoController extends Controller
 
 
     public function update(Request $request, $ma_bai_bao_cao)
-    {
-        $baibaocao = BaibaoCao::findOrFail($ma_bai_bao_cao);
+{
+    $baibaocao = BaibaoCao::findOrFail($ma_bai_bao_cao);
 
-        $validator = Validator::make($request->all(), [
-            'ten_bai_bao_cao' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('bai_bao_cao')->ignore($baibaocao->ma_bai_bao_cao, 'ma_bai_bao_cao'),
-            ],
-            'ngay_bao_cao' => 'required',
-            'link_goc_bai_bao_cao' => 'required',
-            'file_ppt' => 'nullable|file|mimes:ppt,pptx',
-        ]);
+    $validator = Validator::make($request->all(), [
+        'ten_bai_bao_cao' => [
+            'required',
+            'string',
+            'max:255',
+            Rule::unique('bai_bao_cao')->ignore($baibaocao->ma_bai_bao_cao, 'ma_bai_bao_cao'),
+        ],
+        'ngay_bao_cao' => 'required',
+        'link_goc_bai_bao_cao' => 'required',
+        'file_ppt' => 'nullable|file|mimes:ppt,pptx',
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
-
-        $lich_bao_cao = LichBaoCao::find($request->ngay_bao_cao);
-
-        $baibaocao->ten_bai_bao_cao = $request->ten_bai_bao_cao;
-        $baibaocao->link_goc_bai_bao_cao = $request->link_goc_bai_bao_cao;
-        $baibaocao->ma_lich = $lich_bao_cao->ma_lich;
-
-        if ($request->hasFile('file_ppt')) {
-            $file_name = $baibaocao->ma_lich . '_' . Auth::user()->ho_ten . '_' . $request->ten_bai_bao_cao . '.pptx';
-            $file_name = str_replace(' ', '', $file_name);
-            $baibaocao->file_ppt = $request->file('file_ppt')->storeAs('public/ppt', $file_name);
-        }
-
-        $baibaocao->save();
-
-        return response()->json('success', 200);
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 400);
     }
+
+    $lich_bao_cao = LichBaoCao::find($request->ngay_bao_cao);
+
+    $baibaocao->ten_bai_bao_cao = $request->ten_bai_bao_cao;
+    $baibaocao->link_goc_bai_bao_cao = $request->link_goc_bai_bao_cao;
+    $baibaocao->ma_lich = $lich_bao_cao->ma_lich;
+
+    if ($request->hasFile('file_ppt')) {
+        $file_extension = $request->file('file_ppt')->getClientOriginalExtension();
+        $file_name = $baibaocao->ma_lich . '_' . Auth::user()->ho_ten . '_' . $request->ten_bai_bao_cao . '.' . $file_extension;
+        $file_name = str_replace(' ', '', $file_name);
+        $baibaocao->file_ppt = $request->file('file_ppt')->storeAs('ppt', $file_name, 'public');
+    }
+
+    // Ghi logs
+    Log::create([
+        'user_id' => Auth::id(),
+        'activity' => 'Cập nhật bài báo cáo có mã = ' . $baibaocao->ma_bai_bao_cao,
+    ]);
+
+    $baibaocao->save();
+
+    return response()->json('success', 200);
+}
+
 
 
     public function destroy($id)
@@ -212,6 +249,12 @@ class BaibaocaoController extends Controller
             'trang_thai' => 'Đã đăng ký',
         ]);
 
+        //Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Đăng ký bài báo cáo mới có mã = ' . $baibaocao->ma_bai_bao_cao . '',
+        ]);
+
         $baibaocao->save();
 
         // Gửi email thông báo cho các thành viên trong nhóm
@@ -235,6 +278,160 @@ class BaibaocaoController extends Controller
         return response()->json('success', 200);
     }
 
+
+    // public function storedk(Request $request)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'ngay_bao_cao' => 'required',
+    //         'ten_bai_bao_cao' => 'required|string|max:255|unique:bai_bao_cao,ten_bai_bao_cao',
+    //         'link_goc_bai_bao_cao' => 'required',
+    //         'file_ppt' => 'nullable|file|mimes:ppt,pptx',
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json($validator->errors(), 400);
+    //     }
+
+    //     $ma_thanh_vien = Auth::user()->ma_thanh_vien;
+    //     $ho_ten = Auth::user()->ho_ten;
+    //     $lich_bao_cao = LichBaoCao::find($request->ngay_bao_cao);
+    //     $ngay_bao_cao = $lich_bao_cao ? $lich_bao_cao->ngay_bao_cao : null;
+
+    //     $file_ppt_path = null;
+
+    //     if ($request->hasFile('file_ppt')) {
+    //         $file_extension = $request->file('file_ppt')->getClientOriginalExtension();
+    //         $file_name = $ngay_bao_cao . '_' . $ho_ten . '_' . $request->ten_bai_bao_cao . '.' . $file_extension;
+    //         $file_name = str_replace(' ', '', $file_name);
+
+    //         $file_ppt_path = $request->file('file_ppt')->storeAs('ppt', $file_name, 'public');
+    //     }
+
+    //     $baibaocao = new Baibaocao([
+    //         'ma_thanh_vien' => $ma_thanh_vien,
+    //         'ten_bai_bao_cao' => $request->ten_bai_bao_cao,
+    //         'ma_lich' => $request->ngay_bao_cao,
+    //         'link_goc_bai_bao_cao' => $request->link_goc_bai_bao_cao,
+    //         'file_ppt' => $file_ppt_path,
+    //         'trang_thai' => 'Đã đăng ký',
+    //     ]);
+
+    //     $baibaocao->save();
+
+    //     // Ghi logs
+    //     Log::create([
+    //         'user_id' => Auth::id(),
+    //         'activity' => 'Đăng ký bài báo cáo mới có mã = ' . $baibaocao->ma_bai_bao_cao . '',
+    //     ]);
+
+    //     // Lấy danh sách thành viên trong nhóm
+    //     $teamMembers = Thanhvien::where('ma_nhom', Auth::user()->ma_nhom)
+    //         ->where('ma_thanh_vien', '!=', $ma_thanh_vien)
+    //         ->get();
+
+    //     // Đăng ký callback để gửi email sau khi phản hồi
+    //     register_shutdown_function(function () use ($baibaocao, $teamMembers) {
+    //         foreach ($teamMembers as $member) {
+    //             Mail::send('emails.notification', ['baibaocao' => $baibaocao, 'member' => $member], function ($message) use ($member) {
+    //                 $message->to($member->email)
+    //                     ->subject('Thông báo đăng ký bài báo cáo mới');
+    //             });
+    //         }
+    //     });
+
+    //     return response()->json('success', 200);
+    // }
+
+
+
+    // public function checkTitle(Request $request)
+    // {
+    //     $tenBaiBaoCao = $request->input('ten_bai_bao_cao');
+    //     $baibao = Baibaocao::where('ten_bai_bao_cao', $tenBaiBaoCao)->first();
+
+    //     if ($baibao) {
+    //         return response()->json([
+    //             'exists' => true,
+    //             'baibao' => [
+    //                 'ten_bai_bao_cao' => $baibao->ten_bai_bao_cao,
+    //                 'link_goc_bai_bao_cao' => $baibao->link_goc_bai_bao_cao,
+    //                 'file_ppt' => $baibao->file_ppt,
+    //             ],
+    //         ]);
+    //     } else {
+    //         return response()->json(['exists' => false]);
+    //     }
+    // }
+
+
+    // public function checkTitle(Request $request)
+    // {
+    //     $tenBaiBaoCao = $request->input('ten_bai_bao_cao');
+    //     $baibao = Baibaocao::where('ten_bai_bao_cao', $tenBaiBaoCao)
+    //         ->join('thanh_vien', 'bai_bao_cao.ma_thanh_vien', '=', 'thanh_vien.ma_thanh_vien')
+    //         ->join('lich_bao_cao', 'bai_bao_cao.ma_lich', '=', 'lich_bao_cao.ma_lich')
+    //         ->select('bai_bao_cao.*', 'thanh_vien.ho_ten', 'lich_bao_cao.ngay_bao_cao')
+    //         ->first();
+
+    //     if ($baibao) {
+    //         return response()->json([
+    //             'exists' => true,
+    //             'baibao' => [
+    //                 'ma_bai_bao_cao' => $baibao->ma_bai_bao_cao,
+    //                 'ten_bai_bao_cao' => $baibao->ten_bai_bao_cao,
+    //                 'ho_ten' => $baibao->ho_ten,
+    //                 'ngay_bao_cao' => $baibao->ngay_bao_cao, // Thêm ngày báo cáo vào đây
+    //                 'link_goc_bai_bao_cao' => $baibao->link_goc_bai_bao_cao,
+    //                 'file_ppt' => $baibao->file_ppt,
+    //             ],
+    //         ]);
+    //     } else {
+    //         return response()->json(['exists' => false]);
+    //     }
+    // }
+
+
+    // public function checkLinkGoc(Request $request)
+    // {
+    //     $linkGocBaiBaoCao = $request->input('link_goc_bai_bao_cao');
+    //     $baibao = Baibaocao::where('link_goc_bai_bao_cao', $linkGocBaiBaoCao)
+    //         ->join('thanh_vien', 'bai_bao_cao.ma_thanh_vien', '=', 'thanh_vien.ma_thanh_vien')
+    //         ->join('lich_bao_cao', 'bai_bao_cao.ma_lich', '=', 'lich_bao_cao.ma_lich')
+    //         ->select('bai_bao_cao.*', 'thanh_vien.ho_ten', 'lich_bao_cao.ngay_bao_cao')
+    //         ->first();
+
+    //     if ($baibao) {
+    //         return response()->json([
+    //             'exists' => true,
+    //             'baibao' => [
+    //                 'ma_bai_bao_cao' => $baibao->ma_bai_bao_cao,
+    //                 'ten_bai_bao_cao' => $baibao->ten_bai_bao_cao,
+    //                 'ho_ten' => $baibao->ho_ten,
+    //                 'ngay_bao_cao' => $baibao->ngay_bao_cao,
+    //                 'link_goc_bai_bao_cao' => $baibao->link_goc_bai_bao_cao,
+    //                 'file_ppt' => $baibao->file_ppt,
+    //             ],
+    //         ]);
+    //     } else {
+    //         return response()->json(['exists' => false]);
+    //     }
+    // }
+
+    public function checkDuplicate(Request $request)
+    {
+        $ten_bai_bao_cao = $request->input('ten_bai_bao_cao');
+        $link_goc_bai_bao_cao = $request->input('link_goc_bai_bao_cao');
+
+        $exists = BaiBaoCao::where('ten_bai_bao_cao', $ten_bai_bao_cao)
+            ->orWhere('link_goc_bai_bao_cao', $link_goc_bai_bao_cao)
+            ->first();
+
+        if ($exists) {
+            return response()->json(['exists' => true, 'baibao' => $exists]);
+        } else {
+            return response()->json(['exists' => false]);
+        }
+    }
 
 
 }

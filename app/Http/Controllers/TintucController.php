@@ -9,6 +9,7 @@ use App\Models\Thanhvien;
 use Illuminate\Support\Facades\Validator;
 use Auth;
 use Illuminate\Validation\Rule;
+use App\Models\Log;
 
 
 class TintucController extends Controller
@@ -147,6 +148,12 @@ class TintucController extends Controller
 
             $tintuc->save();
 
+            //Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Thêm tin tức mới có mã = ' . $tintuc->ma_tin_tuc . '',
+            ]);
+
             return response()->json('success', 200);
 
         } catch (\Exception $e) {
@@ -220,6 +227,12 @@ class TintucController extends Controller
 
             $tintuc->save();
 
+            //Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Cập nhật tin tức có mã = ' . $tintuc->ma_tin_tuc . '',
+            ]);
+
             return response()->json('success', 200);
         } catch (\Exception $e) {
             \Log::error('Error in updating tin tuc: ' . $e->getMessage());
@@ -234,6 +247,11 @@ class TintucController extends Controller
         $tintuc = Tintuc::findOrFail($ma_tin_tuc);
 
         $tintuc->delete();
+        //Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Xóa tin tức có mã = ' . $tintuc->ma_tin_tuc . '',
+        ]);
 
         return response()->json('Xóa tin tức thành công', 200);
     }
@@ -244,7 +262,20 @@ class TintucController extends Controller
         $tintucArray = $request->input('ma_tin_tuc');
 
         if (!empty($tintucArray)) {
+            // Lưu trữ mã của các bản ghi để ghi log sau khi xóa
+            $deletedIds = Tintuc::whereIn('ma_tin_tuc', $tintucArray)->pluck('ma_tin_tuc')->toArray();
+
+            // Thực hiện xóa các bản ghi
             Tintuc::whereIn('ma_tin_tuc', $tintucArray)->delete();
+
+            // Ghi log
+            foreach ($deletedIds as $id) {
+                Log::create([
+                    'user_id' => Auth::id(),
+                    'activity' => 'Xóa tin tức có mã = ' . $id,
+                ]);
+            }
+
             return response()->json('Xóa tin tức thành công', 200);
         } else {
             return response()->json('Không có tin tức nào được chọn', 400);
@@ -252,11 +283,18 @@ class TintucController extends Controller
     }
 
 
+
     public function updateNoiBat(Request $request)
     {
         $tinTuc = Tintuc::find($request->id);
         $tinTuc->noi_bat = $request->noi_bat;
         $tinTuc->save();
+
+        //Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Cập nhật tin tức nổi bật có mã = ' . $tinTuc->ma_tin_tuc . '',
+        ]);
 
         return response()->json(['success' => 'Trạng thái nổi bật đã được cập nhật.']);
     }
@@ -266,6 +304,11 @@ class TintucController extends Controller
         $tinTuc = Tintuc::find($request->id);
         $tinTuc->tinh_trang = 'Đã duyệt';
         $tinTuc->save();
+
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Duyệt tin tức có mã = ' . $tinTuc->ma_tin_tuc . '',
+        ]);
 
         return response()->json(['success' => 'Trạng thái đã được cập nhật.']);
     }

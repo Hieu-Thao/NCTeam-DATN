@@ -13,9 +13,17 @@
             grid-column: 2;
             grid-row: 2;
             place-self: center center;
-            width: 900px !important;
+            width: auto !important;
             text-align: justify;
         }
+
+        .member-info {
+
+            width: 900px;
+            margin: 0 auto;
+            text-align: justify;
+        }
+
 
         div:where(.swal2-container) .swal2-html-container {
             text-align: left;
@@ -40,7 +48,7 @@
                     <thead>
                         <tr>
                             <th width="5%">
-                                <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
+                                <div><input type="checkbox" id="check-all"></div>
                             </th>
                             <th>STT</th>
                             <th>Tên bài báo cáo</th>
@@ -55,7 +63,8 @@
                             <tr>
                                 <td><input type="checkbox" name="checkbox[]" value="{{ $ytm->ma_y_tuong_moi }}"
                                         class="edit-checkbox"></td>
-                                <td>{{ $ytm->ma_y_tuong_moi }}</td>
+                                {{-- <td>{{ $ytm->ma_y_tuong_moi }}</td> --}}
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ Str::limit($ytm->BaiBaoCao->ten_bai_bao_cao, 30, '...') }}</td>
                                 <td>{{ Str::limit($ytm->noi_dung, 50, '...') }}</td>
                                 {{-- <td>{{ $ytm->hinh_anh }}</td> --}}
@@ -173,7 +182,7 @@
         // Hàm xóa ý tưởng mới
         function deleteYTM(ma_y_tuong_moi) {
             Swal.fire({
-                title: 'Bạn có chắc chắn muốn xóa?',
+                title: 'Bạn có chắc chắn muốn xóa không?',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
@@ -261,13 +270,18 @@
                     var noidung = response.noi_dung.replace(/\n/g, '<br>');
 
                     var memberInfoHtml = `
-                <div>
-                    <p><strong>Mã ý tưởng:</strong> ${response.ma_y_tuong_moi}</p>
-                    <p><strong>Tên bài báo cáo:</strong> ${response.baibaocao.ten_bai_bao_cao}</p>
-                    <p style='text-align:justify;'><strong>Nội dung:</strong> ${noidung}</p>
-                    <p><strong>Hình ảnh:</strong> <a href="/storage/${response.hinh_anh}" target="_blank">${response.hinh_anh}</a></p>
-                    <p><strong>Trạng thái:</strong> ${response.trang_thai}</p>
-                </div>
+                <div class="member-info">
+                <p><strong>Mã ý tưởng:</strong> ${response.ma_y_tuong_moi}</p>
+                <p><strong>Tên bài báo cáo:</strong> ${response.baibaocao.ten_bai_bao_cao}</p>
+                <p style='text-align:justify;'><strong>Nội dung:</strong> ${noidung}</p>
+                <p><strong>Hình ảnh:</strong>
+                    <a href="/storage/${response.hinh_anh}" target="_blank">${response.hinh_anh}</a>
+                </p>
+                <p><strong>Tệp Word:</strong>
+                    ${response.file_word ? `<a href="/storage/${response.file_word}" target="_blank">Tải xuống tại đây</a>` : 'Không có'}
+                </p>
+                <p><strong>Trạng thái:</strong> ${response.trang_thai}</p>
+            </div>
             `;
 
                     Swal.fire({

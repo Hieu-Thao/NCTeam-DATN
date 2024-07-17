@@ -179,6 +179,12 @@ Route::middleware(['auth', 'role:2'])->group(function () {
         Route::put('/edit/{ma_bai_bao_cao}', [BaibaocaoController::class, 'update'])->name('baibaocao.update');
 
         Route::get('/{ma_bai_bao_cao}', [BaibaocaoController::class, 'show']);
+
+        // Route::post('/checkTitle', [BaibaocaoController::class, 'checkTitle'])->name('baibaocao.checkTitle');
+        // Route::post('/check-link-goc', [BaibaocaoController::class, 'checkLinkGoc'])->name('baibaocao.checkLinkGoc');
+        Route::post('/baibaocao/checkDuplicate', [BaiBaoCaoController::class, 'checkDuplicate'])->name('baibaocao.checkDuplicate');
+
+
     });
 
 
@@ -199,6 +205,12 @@ Route::middleware(['auth', 'role:2'])->group(function () {
         Route::post('/create', [ThamduController::class, 'store'])->name('thamdu.store');
         Route::delete('/{ma_tham_du}', [ThamduController::class, 'destroy']);
 
+        Route::post('/store', [ThamduController::class, 'store'])->name('thamdu.store');
+
+        // Route::post('/thamdu/store', [ThamduController::class, 'store'])->name('thamdu.store');
+        // Route::post('/thamdu/storeMultiple', [ThamduController::class, 'storeMultiple'])->name('thamdu.storeMultiple');
+        // Route::post('/thamdu/add', [ThamduController::class, 'add'])->name('thamdu.add');
+
 
 
     });
@@ -214,6 +226,16 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
     Route::get('/thongke', [ThongKeController::class, 'thongKeBaoCao'])->name('thongke');
     Route::get('/thongkect', [ThongKeController::class, 'thongKeCongTrinh'])->name('thongkect');
+    Route::get('/thongkeytm', [ThongKeController::class, 'thongKeYtuongmoi'])->name('thongkeytm');
+    Route::get('/thanhvien/{id}/baibaocao', [ThongkeController::class, 'getBaoCaoByThanhVien']);
+    Route::get('/fetch-projects/{memberId}', 'ThongkeController@fetchProjects');
+
+
+
+
+
+
+
 
 
 

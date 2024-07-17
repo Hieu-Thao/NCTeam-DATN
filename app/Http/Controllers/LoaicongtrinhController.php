@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Loaicongtrinh;
+use App\Models\Log;
+use Auth;
 
 class LoaicongtrinhController extends Controller
 {
@@ -43,17 +45,27 @@ class LoaicongtrinhController extends Controller
                 'ten_loai' => 'required|unique:loai_cong_trinh,ten_loai',
             ]);
 
-            Loaicongtrinh::create($request->only('ten_loai'));
+            // Tạo mới loại công trình
+            $loaiCongTrinh = Loaicongtrinh::create([
+                'ten_loai' => $request->ten_loai,
+            ]);
+
+            // Ghi log sau khi tạo mới loại công trình
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Thêm loại công trình mới có mã = ' . $loaiCongTrinh->ma_loai,
+            ]);
 
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
-            // \Log::error($e->getMessage());
+            // Nếu xảy ra lỗi, xử lý ngoại lệ
             if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
                 return response()->json(['duplicate' => true]);
             }
-            return response()->json(['error' => true]); 
+            return response()->json(['error' => true]);
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -95,12 +107,18 @@ class LoaicongtrinhController extends Controller
             $loaicongtrinh = Loaicongtrinh::findOrFail($request->ma_loai);
             $loaicongtrinh->update(['ten_loai' => $request->ten_loai]);
 
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Cập nhật loại công trình có mã = ' . $loaicongtrinh->ma_loai,
+            ]);
+
             return response()->json(['success' => true]);
         } catch (\Exception $e) {
             // \Log::error($e->getMessage());
             return response()->json(['success' => false], 500);
         }
     }
+
 
     /**
      * Remove the specified resource from storage.

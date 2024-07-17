@@ -16,16 +16,16 @@
             <div class="card-btn btn-btnn" style="#">
                 <a href="/lichbaocao/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
                             src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">
-                            {{ __('them') }}</button></a>
+                        {{ __('them') }}</button></a>
                 {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
                 {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
                 <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
             </button> --}}
 
-                <button type="button" class="btn btn-danger btn-sm" id="btnz">
+                {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz">
                     <img src="../assets/css/icons/tabler-icons/img/device-laptop.png" width="15px" height="15px"><a
-                        class="btn-cn" href="/thamdu/create">{{ __('tham_du_seminar') }}</a></button>
+                        class="btn-cn" href="/thamdu/create">{{ __('tham_du_seminar') }}</a></button> --}}
             </div>
         @endif
         <div class="tb">
@@ -33,10 +33,11 @@
                 <table id="lichbaocao" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
-                            {{-- <th>
+                            {{-- <th style="display: none">
                                 <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
                             </th> --}}
-                            <th>{{ __('ma_lich') }}</th>
+                            {{-- <th>{{ __('ma_lich') }}</th> --}}
+                            <th>{{ __('STT') }}</th>
                             <th>{{ __('ten_lich_bao_cao') }}</th>
                             <th>{{ __('ngay_bao_cao') }}</th>
                             <th>{{ __('dia_diem_bao_cao') }}</th>
@@ -49,9 +50,10 @@
                     <tbody>
                         @foreach ($lichbaocao as $lbc)
                             <tr>
-                                {{-- <td><input type="checkbox" name="checkbox[]" value="{{ $lbc->ma_lich }}"
-                                        class="edit-checkbox"></td> --}}
-                                <td>{{ $lbc->ma_lich }}</td>
+                                {{-- <td style="display: none"><input type="checkbox" name="checkbox[]"
+                                        value="{{ $lbc->ma_lich }}" class="edit-checkbox"></td> --}}
+                                <td>{{ $loop->iteration }}</td>
+                                {{-- <td>{{ $lbc->ma_lich }}</td> --}}
                                 <td>{{ $lbc->ten_lich_bao_cao }}</td>
                                 <td>{{ \Carbon\Carbon::parse($lbc->ngay_bao_cao)->format('d/m/Y') }}</td>
                                 <td>{{ $lbc->dia_diem }}</td>
@@ -127,10 +129,9 @@
                 "pageLength": 10,
                 //"searching":false
                 "columnDefs": [{
-                        "orderable": false,
-                        "targets": 0
-                    },
-                ]
+                    "orderable": false,
+                    "targets": 0
+                }, ]
             });
         });
 
@@ -165,7 +166,7 @@
         });
 
 
-        // Hàm xóa nhiều công trình
+        // Hàm xóa nhiều
         function deleteSelectedMembers() {
             var selected = [];
             $('input[name="checkbox[]"]:checked').each(function() {
@@ -214,7 +215,7 @@
         }
 
 
-        // Hàm xóa thành viên
+        // Hàm xóa 
         function deleteLBC(ma_lich) {
             Swal.fire({
                 title: 'Bạn có chắc chắn muốn xóa?',
@@ -252,6 +253,3 @@
         }
     </script>
 @endpush
-
-
-

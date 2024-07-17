@@ -58,7 +58,7 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Công trình:</label>
+                            <label class="td-input">Công trình:<span style="color: red"> *</span></label>
                             <select name="cong_trinh" id="cong_trinh" required>
                                 <option value="" disabled selected hidden>-- Công trình --</option>
                                 @foreach ($congtrinh as $ct)
@@ -70,7 +70,7 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Thành viên:</label>
+                            <label class="td-input">Thành viên:<span style="color: red"> *</span></label>
                             <select name="thanh_vien" id="thanh_vien" required>
                                 <option value="" disabled selected hidden>-- Chọn thành viên --</option>
                                 @foreach ($thanhvien as $tv)

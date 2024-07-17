@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Congtrinh;
 use App\Models\Thamgia;
 use App\Models\Thanhvien;
+use App\Models\Log;
+use Auth;
 
 class ThamgiaController extends Controller
 {
@@ -57,7 +59,13 @@ class ThamgiaController extends Controller
             $thamGia = new ThamGia();
             $thamGia->ma_thanh_vien = $request->input('thanh_vien');
             $thamGia->ma_cong_trinh = $request->input('cong_trinh');
+
             $thamGia->save();
+
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Thêm mới tham gia có mã = ' . $thamGia->ma_tham_gia . '',
+            ]);
 
             return response()->json('success', 200);
 
@@ -116,11 +124,11 @@ class ThamgiaController extends Controller
             $thamGia = Thamgia::findOrFail($ma_tham_gia);
             $thamGia->delete();
 
-            // Ghi logs
-            // Log::create([
-            //     'user_id' => Auth::id(),
-            //     'activity' => 'Xóa tham gia có mã = ' . $thamDu->ma_tham_gia,
-            // ]);
+            //Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Xóa tham gia có mã = ' . $thamGia->ma_tham_gia,
+            ]);
 
             return response()->json('success', 200);
         } catch (\Exception $e) {

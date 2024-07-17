@@ -80,23 +80,32 @@
                                     @endif
                                 </td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
+                                    @php
+                                        $ngayBaoCao = \Carbon\Carbon::parse($bbc->LichBaoCao->ngay_bao_cao);
+                                        $ngayHienTai = \Carbon\Carbon::now();
+                                        $ngayHienTai->addDays(3); // Thêm 3 ngày để tính ngày hết hạn
+                                    @endphp
 
-                                        <a href="{{ route('baibaocao.edit', $bbc->ma_bai_bao_cao) }}"
-                                            class="btn btn-primary btn-sm" id="btnz">
-                                            <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px"
-                                                height="15px">
+                                    {{-- Kiểm tra nếu còn 3 ngày nữa mới tới ngày báo cáo --}}
+                                    @if ($ngayBaoCao->gt($ngayHienTai))
+                                        <a href="{{ route('baibaocao.edit', $bbc->ma_bai_bao_cao) }}" class="btn btn-primary btn-sm"
+                                            id="btnz">
+                                            <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px">
                                         </a>
+                                    @endif
 
-                                    {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"></button> --}}
+                                    {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"><img
+                                            src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"></button> --}}
                                     {{-- <button type="button" class="btn btn-warning btn-sm" id="btnz"
                                         onclick="showMemberInfo('{{ $bbc->ma_bai_bao_cao }}')">
-                                        <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png"
-                                            width="15px" height="15px">
+                                        <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png" width="15px"
+                                            height="15px">
                                     </button> --}}
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
+
                 </table>
             </div>
         </div>

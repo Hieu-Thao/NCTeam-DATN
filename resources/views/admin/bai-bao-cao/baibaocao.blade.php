@@ -84,7 +84,8 @@
         <div class="card-btn btn-btnn">
             <a href="/baibaocao/baibaocaocn">
                 <button type="button" class="btn btn-light btn-sm" id="btnz">
-                    <img src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px" height="15px"> {{ __('bai_bao_cao_cua_toi') }}
+                    <img src="../assets/css/icons/tabler-icons/img/user-screen.png" width="15px" height="15px">
+                    {{ __('bai_bao_cao_cua_toi') }}
                 </button>
             </a>
         </div>
@@ -93,7 +94,8 @@
                 <table id="baibaocao" class="table table-bordered w-100 text-nowrap table-hover">
                     <thead>
                         <tr>
-                            <th>{{ __('ma_bai_bao_cao') }}</th>
+                            <th>{{ __('STT') }}</th>
+                            {{-- <th style="display: ">{{ __('ma_bai_bao_cao') }}</th> --}}
                             <th>{{ __('ho_ten') }}</th>
                             <th width="10%">{{ __('ten_bai_bao_cao') }}</th>
                             <th>{{ __('ngay_bao_cao') }}</th>
@@ -104,9 +106,10 @@
                     <tbody>
                         @foreach ($baibaocao as $bbc)
                             <tr>
-                                <td>{{ $bbc->ma_bai_bao_cao }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                {{-- <td style="display: ">{{ $bbc->ma_bai_bao_cao }}</td> --}}
                                 <td>{{ $bbc->ThanhVien->ho_ten }}</td>
-                                <td>{{ Str::limit($bbc->ten_bai_bao_cao, 60, '...') }}</td>
+                                <td>{{ Str::limit($bbc->ten_bai_bao_cao, 65, '...') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($bbc->LichBaoCao->ngay_bao_cao)->format('d/m/Y') }}</td>
                                 <td><span class="btn btn-success btn-sm">{{ $bbc->trang_thai }}</span></td>
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center; height: 55px;">
@@ -121,105 +124,103 @@
                                 </td>
                             </tr>
 
-                            <!-- Info Div -->
-                            <div id="infoDiv{{ $bbc->ma_bai_bao_cao }}" class="info-div custom-scroll">
-                                <span class="close" onclick="hideInfoDiv({{ $bbc->ma_bai_bao_cao }})">&times;</span>
-                                <div class="popup-tt">
-                                    <p
-                                        style="font-size: 18px;text-align: center;font-weight: 700; color: #5D87FF; margin-bottom: 0px;">
-                                        {{ __('thong_tin_bai_bao_cao') }}</p>
-                                    <div class="pu-ttbbc">
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/user.png') }}" width="18px"
-                                            height="18px" alt="User Icon">
-                                        <p class="pu-td">{{ __('ho_ten') }}:</p>
-                                        <p class="pu-nd">{{ $bbc->ThanhVien->ho_ten }}</p>
-                                    </div>
-                                    <div class="pu-ttbbc">
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}"
-                                            width="18px" height="18px" alt="User Icon">
-                                        <p class="pu-td">{{ __('ngay_bao_cao') }}:</p>
-                                        <p class="pu-nd">
-                                            {{ \Carbon\Carbon::parse($bbc->LichBaoCao->ngay_bao_cao)->format('d/m/Y') }}
-                                        </p>
-                                    </div>
-                                    <div class="pu-ttbbc">
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/laptop.png') }}"
-                                            width="18px" height="18px" alt="User Icon">
-                                        <p class="pu-td">{{ __('ten_bai_bao_cao') }}:</p>
-                                        <p class="pu-nd">{{ $bbc->ten_bai_bao_cao }}</p>
-                                    </div>
+        <!-- Info Div -->
+        <div id="infoDiv{{ $bbc->ma_bai_bao_cao }}" class="info-div custom-scroll">
+            <span class="close" onclick="hideInfoDiv({{ $bbc->ma_bai_bao_cao }})">&times;</span>
+            <div class="popup-tt">
+                <p style="font-size: 18px;text-align: center;font-weight: 700; color: #5D87FF; margin-bottom: 0px;">
+                    {{ __('thong_tin_bai_bao_cao') }}</p>
+                <div class="pu-ttbbc">
+                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/user.png') }}" width="18px" height="18px"
+                        alt="User Icon">
+                    <p class="pu-td">{{ __('ho_ten') }}:</p>
+                    <p class="pu-nd">{{ $bbc->ThanhVien->ho_ten }}</p>
+                </div>
+                <div class="pu-ttbbc">
+                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}" width="18px" height="18px"
+                        alt="User Icon">
+                    <p class="pu-td">{{ __('ngay_bao_cao') }}:</p>
+                    <p class="pu-nd">
+                        {{ \Carbon\Carbon::parse($bbc->LichBaoCao->ngay_bao_cao)->format('d/m/Y') }}
+                    </p>
+                </div>
+                <div class="pu-ttbbc">
+                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/laptop.png') }}" width="18px" height="18px"
+                        alt="User Icon">
+                    <p class="pu-td">{{ __('ten_bai_bao_cao') }}:</p>
+                    <p class="pu-nd">{{ $bbc->ten_bai_bao_cao }}</p>
+                </div>
 
-                                    <div class="pu-ttbbc">
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/link.png') }}"
-                                            width="18px" height="18px" alt="User Icon">
-                                        <p class="pu-td">{{ __('link_goc_bai_bao_cao') }}:</p>
-                                        <p class="pu-nd"><a style="color: #5D87FF; font-size:15px;"
-                                                href="{{ $bbc->link_goc_bai_bao_cao }}"
-                                                target="_blank">{{ $bbc->link_goc_bai_bao_cao }}</a></p>
-                                    </div>
-                                    <div class="pu-ttbbc">
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt.png') }}"
-                                            width="18px" height="18px" alt="User Icon">
-                                        <p class="pu-td">{{ __('link_file_ppt') }}:</p>
-                                        <p class="pu-nd">
-                                            {{-- <a style="color: #5D87FF; font-size:15px;"
+                <div class="pu-ttbbc">
+                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/link.png') }}" width="18px" height="18px"
+                        alt="User Icon">
+                    <p class="pu-td">{{ __('link_goc_bai_bao_cao') }}:</p>
+                    <p class="pu-nd"><a style="color: #5D87FF; font-size:15px;" href="{{ $bbc->link_goc_bai_bao_cao }}"
+                            target="_blank">{{ $bbc->link_goc_bai_bao_cao }}</a></p>
+                </div>
+                <div class="pu-ttbbc">
+                    <img src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt.png') }}" width="18px"
+                        height="18px" alt="User Icon">
+                    <p class="pu-td">{{ __('link_file_ppt') }}:</p>
+                    <p class="pu-nd">
+                        {{-- <a style="color: #5D87FF; font-size:15px;"
                                                 href="{{ asset('storage/' . $bbc->file_ppt) }}"
                                                 download="{{ basename($bbc->file_ppt) }}">
                                                 {{ basename($bbc->file_ppt) }}
                                             </a> --}}
-                                            <a href="{{ asset('storage/' . $bbc->file_ppt) }}" download>{{ __('tai_xuong') }}</a>
+                        <a href="{{ asset('storage/' . $bbc->file_ppt) }}" download>{{ __('tai_xuong') }}</a>
 
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Bình luận -->
-                                <div
-                                    style="font-size: 16px; margin-top: 30px; color: #5D87FF; font-weight: 600; margin-left: 15px; margin-bottom: 20px;">
-                                    {{ __('tat_ca_binh_luan') }}
-                                </div>
-                                <div class="comments-container">
-                                    <!-- Các bình luận -->
-                                    @foreach ($bbc->binhluans as $binhluan)
-                                        <div class="comment">
-                                            <div class="media">
-                                                <img src="{{ asset('storage/' . $binhluan->thanhVien->anh_dai_dien) }}"
-                                                    class="mr-3 rounded-circle" width="40" height="40"
-                                                    alt="Avatar">
-                                                <div class="media-bodyy">
-                                                    <label
-                                                        style="font-size: 16px; font-weight: 600;">{{ $binhluan->thanhVien->ho_ten }}</label>
-                                                    <p>{{ $binhluan->noi_dung }}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-
-                                <!-- Form bình luận -->
-                                <div class="comment-input">
-                                    <form action="{{ route('binhluan.store') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="ma_bai_bao_cao" value="{{ $bbc->ma_bai_bao_cao }}">
-                                        <div class="form-group">
-
-                                            <textarea class="form-control" id="noi_dung" name="noi_dung" rows="3" placeholder="{{ __('viet_binh_luan') }}"></textarea>
-                                        </div>
-                                        <div style="position: absolute; z-index: 100; top: 50px; right: 20px;">
-                                            <button style="border: none; background: none;" type="submit" title="{{ __('gui') }}" ><img
-                                                    src="{{ asset('/assets/css/icons/tabler-icons/img/send.png') }}"
-                                                    width="25px" height="25px" alt="User Icon"></button>
-                                        </div>
-                                    </form>
-                                </div>
-                                <div></div>
-
-                            </div>
-                        @endforeach
-                    </tbody>
-                </table>
+                    </p>
+                </div>
             </div>
+
+            <!-- Bình luận -->
+            <div
+                style="font-size: 16px; margin-top: 30px; color: #5D87FF; font-weight: 600; margin-left: 15px; margin-bottom: 20px;">
+                {{ __('tat_ca_binh_luan') }}
+            </div>
+            <div class="comments-container">
+                <!-- Các bình luận -->
+                @foreach ($bbc->binhluans as $binhluan)
+                    <div class="comment">
+                        <div class="media">
+                            <img src="{{ asset('storage/' . $binhluan->thanhVien->anh_dai_dien) }}"
+                                class="mr-3 rounded-circle" width="40" height="40" alt="Avatar">
+                            <div class="media-bodyy">
+                                <label
+                                    style="font-size: 16px; font-weight: 600;">{{ $binhluan->thanhVien->ho_ten }}</label>
+                                <p>{{ $binhluan->noi_dung }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Form bình luận -->
+            <div class="comment-input">
+                <form action="{{ route('binhluan.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="ma_bai_bao_cao" value="{{ $bbc->ma_bai_bao_cao }}">
+                    <div class="form-group">
+
+                        <textarea class="form-control" id="noi_dung" name="noi_dung" rows="3" placeholder="{{ __('viet_binh_luan') }}"></textarea>
+                    </div>
+                    <div style="position: absolute; z-index: 100; top: 50px; right: 20px;">
+                        <button style="border: none; background: none;" type="submit" title="{{ __('gui') }}"><img
+                                src="{{ asset('/assets/css/icons/tabler-icons/img/send.png') }}" width="25px"
+                                height="25px" alt="User Icon"></button>
+                    </div>
+                </form>
+            </div>
+            <div></div>
+
+            @endforeach
+        </tbody>
+    </table>
+</div>
+</div>
         </div>
+
         <div class="info-div-overlay" id="infoDivOverlay" onclick="hideAllInfoDivs()"></div>
     </div>
 
@@ -275,10 +276,9 @@
                 "pageLength": 10,
                 //"searching":false
                 "columnDefs": [{
-                        "orderable": false,
-                        "targets": 0
-                    },
-                ]
+                    "orderable": false,
+                    "targets": 0
+                }, ]
             });
         });
     </script>

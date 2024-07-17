@@ -80,7 +80,7 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Thành viên:</label>
+                            <label class="td-input">Thành viên:<span style="color: red"> *</span></label>
                             {{-- <select name="thanh_vien" id="thanh_vien">
                                 <option value="" disabled selected hidden>-- Chọn thành viên --</option>
                                 @foreach ($thanhvien as $tv)
@@ -91,7 +91,7 @@
                                 value="{{ Auth::user()->ho_ten }}" readonly />
                         </div>
                         <div class="coll">
-                            <label class="td-input">Loại tin tức:</label>
+                            <label class="td-input">Loại tin tức:<span style="color: red"> *</span></label>
                             <select name="loai_tin_tuc" id="loai_tin_tuc">
                                 <option value="" disabled selected hidden>-- Chọn loại tin tức --</option>
                                 @foreach ($loaitintuc as $ltt)
@@ -102,29 +102,29 @@
                     </div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tên tin tức:</label>
+                            <label class="td-input">Tên tin tức:<span style="color: red"> *</span></label>
                             <textarea rows="3" type="text" name="ten_tin_tuc" id="ten_tin_tuc"></textarea>
                         </div>
                     </div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Nội dung:</label>
+                            <label class="td-input">Nội dung:<span style="color: red"> *</span></label>
                             <textarea name="noi_dung" id="noi_dung"></textarea>
                         </div>
                     </div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Hình ảnh:</label>
+                            <label class="td-input">Hình ảnh:<span style="color: red"> *</span></label>
                             <input type="file" name="hinh_anh" id="hinh_anh"></input>
                         </div>
                     </div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Ngày đăng:</label>
+                            <label class="td-input">Ngày đăng:<span style="color: red"> *</span></label>
                             <input type="date" name="ngay" id="ngay" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">Trạng thái:</label>
+                            <label class="td-input">Trạng thái:<span style="color: red"> *</span></label>
                             <select name="trang_thai" id="trang_thai">
                                 <option value="" disabled selected hidden>-- Chọn trạng thái --</option>
                                 <option value="Công khai">Công khai</option>

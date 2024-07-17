@@ -8,6 +8,7 @@ use App\Models\Ytuongmoi;
 use App\Models\Thanhvien;
 use Illuminate\Support\Facades\Validator;
 use Auth;
+use App\Models\Log;
 
 class YtuongmoiController extends Controller
 {
@@ -80,6 +81,7 @@ class YtuongmoiController extends Controller
             'bai_bao_cao' => 'required',
             'noi_dung' => 'required|string',
             'hinh_anh' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'file_word' => 'nullable|file|mimes:doc,docx|max:2048',
             'trang_thai' => 'required|string|max:255',
         ]);
 
@@ -88,20 +90,34 @@ class YtuongmoiController extends Controller
         }
 
         try {
-            $path = null;
+            $pathImage = null;
+            $pathWord = null;
+
             if ($request->hasFile('hinh_anh')) {
                 $file = $request->file('hinh_anh');
-                $path = $file->store('ytuongmoi', 'public');
+                $pathImage = $file->store('ytuongmoi', 'public');
+            }
+
+            if ($request->hasFile('file_word')) {
+                $file = $request->file('file_word');
+                $pathWord = $file->store('ytuongmoi', 'public');
             }
 
             $ytuongmoi = new Ytuongmoi([
                 'ma_bai_bao_cao' => $request->bai_bao_cao,
                 'noi_dung' => $request->noi_dung,
-                'hinh_anh' => $path,
+                'hinh_anh' => $pathImage,
+                'file_word' => $pathWord,
                 'trang_thai' => $request->trang_thai,
             ]);
 
             $ytuongmoi->save();
+
+            // Ghi logs
+            Log::create([
+                'user_id' => Auth::id(),
+                'activity' => 'Thêm ý tưởng mới có mã = ' . $ytuongmoi->ma_y_tuong_moi,
+            ]);
 
             return response()->json('success', 200);
         } catch (\Exception $e) {
@@ -109,6 +125,7 @@ class YtuongmoiController extends Controller
             return response()->json(['error' => 'Internal Server Error'], 500);
         }
     }
+
 
 
 
@@ -158,44 +175,60 @@ class YtuongmoiController extends Controller
     // }
 
     public function update(Request $request, $ma_y_tuong_moi)
-{
-    // Validate the incoming request data
-    $validator = Validator::make($request->all(), [
-        'bai_bao_cao' => 'required|integer',
-        'noi_dung' => 'required|string',
-        'hinh_anh' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
-        'trang_thai' => 'required|string|max:255',
-    ]);
+    {
+        // Validate the incoming request data
+        $validator = Validator::make($request->all(), [
+            'bai_bao_cao' => 'required|integer',
+            'noi_dung' => 'required|string',
+            'hinh_anh' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:2048',
+            'file_word' => 'nullable|file|mimes:doc,docx|max:2048',
+            'trang_thai' => 'required|string|max:255',
+        ]);
 
-    // Return validation errors if validation fails
-    if ($validator->fails()) {
-        return response()->json($validator->errors(), 400);
+        // Return validation errors if validation fails
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        // Find the Ytuongmoi instance by its ID
+        $ytuongmoi = Ytuongmoi::find($ma_y_tuong_moi);
+
+        // Return error response if the Ytuongmoi instance does not exist
+        if (!$ytuongmoi) {
+            return response()->json('Ý tưởng mới không tồn tại.', 404);
+        }
+
+        // Update the Ytuongmoi instance with the validated request data
+        $ytuongmoi->ma_bai_bao_cao = $request->bai_bao_cao;
+        $ytuongmoi->noi_dung = $request->noi_dung;
+        $ytuongmoi->trang_thai = $request->trang_thai;
+
+        // Update 'hinh_anh' field only if it is present in the request
+        if ($request->hasFile('hinh_anh')) {
+            $file = $request->file('hinh_anh');
+            $pathImage = $file->store('ytuongmoi', 'public');
+            $ytuongmoi->hinh_anh = $pathImage;
+        }
+
+        // Update 'file_word' field only if it is present in the request
+        if ($request->hasFile('file_word')) {
+            $file = $request->file('file_word');
+            $pathWord = $file->store('ytuongmoi', 'public');
+            $ytuongmoi->file_word = $pathWord;
+        }
+
+        // Save the updated Ytuongmoi instance
+        $ytuongmoi->save();
+
+        // Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Cập nhật ý tưởng mới có mã = ' . $ytuongmoi->ma_y_tuong_moi,
+        ]);
+
+        // Return success response
+        return response()->json('success', 200);
     }
-
-    // Find the Ytuongmoi instance by its ID
-    $ytuongmoi = Ytuongmoi::find($ma_y_tuong_moi);
-
-    // Return error response if the Ytuongmoi instance does not exist
-    if (!$ytuongmoi) {
-        return response()->json('Ý tưởng mới không tồn tại.', 404);
-    }
-
-    // Update the Ytuongmoi instance with the validated request data
-    $ytuongmoi->ma_bai_bao_cao = $request->bai_bao_cao;
-    $ytuongmoi->noi_dung = $request->noi_dung;
-    $ytuongmoi->trang_thai = $request->trang_thai;
-
-    // Update 'hinh_anh' field only if it is present in the request
-    if ($request->has('hinh_anh')) {
-        $ytuongmoi->hinh_anh = $request->hinh_anh;
-    }
-
-    // Save the updated Ytuongmoi instance
-    $ytuongmoi->save();
-
-    // Return success response
-    return response()->json('success', 200);
-}
 
 
     public function destroy($ma_y_tuong_moi)
@@ -203,6 +236,12 @@ class YtuongmoiController extends Controller
         $ytuongmoi = Ytuongmoi::findOrFail($ma_y_tuong_moi);
 
         $ytuongmoi->delete();
+
+        //Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Xóa ý tưởng mới có mã = ' . $ytuongmoi->ma_y_tuong_moi . '',
+        ]);
 
         return response()->json('Xóa ý tưởng thành công', 200);
     }
@@ -213,12 +252,26 @@ class YtuongmoiController extends Controller
         $maytuongmoiArray = $request->input('ma_y_tuong_moi');
 
         if (!empty($maytuongmoiArray)) {
+            // Lưu trữ mã của các bản ghi để ghi log sau khi xóa
+            $deletedIds = Ytuongmoi::whereIn('ma_y_tuong_moi', $maytuongmoiArray)->pluck('ma_y_tuong_moi')->toArray();
+
+            // Thực hiện xóa các bản ghi
             Ytuongmoi::whereIn('ma_y_tuong_moi', $maytuongmoiArray)->delete();
+
+            // Ghi log
+            foreach ($deletedIds as $id) {
+                Log::create([
+                    'user_id' => Auth::id(),
+                    'activity' => 'Xóa ý tưởng mới có mã = ' . $id,
+                ]);
+            }
+
             return response()->json('Xóa ý tưởng mới thành công', 200);
         } else {
             return response()->json('Không có ý tưởng mới nào được chọn', 400);
         }
     }
+
 
     public function show($ma_y_tuong_moi)
     {

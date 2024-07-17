@@ -27,7 +27,8 @@
                     <tbody>
                         @foreach ($logs as $log)
                             <tr>
-                                <td>{{ $log->id }}</td>
+                                {{-- <td>{{ $log->id }}</td> --}}
+                                <td>{{ $loop->iteration }}</td>
                                 <td>{{ $log->ThanhVien->ho_ten }}</td>
                                 <td>{{ $log->activity }}</td>
                                 <td>{{ $log->created_at }}</td>

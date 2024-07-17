@@ -77,7 +77,7 @@
                             <input type="text" class="form-control" id="ma_nhom" name="ma_nhom" readonly>
                         </div> --}}
                         <div class="mb-3">
-                            <label for="ten_nhom" class="form-label">{{ __('ten_nhom') }}</label>
+                            <label for="ten_nhom" class="form-label">{{ __('ten_nhom') }}<span style="color: red"> *</span></label>
                             <input type="text" class="form-control" id="ten_nhom" name="ten_nhom" required>
                         </div>
                         <button type="submit" class="btn btn-primary">{{ __('luu') }}</button>
@@ -103,7 +103,7 @@
                             <input type="text" class="form-control" id="ma_nhom" name="ma_nhom" readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="ten_nhom" class="form-label">{{ __('ten_nhom') }}</label>
+                            <label for="ten_nhom" class="form-label">{{ __('ten_nhom') }}<span style="color: red"> *</span></label>
                             <input type="text" class="form-control" id="ten_nhom" name="ten_nhom" required>
                         </div>
                         <button type="submit" class="btn btn-primary">{{ __('luu') }}</button>

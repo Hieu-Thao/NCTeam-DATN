@@ -74,7 +74,7 @@
                             <input type="text" class="form-control" id="ma_nhom" name="ma_nhom" readonly>
                         </div> --}}
                         <div class="mb-3">
-                            <label for="ten_loai" class="form-label">Tên loại công trình</label>
+                            <label for="ten_loai" class="form-label">Tên loại công trình:<span style="color: red"> *</span></label>
                             <input type="text" class="form-control" id="ten_loai" name="ten_loai" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Lưu</button>
@@ -101,7 +101,7 @@
                             <input type="text" class="form-control" id="ma_loai" name="ma_loai" readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="ten_loai" class="form-label">Tên loại công trình</label>
+                            <label for="ten_loai" class="form-label">Tên loại công trình:<span style="color: red"> *</span></label>
                             <input type="text" class="form-control" id="ten_loai" name="ten_loai" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Lưu</button>

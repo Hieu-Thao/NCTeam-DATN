@@ -33,11 +33,13 @@
             <div class="card-btn btn-btnn" style="#">
                 <a href="/thanhvien/create-thanhvien">
                     <button type="button" class="btn btn-success btn-sm" id="btnz">
-                        <img src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> {{ __('them') }}
+                        <img src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">
+                        {{ __('them') }}
                     </button>
                 </a>
                 <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
-                    <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> {{ __('xoa') }}
+                    <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px">
+                    {{ __('xoa') }}
                 </button>
             </div>
         @endif
@@ -48,11 +50,12 @@
                     <thead>
                         <tr>
                             @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                                <th>
-                                    <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
+                                <th class="center">
+                                    <div class="center"><input type="checkbox" id="check-all"></div>
                                 </th>
                             @endif
-                            <th>{{ __('ma_tv') }}</th>
+                            <th>{{ __('STT') }}</th>
+                            {{-- <th>{{ __('ma_tv') }}</th> --}}
                             <th>{{ __('ho_ten') }}</th>
                             <th>{{ __('nhom') }}</th>
                             <th>{{ __('so_dien_thoai') }}</th>
@@ -72,8 +75,8 @@
                                             class="edit-checkbox">
                                     </td>
                                 @endif
-
-                                <td>{{ $tv->ma_thanh_vien }}</td>
+                                <td>{{ $loop->iteration }}</td>
+                                {{-- <td>{{ $tv->ma_thanh_vien }}</td> --}}
                                 <td>{{ $tv->ho_ten }}</td>
                                 <td>{{ $tv->nhom->ten_nhom }}</td> <!-- Sử dụng nhom thay vì Nhom -->
                                 {{-- <td>{{ $tv->ma_nhom }}</td> --}}
@@ -147,10 +150,9 @@
                 "pageLength": 10,
                 //"searching":false
                 "columnDefs": [{
-                        "orderable": false,
-                        "targets": 0
-                    },
-                ]
+                    "orderable": false,
+                    "targets": 0
+                }, ]
             });
         });
 
@@ -214,13 +216,15 @@
                                 ma_thanh_vien: selected
                             },
                             success: function(response) {
-                                callAlert('{{ __('xoa_thanh_vien_thanh_cong') }}', 'success', '1500', '');
+                                callAlert('{{ __('xoa_thanh_vien_thanh_cong') }}', 'success', '1500',
+                                    '');
                                 setTimeout(() => {
                                     window.location.reload();
                                 }, 1500);
                             },
                             error: function(xhr, status, error) {
-                                callAlert('{{ __('xoa_thanh_vien_khong_thanh_cong') }}', 'error', '1500', '');
+                                callAlert('{{ __('xoa_thanh_vien_khong_thanh_cong') }}', 'error',
+                                    '1500', '');
                             }
                         });
                     }
@@ -261,7 +265,8 @@
                             }, 1500);
                         },
                         error: function(xhr, status, error) {
-                            callAlert('{{ __('xoa_thanh_vien_khong_thanh_cong') }}', 'error', '1500', '');
+                            callAlert('{{ __('xoa_thanh_vien_khong_thanh_cong') }}', 'error', '1500',
+                                '');
                         }
                     });
                 }

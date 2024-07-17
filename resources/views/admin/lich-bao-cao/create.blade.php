@@ -69,22 +69,22 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('dia_diem_bao_cao') }}:</label>
+                            <label class="td-input">{{ __('dia_diem_bao_cao') }}:<span style="color: red"> *</span></label>
                             <input type="text" name="dia_diem" id="dia_diem" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('ngay_bao_cao') }}:</label>
+                            <label class="td-input">{{ __('ngay_bao_cao') }}:<span style="color: red"> *</span></label>
                             <input type="date" name="ngay_bao_cao" id="ngay_bao_cao" />
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('thoi_gian_bat_dau') }}:</label>
+                            <label class="td-input">{{ __('thoi_gian_bat_dau') }}:<span style="color: red"> *</span></label>
                             <input type="text" name="thoi_gian_bat_dau" id="thoi_gian_bat_dau" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('thoi_gian_ket_thuc') }}:</label>
+                            <label class="td-input">{{ __('thoi_gian_ket_thuc') }}:<span style="color: red"> *</span></label>
                             <input type="text" name="thoi_gian_ket_thuc" id="thoi_gian_ket_thuc" />
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                     url: '{{ url('/lichbaocao/create') }}',
                     data: formData,
                     success: function(response) {
-                        if (response === "success") {
+                        if (response.message === "success") {
                             callAlert('{{ __('them_lich_bao_cao_thanh_cong') }}', 'success',
                                 1500, '');
                             setTimeout(() => {
@@ -143,11 +143,9 @@
                         }
                     },
                     error: function(xhr) {
-                        error: function(xhr) {
-                            var response = JSON.parse(xhr.responseText);
-                            callAlert('{{ __('ban_chua_nhap_du_thong_tin_can_thiet') }}', 'error',
-                                1500, '');
-                        }
+                        var response = JSON.parse(xhr.responseText);
+                        callAlert('{{ __('ban_chua_nhap_du_thong_tin_can_thiet') }}', 'error',
+                            1500, '');
                     }
                 });
             });

@@ -59,12 +59,12 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('ho_ten') }}:</label>
+                            <label class="td-input">{{ __('ho_ten') }}:<span style="color: red"> *</span></label>
                             <input style="background: #f0f0f0" type="text" name="thanh_vien" id="thanh_vien"
                                 value="{{ Auth::user()->ho_ten }}" readonly />
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('ngay_bao_cao') }}:</label>
+                            <label class="td-input">{{ __('ngay_bao_cao') }}:<span style="color: red"> *</span></label>
                             <select name="ngay_bao_cao" id="ngay_bao_cao" style="margin-bottom: 15px">
                                 <option value="" disabled selected hidden>-- {{ __('chon_lich_bao_cao') }} --</option>
                                 @foreach ($lichbaocao as $lbc)
@@ -113,21 +113,21 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('ten_bai_bao_cao') }}:</label>
+                            <label class="td-input">{{ __('ten_bai_bao_cao') }}:<span style="color: red"> *</span></label>
                             <textarea rows="3" type="text" name="ten_bai_bao_cao" id="ten_bai_bao_cao">{{ $baibaocao->ten_bai_bao_cao }}</textarea>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('link_goc_bai_bao_cao') }}:</label>
+                            <label class="td-input">{{ __('link_goc_bai_bao_cao') }}:<span style="color: red"> *</span></label>
                             <textarea type="text" rows="2" name="link_goc_bai_bao_cao" id="link_goc_bai_bao_cao">{{ $baibaocao->link_goc_bai_bao_cao }}</textarea>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('tep_ppt') }}:</label>
+                            <label class="td-input">{{ __('tep_ppt') }}:<span style="color: red"> *</span></label>
                             <input type="file" name="file_ppt" id="file_ppt" />
                             @if ($baibaocao->file_ppt)
                                 <p>File hiện tại:

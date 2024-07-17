@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Thanhvien;
 use App\Models\Baibaocao;
+use App\Models\CongTrinh;
+use App\Models\Thamgia;
 use Illuminate\Support\Facades\DB;
 use Auth;
 use App\Models\Ytuongmoi;
@@ -94,5 +96,58 @@ class ThongkeController extends Controller
 
         return view('admin.thongke-ct', compact('thanhViens', 'thanhVienNames', 'congTrinhCounts'));
     }
+
+
+    public function thongKeYtuongmoi()
+    {
+        // Lấy thông tin người dùng hiện tại
+        $currentUser = Auth::user();
+        $userRole = $currentUser->vai_tro;
+        $userGroup = $currentUser->ma_nhom;
+
+        // Tạo query để lấy tất cả các thành viên và số lượng ý tưởng mới của họ
+        $thanhVienQuery = DB::table('thanh_vien')
+            ->leftJoin('bai_bao_cao', 'thanh_vien.ma_thanh_vien', '=', 'bai_bao_cao.ma_thanh_vien')
+            ->leftJoin('y_tuong_moi', 'bai_bao_cao.ma_bai_bao_cao', '=', 'y_tuong_moi.ma_bai_bao_cao')
+            ->select('thanh_vien.ho_ten', DB::raw('COUNT(y_tuong_moi.ma_y_tuong_moi) as so_luong_y_tuong_moi'))
+            ->groupBy('thanh_vien.ho_ten')
+            ->orderBy('so_luong_y_tuong_moi', 'DESC');
+
+        // Nếu người dùng là admin, lấy tất cả các thành viên
+        if ($currentUser->ma_quyen == 1) {
+            $thanhVienQuery->get();
+        } elseif ($userRole == 'Trưởng nhóm' || $userRole == 'Phó nhóm') {
+            // Nếu người dùng là Trưởng nhóm hoặc Phó nhóm, chỉ lấy thành viên trong cùng nhóm
+            $thanhVienQuery->where('thanh_vien.ma_nhom', $userGroup)->get();
+        }
+
+        // Thực hiện query để lấy kết quả
+        $thongKe = $thanhVienQuery->get();
+
+        return view('admin.thongke-ytm', compact('thongKe'));
+    }
+
+    public function getBaoCaoByThanhVien($id)
+    {
+        // Retrieve all reports associated with the member identified by $id
+        $baoCaos = BaiBaoCao::where('ma_thanh_vien', $id)
+            ->with('LichBaoCao') // Load the relationship for report date
+            ->get();
+
+        // Modify the response structure to include required fields
+        $formattedBaoCaos = $baoCaos->map(function ($baoCao) {
+            return [
+                'ma_bai_bao_cao' => $baoCao->ma_bai_bao_cao,
+                'ngay_bao_cao' => optional($baoCao->LichBaoCao)->ngay_bao_cao, // Handle null case with optional()
+                'ten_bai_bao_cao' => $baoCao->ten_bai_bao_cao,
+                'link_goc_bai_bao_cao' => $baoCao->link_goc_bai_bao_cao,
+                'link_file_ppt' => asset('storage/' . $baoCao->file_ppt), // Assuming file_ppt is stored in storage
+            ];
+        });
+
+        // Return a JSON response with the formatted data
+        return response()->json($formattedBaoCaos);
+    }
+
 
 }

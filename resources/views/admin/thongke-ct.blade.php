@@ -21,13 +21,17 @@
                             <tr>
                                 <th>Thành viên</th>
                                 <th>Số lượng công trình tham gia</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($thanhViens as $thanhVien)
-                                <tr>
+                                <tr class="member-row" data-id="{{ $thanhVien->ma_thanh_vien }}">
                                     <td>{{ $thanhVien->ho_ten }}</td>
                                     <td>{{ $thanhVien->cong_trinhs_count }}</td>
+                                    <td><button class="btn btn-warning btn-sm view-details" data-id="{{ $thanhVien->ma_thanh_vien }}">
+                                            <img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png" width="15px" height="15px">
+                                        </button></td> <!-- Thêm nút Xem Chi Tiết -->
                                 </tr>
                             @endforeach
                         </tbody>
@@ -42,16 +46,25 @@
                 <canvas id="chart" style="height: 150px;"></canvas>
             </div>
         </div>
+    </div>
 
-        <!-- Biểu đồ -->
-        {{-- <div class="card mt-4">
-            <div class="card-header">
-                Biểu đồ thống kê top 10 thành viên có nhiều công trình tham gia nhất
+    <!-- Modal to display project details -->
+    <div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="projectModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="projectModalLabel">Công trình tham gia của thành viên</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul id="projectList">
+                        <!-- Project details will be loaded here -->
+                    </ul>
+                </div>
             </div>
-            <div class="card-body">
-                <canvas id="chart" style="height: 400px;"></canvas>
-            </div>
-        </div> --}}
+        </div>
     </div>
 
     <!-- Scripts -->
@@ -67,8 +80,7 @@
                         datasets: [{
                             label: 'Số lượng công trình tham gia',
                             data: {!! $congTrinhCounts !!},
-                            // backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                             backgroundColor: 'rgba(93, 135, 255, 0.85)',
+                            backgroundColor: 'rgba(93, 135, 255, 0.85)',
                             borderColor: 'rgba(93, 135, 255, 0.1)',
                             borderWidth: 1
                         }]
@@ -84,46 +96,30 @@
                         }
                     }
                 });
-            });
 
-
-        $(document).ready(function() {
-            $('#thongkect').DataTable({
-                language: {
-                    "decimal": "",
-                    "emptyTable": "Không có dữ liệu",
-                    "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                    "infoEmpty": "Đang hiển thị 0 đến 0 của 0 mục",
-                    "infoFiltered": "(đã lọc từ tổng số _MAX_ mục)",
-                    "infoPostFix": "",
-                    "thousands": ",",
-                    "lengthMenu": "Hiển thị _MENU_ mục",
-                    "loadingRecords": "Đang tải...",
-                    "processing": "Đang xử lý...",
-                    "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
-                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
-                    "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Tiếp",
-                        "previous": "Trước"
-                    },
-                    "aria": {
-                        "sortAscending": ": sắp xếp tăng dần",
-                        "sortDescending": ": sắp xếp giảm dần"
-                    },
-                    "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
-                },
-                "pageLength": 10,
-                //"searching":false
-                "columnDefs": [{
-                        "orderable": false,
-                        "targets": 0
-                    }, // Disable sorting on the first column (checkbox column)
-                ]
+                // Handle click event on member rows
+                $('.member-row').on('click', function() {
+                    var memberId = $(this).data('id');
+                    // Call AJAX to fetch projects for this member
+                    $.ajax({
+                        url: '/fetch-projects/' + memberId,
+                        type: 'GET',
+                        success: function(data) {
+                            // Update modal content with fetched projects
+                            var projectList = $('#projectList');
+                            projectList.empty();
+                            $.each(data.projects, function(index, project) {
+                                projectList.append('<li>' + project.ten_cong_trinh + ' (' + project.nam + ')</li>');
+                            });
+                            $('#projectModal').modal('show');
+                        },
+                        error: function(xhr, status, error) {
+                            console.error('AJAX Error:', status, error);
+                        }
+                    });
+                });
             });
-        });
-    </script>
-@endpush
+        </script>
+    @endpush
 
 @endsection

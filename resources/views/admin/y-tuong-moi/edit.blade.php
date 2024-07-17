@@ -64,7 +64,7 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Bài báo cáo:</label>
+                            <label class="td-input">Bài báo cáo:<span style="color: red"> *</span></label>
                             <select name="bai_bao_cao" id="bai_bao_cao" required>
                                 <option value="" disabled selected hidden>-- Chọn bài báo cáo --</option>
                                 @foreach ($baibaocao as $bbc)
@@ -77,13 +77,27 @@
                     </div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Nội dung:</label>
+                            <label class="td-input">Nội dung:<span style="color: red"> *</span></label>
                             <textarea name="noi_dung" id="noi_dung" required>{{ $ytuongmoi->noi_dung }}</textarea>
                         </div>
                     </div>
                     <div class="roww">
+                    <div class="coll">
+                        <label class="td-input">Tệp Word:</label>
+                        <input type="file" name="file_word" id="file_word" />
+                        @if ($ytuongmoi->file_word)
+                            <label>Tệp Word hiện tại:
+                                <a href="{{ asset('storage/' . $ytuongmoi->file_word) }}" target="_blank">Tải về</a>
+                            </label>
+                        @else
+                            <label>Không có tệp Word</label>
+                        @endif
+                    </div>
+                    </div>
+
+                    <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Hình ảnh:</label>
+                            <label class="td-input">Hình ảnh:<span style="color: red"> *</span></label>
                             <input type="file" name="hinh_anh" id="hinh_anh" />
                             @if ($ytuongmoi->hinh_anh)
                                 <label>Hình ảnh hiện tại: <a href="{{ asset('storage/' . $ytuongmoi->hinh_anh) }}"
@@ -93,7 +107,7 @@
                             @endif
                         </div>
                         <div class="coll">
-                            <label class="td-input">Trạng thái:</label>
+                            <label class="td-input">Trạng thái:<span style="color: red"> *</span></label>
                             <select name="trang_thai" id="trang_thai">
                                 <option value="" disabled hidden>-- Chọn trạng thái --</option>
                                 <option value="Đã hoàn thành" {{ $ytuongmoi->trang_thai == 'Đã hoàn thành' ? 'selected' : '' }}>Đã hoàn thành</option>

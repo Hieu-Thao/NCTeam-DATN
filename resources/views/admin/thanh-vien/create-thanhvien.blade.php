@@ -112,11 +112,11 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('ho_ten') }}</label>
+                            <label class="td-input">{{ __('ho_ten') }}<span style="color: red"> *</span></label>
                             <input type="text" name="ho_ten" id="ho_ten" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('nhom') }}</label>
+                            <label class="td-input">{{ __('nhom') }}<span style="color: red"> *</span></label>
                             <select name="nhom" id="nhom">
                                 @foreach ($nhom as $nh)
                                     <option value="" disabled selected hidden>-- {{ __('chon_nhom') }} --</option>
@@ -125,7 +125,7 @@
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('so_dien_thoai') }}</label>
+                            <label class="td-input">{{ __('so_dien_thoai') }}<span style="color: red"> *</span></label>
                             <input type="text" name="so_dien_thoai" id="so_dien_thoai" />
                         </div>
                     </div>
@@ -140,14 +140,14 @@
                             <input type="text" name="hoc_vi" id="hoc_vi" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('noi_cong_tac') }}</label>
+                            <label class="td-input">{{ __('noi_cong_tac') }}<span style="color: red"> *</span></label>
                             <input type="text" name="noi_cong_tac" id="noi_cong_tac" />
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('vai_tro') }}</label>
+                            <label class="td-input">{{ __('vai_tro') }}<span style="color: red"> *</span></label>
                             <select name="vai_tro" id="vai_tro">
                                 <option value="" disabled selected hidden>-- {{ __('chon_vai_tro') }} --</option>
                                 <option value="Trưởng nhóm">{{ __('truong_nhom') }}</option>
@@ -157,11 +157,11 @@
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input">Email</label>
+                            <label class="td-input">Email<span style="color: red"> *</span></label>
                             <input type="email" name="email" id="email" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('mat_khau') }}</label>
+                            <label class="td-input">{{ __('mat_khau') }}<span style="color: red"> *</span></label>
                             <input type="password" name="mat_khau" id="mat_khau" />
                         </div>
                     </div>
@@ -171,7 +171,7 @@
                             <input type="file" name="anh_dai_dien" id="anh_dai_dien"></input>
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('quyen') }}</label>
+                            <label class="td-input">{{ __('quyen') }}<span style="color: red"> *</span></label>
                             <select name="quyen" id="quyen">
                                 @foreach ($quyen as $qu)
                                     <option value="" disabled selected hidden>-- {{ __('chon_quyen') }} --</option>

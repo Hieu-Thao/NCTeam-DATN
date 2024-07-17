@@ -177,6 +177,15 @@
                                     <span class="hide-menu">{{ __('cong_trinh') }}</span>
                                 </a>
                             </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link" href="/thongkeytm" aria-expanded="false">
+                                    <span>
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/report-analytics.png') }}"
+                                            width="21px" height="21px" alt="Chart Bar Icon">
+                                    </span>
+                                    <span class="hide-menu">{{ __('y_tuong_moi') }}</span>
+                                </a>
+                            </li>
                         @endif
 
                         <li class="nav-small-cap">
