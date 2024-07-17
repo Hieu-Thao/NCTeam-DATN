@@ -229,6 +229,10 @@ Route::middleware(['auth', 'role:2'])->group(function () {
     Route::get('/thongkeytm', [ThongKeController::class, 'thongKeYtuongmoi'])->name('thongkeytm');
     Route::get('/thanhvien/{id}/baibaocao', [ThongkeController::class, 'getBaoCaoByThanhVien']);
     Route::get('/fetch-projects/{memberId}', 'ThongkeController@fetchProjects');
+    Route::get('/thanhvien/{id}/congtrinh', [ThongkeController::class, 'getCongTrinhByThanhVien']);
+    Route::get('/fetch-ideas/{ma_bai_bao_cao}', 'ThongkeController@fetchIdeas');
+
+
 
 
 

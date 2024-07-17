@@ -22,6 +22,7 @@
                                 <th>STT</th>
                                 <th>Họ tên</th>
                                 <th>Số lượng ý tưởng mới</th>
+                                {{-- <th></th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -30,6 +31,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $thanhvien->ho_ten }}</td>
                                     <td>{{ $thanhvien->so_luong_y_tuong_moi }}</td>
+                                   
                                 </tr>
                             @endforeach
                         </tbody>
@@ -82,7 +84,7 @@
             });
         </script>
 
-        
+
     @endpush
 
 @endsection

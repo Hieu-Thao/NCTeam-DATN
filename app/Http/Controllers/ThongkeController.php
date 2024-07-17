@@ -7,10 +7,9 @@ use App\Models\Thanhvien;
 use App\Models\Baibaocao;
 use App\Models\CongTrinh;
 use App\Models\Thamgia;
+use App\Models\Ytuongmoi;
 use Illuminate\Support\Facades\DB;
 use Auth;
-use App\Models\Ytuongmoi;
-
 
 
 class ThongkeController extends Controller
@@ -147,6 +146,20 @@ class ThongkeController extends Controller
 
         // Return a JSON response with the formatted data
         return response()->json($formattedBaoCaos);
+    }
+
+
+    public function getCongTrinhByThanhVien($id)
+    {
+        // Retrieve projects (cong trinhs) associated with the member identified by $id
+        $congTrinhs = DB::table('tham_gia')
+            ->where('ma_thanh_vien', $id)
+            ->join('cong_trinh', 'tham_gia.ma_cong_trinh', '=', 'cong_trinh.ma_cong_trinh')
+            ->select('cong_trinh.ten_cong_trinh', 'cong_trinh.nam', 'cong_trinh.thuoc_tap_chi', 'cong_trinh.tinh_trang', 'cong_trinh.trang_thai')
+            ->get();
+
+        // Return a JSON response with the formatted data
+        return response()->json($congTrinhs);
     }
 
 
