@@ -59,7 +59,6 @@ class LichbaocaoController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request->all());
         $validator = Validator::make($request->all(), [
             'ngay_bao_cao' => 'required|date',
             'dia_diem' => 'required|string|max:255',
@@ -71,9 +70,7 @@ class LichbaocaoController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-
         $formattedDate = Carbon::parse($request->ngay_bao_cao)->format('d/m/Y');
-
         $ten_lich_bao_cao = 'Lịch báo cáo - ' . $formattedDate . ' - ' . $request->dia_diem . ' - ' . $request->thoi_gian_bat_dau . ' - ' . $request->thoi_gian_ket_thuc;
 
         $lichbaocao = new Lichbaocao([
@@ -82,19 +79,17 @@ class LichbaocaoController extends Controller
             'dia_diem' => $request->dia_diem,
             'thoi_gian_bat_dau' => $request->thoi_gian_bat_dau,
             'thoi_gian_ket_thuc' => $request->thoi_gian_ket_thuc,
-            // 'trang_thai' => 'Chưa báo cáo',
         ]);
 
         $lichbaocao->save();
 
-        //Ghi logs
+        // Log activity
         Log::create([
             'user_id' => Auth::id(),
-            'activity' => 'Thêm lịch báo cáo mới có mã = ' . $lichbaocao->ma_lich . '',
+            'activity' => 'Thêm lịch báo cáo mới có mã = ' . $lichbaocao->ma_lich,
         ]);
 
         return response()->json(['message' => 'success'], 200);
-
     }
 
 
@@ -185,12 +180,11 @@ class LichbaocaoController extends Controller
         //Ghi logs
         Log::create([
             'user_id' => Auth::id(),
-            'activity' => 'Sửa lịch báo cáo có mã = ' . $lichbaocao->ma_lich . '',
+            'activity' => 'Sửa lịch báo cáo có mã = ' . $lichbaocao->ma_lich,
         ]);
 
         return response()->json('success', 200);
     }
-
 
 
     // public function deleteMultiple(Request $request)

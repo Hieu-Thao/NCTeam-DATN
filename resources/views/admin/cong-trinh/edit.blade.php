@@ -93,7 +93,7 @@
                         </div>
                         <div class="coll">
                             <label class="td-input">Năm:<span style="color: red"> *</span></label>
-                            <input type="text" name="nam" id="nam" value="{{ $congtrinh->nam }}" />
+                            <input type="number" min="0" name="nam" id="nam" value="{{ $congtrinh->nam }}" />
                         </div>
                     </div>
 

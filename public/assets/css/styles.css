@@ -20681,6 +20681,7 @@ html {
 .coll input[type="email"],
 .coll input[type="date"],
 .coll input[type="file"],
+.coll input[type="number"],
 .coll textarea,
 .coll select {
     width: 100%;
@@ -20720,6 +20721,7 @@ html {
     .coll input[type="email"],
     .coll input[type="date"],
     .coll input[type="file"],
+    .coll input[type="number"],
     .coll textarea,
     .coll select {
         flex: 1;

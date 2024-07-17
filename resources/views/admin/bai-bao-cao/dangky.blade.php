@@ -233,6 +233,7 @@
 
 @push('scripts')
 <script>
+    $(document).ready(function() {
     function callAlert(title, icon, timer, text) {
         Swal.fire({
             position: "center",
@@ -245,102 +246,102 @@
         });
     }
 
-    $(document).ready(function() {
-        $('form[name="create"]').on('submit', function(e) {
-            e.preventDefault();
-            var formData = new FormData(this);
-            $('#overlay').show();
-            $.ajax({
-                type: 'POST',
-                url: '{{ url('/dangkybbc') }}',
-                data: formData,
-                contentType: false,
-                processData: false,
-                success: function(response) {
-                    if (response === "success") {
-                        callAlert('{{ __('dang_ky_thanh_cong') }}', 'success', '1500', '');
-                        setTimeout(() => {
-                            window.location.href = '/baibaocao';
-                        }, 1000);
-                    }
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                    var response = JSON.parse(xhr.responseText);
-                    if (response.ten_bai_bao_cao) {
-                        callAlert('{{ __('ten_bai_bao_cao_da_ton_tai') }}', 'error', '1500', '');
-                    } else {
-                        callAlert('{{ __('co_loi_vui_long_thu_lai') }}', 'error', '1500', '');
-                    }
-                },
-                complete: function() {
-                    $('#overlay').hide();
+    $('form[name="create"]').on('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        $('#overlay').show();
+        $.ajax({
+            type: 'POST',
+            url: '{{ url('/dangkybbc') }}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+                if (response === "success") {
+                    callAlert('{{ __('dang_ky_thanh_cong') }}', 'success', '1500', '');
+                    setTimeout(() => {
+                        window.location.href = '/baibaocao';
+                    }, 1000);
                 }
-            });
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+                var response = JSON.parse(xhr.responseText);
+                if (response.ten_bai_bao_cao) {
+                    callAlert('{{ __('ten_bai_bao_cao_da_ton_tai') }}', 'error', '1500', '');
+                } else {
+                    callAlert('{{ __('co_loi_vui_long_thu_lai') }}', 'error', '1500', '');
+                }
+            },
+            complete: function() {
+                $('#overlay').hide();
+            }
         });
-
-        function checkDuplicate() {
-            var tenBaiBaoCao = document.getElementById('ten_bai_bao_cao').value;
-            var linkGocBaiBaoCao = document.getElementById('link_goc_bai_bao_cao').value;
-
-            if (tenBaiBaoCao.trim() !== '' || linkGocBaiBaoCao.trim() !== '') {
-                fetch('{{ route('baibaocao.checkDuplicate') }}', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        },
-                        body: JSON.stringify({
-                            ten_bai_bao_cao: tenBaiBaoCao,
-                            link_goc_bai_bao_cao: linkGocBaiBaoCao
-                        })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.exists) {
-                            document.getElementById('existingMaBaiBaoCao').textContent = data.baibao.ma_bai_bao_cao;
-                            document.getElementById('existingTenBaiBaoCao').textContent = data.baibao.ten_bai_bao_cao;
-                            document.getElementById('existingHoTen').textContent = data.baibao.ho_ten;
-
-                            var ngayBaoCao = new Date(data.baibao.ngay_bao_cao);
-                            var formattedNgayBaoCao = ('0' + ngayBaoCao.getDate()).slice(-2) + '/' + ('0' + (ngayBaoCao.getMonth() + 1)).slice(-2) + '/' + ngayBaoCao.getFullYear();
-
-                            document.getElementById('existingNgayBaoCao').textContent = formattedNgayBaoCao;
-
-                            var linkGocElement = document.getElementById('existingLinkGoc');
-                            linkGocElement.href = data.baibao.link_goc_bai_bao_cao;
-                            linkGocElement.textContent = data.baibao.link_goc_bai_bao_cao;
-
-                            $('#existingReportModal').modal('show');
-                            disableFields(true);
-                            document.getElementById('btnSubmit').style.display = 'none';
-                        } else {
-                            disableFields(false);
-                            document.getElementById('btnSubmit').style.display = 'block';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                    });
-            }
-        }
-
-        document.getElementById('ten_bai_bao_cao').addEventListener('blur', checkDuplicate);
-        document.getElementById('link_goc_bai_bao_cao').addEventListener('blur', checkDuplicate);
-
-        function disableFields(disable) {
-            const tenBaiBaoCaoInput = document.getElementById('ten_bai_bao_cao');
-            const linkGocBaiBaoCaoInput = document.getElementById('link_goc_bai_bao_cao');
-
-            if (disable) {
-                // tenBaiBaoCaoInput.setAttribute('disabled', 'disabled');
-                // linkGocBaiBaoCaoInput.setAttribute('disabled', 'disabled');
-            } else {
-                tenBaiBaoCaoInput.removeAttribute('disabled');
-                linkGocBaiBaoCaoInput.removeAttribute('disabled');
-            }
-        }
     });
+
+    function checkDuplicate() {
+        var tenBaiBaoCao = document.getElementById('ten_bai_bao_cao').value;
+        var linkGocBaiBaoCao = document.getElementById('link_goc_bai_bao_cao').value;
+
+        if (tenBaiBaoCao.trim() !== '' || linkGocBaiBaoCao.trim() !== '') {
+            fetch('{{ route('baibaocao.checkDuplicate') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        ten_bai_bao_cao: tenBaiBaoCao,
+                        link_goc_bai_bao_cao: linkGocBaiBaoCao
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.exists) {
+                        document.getElementById('existingMaBaiBaoCao').textContent = data.baibao.ma_bai_bao_cao;
+                        document.getElementById('existingTenBaiBaoCao').textContent = data.baibao.ten_bai_bao_cao;
+                        document.getElementById('existingHoTen').textContent = data.ho_ten;
+
+                        var ngayBaoCao = new Date(data.ngay_bao_cao);
+                        var formattedNgayBaoCao = ('0' + ngayBaoCao.getDate()).slice(-2) + '/' + ('0' + (ngayBaoCao.getMonth() + 1)).slice(-2) + '/' + ngayBaoCao.getFullYear();
+
+                        document.getElementById('existingNgayBaoCao').textContent = formattedNgayBaoCao;
+
+                        var linkGocElement = document.getElementById('existingLinkGoc');
+                        linkGocElement.href = data.baibao.link_goc_bai_bao_cao;
+                        linkGocElement.textContent = data.baibao.link_goc_bai_bao_cao;
+
+                        $('#existingReportModal').modal('show');
+                        disableFields(true);
+                        document.getElementById('btnSubmit').style.display = 'none';
+                    } else {
+                        disableFields(false);
+                        document.getElementById('btnSubmit').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }
+
+    document.getElementById('ten_bai_bao_cao').addEventListener('blur', checkDuplicate);
+    document.getElementById('link_goc_bai_bao_cao').addEventListener('blur', checkDuplicate);
+
+    function disableFields(disable) {
+        const tenBaiBaoCaoInput = document.getElementById('ten_bai_bao_cao');
+        const linkGocBaiBaoCaoInput = document.getElementById('link_goc_bai_bao_cao');
+
+        if (disable) {
+            // tenBaiBaoCaoInput.setAttribute('disabled', 'disabled');
+            // linkGocBaiBaoCaoInput.setAttribute('disabled', 'disabled');
+        } else {
+            tenBaiBaoCaoInput.removeAttribute('disabled');
+            linkGocBaiBaoCaoInput.removeAttribute('disabled');
+        }
+    }
+});
+
 </script>
 
 {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}

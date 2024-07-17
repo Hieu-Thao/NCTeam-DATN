@@ -13,7 +13,7 @@
 @section('content')
 
     <style>
-       input:invalid,
+        input:invalid,
         select:invalid,
         textarea:invalid {
             border: solid 1.5px red !important;
@@ -53,25 +53,35 @@
             <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">{{ __('cap_nhat_bai_bao_cao') }}</h4>
         </div>
         <div style="padding-top: 20px;">
-            <form name="edit" method="post" onsubmit="return kiemtra();" action="{{ route('baibaocao.update', $baibaocao->ma_bai_bao_cao) }}">
+            <form name="edit" method="post" onsubmit="return kiemtra();"
+                action="{{ route('baibaocao.update', $baibaocao->ma_bai_bao_cao) }}">
                 @csrf
                 @method('PUT')
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('ho_ten') }}:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('ho_ten') }}:</label>
                             <input style="background: #f0f0f0" type="text" name="thanh_vien" id="thanh_vien"
                                 value="{{ Auth::user()->ho_ten }}" readonly />
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('ngay_bao_cao') }}:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('ngay_bao_cao') }}:</label>
                             <select name="ngay_bao_cao" id="ngay_bao_cao" style="margin-bottom: 15px">
                                 <option value="" disabled selected hidden>-- {{ __('chon_lich_bao_cao') }} --</option>
                                 @foreach ($lichbaocao as $lbc)
-                                    <option value="{{ $lbc->ma_lich }}"
-                                        {{ $lbc->ma_lich == $baibaocao->ma_lich ? 'selected' : '' }}>
-                                        {{ $lbc->ten_lich_bao_cao }}
-                                    </option>
+                                    @php
+                                        // Chuyển đổi ngày báo cáo từ dạng chuỗi thành đối tượng DateTime
+                                        $ngayBaoCao = new DateTime($lbc->ngay_bao_cao);
+                                        $ngayHienTai = new DateTime();
+                                    @endphp
+
+                                    {{-- Chỉ hiển thị option nếu ngày báo cáo lớn hơn hoặc bằng ngày hiện tại --}}
+                                    @if ($ngayBaoCao >= $ngayHienTai)
+                                        <option  value="{{ $lbc->ma_lich }}"
+                                            {{ $lbc->ma_lich == $baibaocao->ma_lich ? 'selected' : '' }}>
+                                            {{ $lbc->ten_lich_bao_cao }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                             <div class="tt-lich" id="tt-lich" style="display: none;">
@@ -113,15 +123,15 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('ten_bai_bao_cao') }}:<span style="color: red"> *</span></label>
-                            <textarea rows="3" type="text" name="ten_bai_bao_cao" id="ten_bai_bao_cao">{{ $baibaocao->ten_bai_bao_cao }}</textarea>
+                            <label class="td-input">{{ __('ten_bai_bao_cao') }}:</label>
+                            <textarea rows="3" type="text" name="ten_bai_bao_cao" id="ten_bai_bao_cao" readonly>{{ $baibaocao->ten_bai_bao_cao }}</textarea>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('link_goc_bai_bao_cao') }}:<span style="color: red"> *</span></label>
-                            <textarea type="text" rows="2" name="link_goc_bai_bao_cao" id="link_goc_bai_bao_cao">{{ $baibaocao->link_goc_bai_bao_cao }}</textarea>
+                            <label class="td-input">{{ __('link_goc_bai_bao_cao') }}:</label>
+                            <textarea type="text" rows="2" name="link_goc_bai_bao_cao" id="link_goc_bai_bao_cao" readonly>{{ $baibaocao->link_goc_bai_bao_cao }}</textarea>
                         </div>
                     </div>
 
@@ -142,8 +152,10 @@
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" onclick="return kiemtra();" value="{{ __('cap_nhat') }}">
-                        <a class="btn btn-secondary" style="height: 10%;" href="/baibaocao/baibaocaocn">{{ __('tro_ve') }}</a>
+                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit"
+                            onclick="return kiemtra();" value="{{ __('cap_nhat') }}">
+                        <a class="btn btn-secondary" style="height: 10%;"
+                            href="/baibaocao/baibaocaocn">{{ __('tro_ve') }}</a>
                     </div>
                 </div>
             </form>
@@ -183,25 +195,32 @@
                     processData: false,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('{{ __('cap_nhat_bai_bao_cao_thanh_cong') }}', 'success', '1500', '');
+                            callAlert('{{ __('cap_nhat_bai_bao_cao_thanh_cong') }}', 'success',
+                                '1500', '');
                             setTimeout(() => {
                                 window.location.href = '/baibaocao/baibaocaocn';
                             }, 1000);
                         }
                     },
+                    // Trong phần script Ajax của bạn:
                     error: function(xhr) {
                         console.log(xhr.responseText);
                         var response = JSON.parse(xhr.responseText);
-                        if (response.ten_bai_bao_cao) {
-                            callAlert('{{ __('ten_bai_bao_cao_da_ton_tai') }}', 'error', '1500', '');
-                        // } else if (response.link_goc_bai_bao_cao) {
-                        //     callAlert(response.link_goc_bai_bao_cao, 'error', '1500', '');
-                        // } else if (response.file_ppt) {
-                        //     callAlert(response.file_ppt, 'error', '1500', '');
+                        if (response.errors) {
+                            if (response.errors.ten_bai_bao_cao) {
+                                callAlert('{{ __('ten_bai_bao_cao_da_ton_tai') }}', 'error',
+                                    '1500', '');
+                            }
+                            if (response.errors.link_goc_bai_bao_cao) {
+                                callAlert('{{ __('link_goc_bai_bao_cao_da_ton_tai') }}',
+                                    'error', '1500', '');
+                            }
                         } else {
-                            callAlert('{{ __('co_loi_vui_long_thu_lai') }}', 'error', '1500', '');
+                            callAlert('{{ __('ten_bai_bao_cao_da_ton_tai') }}', 'error', '1500',
+                                '');
                         }
                     },
+
                     complete: function() {
                         $('#overlay').hide();
                     }

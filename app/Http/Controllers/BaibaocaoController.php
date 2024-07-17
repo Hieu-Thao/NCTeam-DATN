@@ -432,14 +432,23 @@ class BaibaocaoController extends Controller
 
         $exists = BaiBaoCao::where('ten_bai_bao_cao', $ten_bai_bao_cao)
             ->orWhere('link_goc_bai_bao_cao', $link_goc_bai_bao_cao)
+            ->with(['ThanhVien', 'LichBaoCao']) // Ensure these relationships are defined in the model
             ->first();
 
         if ($exists) {
-            return response()->json(['exists' => true, 'baibao' => $exists]);
+            $ho_ten = $exists->ThanhVien->ho_ten;
+            $ngay_bao_cao = $exists->LichBaoCao->ngay_bao_cao;
+            return response()->json([
+                'exists' => true,
+                'baibao' => $exists,
+                'ho_ten' => $ho_ten,
+                'ngay_bao_cao' => $ngay_bao_cao
+            ]);
         } else {
             return response()->json(['exists' => false]);
         }
     }
+
 
 
 }

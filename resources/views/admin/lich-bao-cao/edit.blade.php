@@ -13,7 +13,7 @@
 @section('content')
 
     <style>
-       input:invalid,
+        input:invalid,
         select:invalid,
         textarea:invalid {
             border: solid 1.5px red !important;
@@ -74,37 +74,43 @@
                         </div>
                         <div class="coll">
                             <label class="td-input">{{ __('ngay_bao_cao') }}:<span style="color: red"> *</span></label>
-                            <input type="date" name="ngay_bao_cao" id="ngay_bao_cao" value="{{ $lichbaocao->ngay_bao_cao }}">
+                            <input type="date" name="ngay_bao_cao" id="ngay_bao_cao"
+                                value="{{ $lichbaocao->ngay_bao_cao }}" min="{{ date('Y-m-d') }}"/>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('thoi_gian_bat_dau') }}:<span style="color: red"> *</span></label>
-                            <input type="text" name="thoi_gian_bat_dau" id="thoi_gian_bat_dau" value="{{ $lichbaocao->thoi_gian_bat_dau }}">
+                            <label class="td-input">{{ __('thoi_gian_bat_dau') }}:<span style="color: red">
+                                    *</span></label>
+                            <input type="text" name="thoi_gian_bat_dau" id="thoi_gian_bat_dau"
+                                value="{{ $lichbaocao->thoi_gian_bat_dau }}">
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('thoi_gian_ket_thuc') }}:<span style="color: red"> *</span></label>
-                            <input type="text" name="thoi_gian_ket_thuc" id="thoi_gian_ket_thuc" value="{{ $lichbaocao->thoi_gian_ket_thuc }}">
+                            <label class="td-input">{{ __('thoi_gian_ket_thuc') }}:<span style="color: red">
+                                    *</span></label>
+                            <input type="text" name="thoi_gian_ket_thuc" id="thoi_gian_ket_thuc"
+                                value="{{ $lichbaocao->thoi_gian_ket_thuc }}">
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
                             <label class="td-input">{{ __('ten_lich_bao_cao') }}:</label>
-                            <input type="text" style="background: #ececec;" name="ten_lich_bao_cao" id="ten_lich_bao_cao" value="{{ $lichbaocao->ten_lich_bao_cao }}" readonly>
+                            <input type="text" style="background: #ececec;" name="ten_lich_bao_cao" id="ten_lich_bao_cao"
+                                value="{{ $lichbaocao->ten_lich_bao_cao }}" readonly>
                         </div>
                     </div>
                 </div>
 
-                    <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit"
-                            onclick="return kiemtra();" value="{{ __('cap_nhat') }}">
-                        <a class="btn btn-secondary" style="height: 10%;" href="/lichbaocao">{{ __('tro_ve') }}</a>
-                    </div>
+                <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
+                    <input class="btn btn-success" style="height: 10%;" type="submit" name="submit"
+                        onclick="return kiemtra();" value="{{ __('cap_nhat') }}">
+                    <a class="btn btn-secondary" style="height: 10%;" href="/lichbaocao">{{ __('tro_ve') }}</a>
                 </div>
-            </form>
         </div>
+        </form>
+    </div>
     </div>
 
 @endsection
@@ -129,24 +135,25 @@
                     return false;
                 }
                 var formData = $(this).serialize();
+                var ma_lich = '{{ $lichbaocao->ma_lich }}'; // Lấy mã lịch báo cáo từ Blade template
+
                 $.ajax({
                     type: 'PUT',
-                    url: '{{ url('/lichbaocao/edit/' . $lichbaocao->ma_lich) }}',
+                    url: '/lichbaocao/edit/' + ma_lich,
                     data: formData,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('{{ __('cap_nhat_lich_bao_cao_thanh_cong') }}', 'success', '1500', '');
-                            setTimeout(() => {
+                            callAlert('{{ __('cap_nhat_lich_bao_cao_thanh_cong') }}',
+                                'success', '1500', '');
+                            setTimeout(function() {
                                 window.location.href = '/lichbaocao';
                             }, 1000);
                         }
                     },
                     error: function(xhr) {
-                        error: function(xhr) {
-                            var response = JSON.parse(xhr.responseText);
-                            callAlert('{{ __('ban_chua_nhap_du_thong_tin_can_thiet') }}', 'error',
-                                1500, '');
-                        }
+                        var response = JSON.parse(xhr.responseText);
+                        callAlert('{{ __('ban_chua_nhap_du_thong_tin_can_thiet') }}', 'error',
+                            1500, '');
                     }
                 });
             });

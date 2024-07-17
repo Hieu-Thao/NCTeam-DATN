@@ -94,7 +94,7 @@
                         </div>
                         <div class="coll">
                             <label class="td-input">{{ __('nam') }}:<span style="color: red"> *</span></label>
-                            <input type="text" name="nam" id="nam" />
+                            <input type="number" min="0" name="nam" id="nam" />
                         </div>
                     </div>
 

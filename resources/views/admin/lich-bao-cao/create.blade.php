@@ -74,17 +74,19 @@
                         </div>
                         <div class="coll">
                             <label class="td-input">{{ __('ngay_bao_cao') }}:<span style="color: red"> *</span></label>
-                            <input type="date" name="ngay_bao_cao" id="ngay_bao_cao" />
+                            <input type="date" name="ngay_bao_cao" id="ngay_bao_cao" min="{{ date('Y-m-d') }}"/>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">{{ __('thoi_gian_bat_dau') }}:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('thoi_gian_bat_dau') }}:<span style="color: red">
+                                    *</span></label>
                             <input type="text" name="thoi_gian_bat_dau" id="thoi_gian_bat_dau" />
                         </div>
                         <div class="coll">
-                            <label class="td-input">{{ __('thoi_gian_ket_thuc') }}:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('thoi_gian_ket_thuc') }}:<span style="color: red">
+                                    *</span></label>
                             <input type="text" name="thoi_gian_ket_thuc" id="thoi_gian_ket_thuc" />
                         </div>
                     </div>
@@ -137,7 +139,7 @@
                         if (response.message === "success") {
                             callAlert('{{ __('them_lich_bao_cao_thanh_cong') }}', 'success',
                                 1500, '');
-                            setTimeout(() => {
+                            setTimeout(function() {
                                 window.location.href = '/lichbaocao';
                             }, 1000);
                         }
@@ -150,6 +152,7 @@
                 });
             });
         });
+    </script>
     </script>
 
     {{-- <script>

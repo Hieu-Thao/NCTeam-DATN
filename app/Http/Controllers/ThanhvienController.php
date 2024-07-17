@@ -59,7 +59,7 @@ class ThanhvienController extends Controller
         // Load lichBaoCao relationship with pagination
         $lichBaoCao = $user->lichbaocao()
             ->orderByDesc('ngay_bao_cao')
-            ->paginate(5); // Chỉ hiển thị 5 lịch báo cáo mỗi trang
+            ->paginate(6);
 
         return view('admin.thanh-vien.canhan', compact('user', 'lichBaoCao'));
     }

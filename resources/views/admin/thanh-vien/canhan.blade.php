@@ -178,47 +178,38 @@
 
                 <div class="column-7" style="">
                     <div class="td-bbc" style="text-align: left !important;">
-                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt-tr.png') }}" width="18px"
-                            height="18px" alt="User Icon">{{ __('lich_bao_cao_cua_toi') }}
+                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/file-type-ppt-tr.png') }}" width="18px" height="18px" alt="User Icon">{{ __('lich_bao_cao_cua_toi') }}
                     </div>
-                    @foreach ($lichBaoCao as $lich)
+                    @foreach ($lichBaoCao->where('trang_thai', 'Chưa báo cáo')->sortBy('ngay_bao_cao') as $lich)
                         <div class="bbcct">
                             <div class="ttbbc-mb">
                                 <div class="ttbbc-tenbbc">{{ $lich->ten_lich_bao_cao }}</div>
                                 @if ($lich->trang_thai == 'Đã báo cáo')
                                     <div class="trt-dbbc">
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/checks.png') }}"
-                                            width="18px" height="18px" alt="User Icon">{{ __('da_bao_cao') }}
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/checks.png') }}" width="18px" height="18px" alt="User Icon">{{ __('da_bao_cao') }}
                                     </div>
                                 @else
                                     <div class="trt-cbbc">
-                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/copy-x.png') }}"
-                                            width="18px" height="18px" alt="User Icon">{{ __('chua_bao_cao') }}
+                                        <img src="{{ asset('/assets/css/icons/tabler-icons/img/copy-x.png') }}" width="18px" height="18px" alt="User Icon">{{ __('chua_bao_cao') }}
                                     </div>
                                 @endif
                             </div>
                             <div class="ttbbc">
-                                <div class="ttbbc-td"><img
-                                        src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}" width="18px"
-                                        height="18px" alt="User Icon"></div>
+                                <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/calendar.png') }}" width="18px" height="18px" alt="User Icon"></div>
                                 <div style="margin-right: 5px; font-size: 15px;">{{ __('ngay_bao_cao') }}: </div>
                                 <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
                                     {{ \Carbon\Carbon::parse($lich->ngay_bao_cao)->format('d/m/Y') }}
                                 </div>
                             </div>
                             <div class="ttbbc">
-                                <div class="ttbbc-td"><img
-                                        src="{{ asset('/assets/css/icons/tabler-icons/img/map-pin.png') }}" width="18px"
-                                        height="18px" alt="User Icon"></div>
+                                <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/map-pin.png') }}" width="18px" height="18px" alt="User Icon"></div>
                                 <div style="margin-right: 5px; font-size: 15px;">{{ __('dia_diem_bao_cao') }}: </div>
                                 <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
                                     {{ $lich->dia_diem }}
                                 </div>
                             </div>
                             <div class="ttbbc">
-                                <div class="ttbbc-td"><img
-                                        src="{{ asset('/assets/css/icons/tabler-icons/img/user-check.png') }}"
-                                        width="18px" height="18px" alt="User Icon"></div>
+                                <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/user-check.png') }}" width="18px" height="18px" alt="User Icon"></div>
                                 <div style="margin-right: 5px; font-size: 15px;">{{ __('vai_tro') }}: </div>
                                 <div class="ttbbc-nd">
                                     @if ($lich->pivot->vai_tro == 'Thư ký')
@@ -242,19 +233,15 @@
                             </div>
                             <div style="display: flex; align-items: center; gap: 20px;">
                                 <div class="ttbbc">
-                                    <div class="ttbbc-td"><img
-                                            src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-2.png') }}"
-                                            width="18px" height="18px" alt="User Icon"></div>
+                                    <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-2.png') }}" width="18px" height="18px" alt="User Icon"></div>
                                     <div style="margin-right: 5px; font-size: 15px;">{{ __('thoi_gian_bat_dau') }}: </div>
                                     <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
                                         {{ $lich->thoi_gian_bat_dau }}
                                     </div>
                                 </div>
                                 <div class="ttbbc">
-                                    <div class="ttbbc-td"><img
-                                            src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-5.png') }}"
-                                            width="18px" height="18px" alt="User Icon"></div>
-                                    <div style="margin-right: 5px; font-size: 15px; ">{{ __('thoi_gian_ket_thuc') }}: </div>
+                                    <div class="ttbbc-td"><img src="{{ asset('/assets/css/icons/tabler-icons/img/clock-hour-5.png') }}" width="18px" height="18px" alt="User Icon"></div>
+                                    <div style="margin-right: 5px; font-size: 15px;">{{ __('thoi_gian_ket_thuc') }}: </div>
                                     <div class="ttbbc-nd" style="font-size: 15px; font-weight: 500;">
                                         {{ $lich->thoi_gian_ket_thuc }}
                                     </div>
@@ -266,6 +253,8 @@
                     <div class="d-flex justify-content-center mt-4">
                         {{ $lichBaoCao->links() }}
                     </div>
+                </div>
+
 
 
 

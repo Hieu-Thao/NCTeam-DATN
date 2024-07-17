@@ -11,7 +11,7 @@
 @endsection
 
 @section('content')
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/css/select2.min.css" rel="stylesheet" />
     <style>
         input:invalid,
         select:invalid,
@@ -75,6 +75,7 @@
                                     <option value="{{ $bbc->ma_bai_bao_cao }}">{{ $bbc->ten_bai_bao_cao }}</option>
                                 @endforeach
                             </select>
+
                         </div>
                     </div>
 
@@ -117,6 +118,16 @@
 @endsection
 
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-beta.1/js/select2.min.js"></script>
+    <!-- Khởi tạo Select2 -->
+    <script>
+        $(document).ready(function() {
+            $('#bai_bao_cao').select2({
+                placeholder: "-- Chọn bài báo cáo --",
+                allowClear: true
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('form[name="create"]').on('submit', function(e) {
