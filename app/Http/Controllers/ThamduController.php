@@ -16,19 +16,43 @@ class ThamduController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    // public function thamdu(Request $request)
+    // {
+    //     // $ma_lich = $request->input('ma_lich');
+    //     // $thamdu = Thamdu::where('ma_lich', $ma_lich)->get();
+
+    //     // return view('admin.tham-du.thamdu', compact('thamdu'));
+
+    //     $ma_lich = $request->input('ma_lich');
+    //     $thamdu = ThamDu::where('ma_lich', $ma_lich)->get();
+    //     $thanhviens = ThanhVien::with('nhom')->orderBy('ma_nhom')->get();
+
+    //     return view('admin.tham-du.thamdu', compact('thamdu', 'ma_lich', 'thanhviens'));
+    // }
+
     public function thamdu(Request $request)
     {
-        // $ma_lich = $request->input('ma_lich');
-        // $thamdu = Thamdu::where('ma_lich', $ma_lich)->get();
-
-        // return view('admin.tham-du.thamdu', compact('thamdu'));
-
         $ma_lich = $request->input('ma_lich');
         $thamdu = ThamDu::where('ma_lich', $ma_lich)->get();
-        $thanhviens = ThanhVien::with('nhom')->orderBy('ma_nhom')->get();
 
-        return view('admin.tham-du.thamdu', compact('thamdu', 'ma_lich', 'thanhviens'));
+        // Fetching members from the same group as the logged-in user
+        $user = Auth::user();
+        $thanhviens_nhom = ThanhVien::with('nhom')
+            ->where('ma_nhom', $user->ma_nhom) // Adjust 'ma_nhom' to your actual foreign key field
+            ->orderBy('ma_nhom')
+            ->get();
+
+        // Fetching members from other groups
+        $thanhviens_khac = ThanhVien::with('nhom')
+            ->where('ma_nhom', '!=', $user->ma_nhom) // Adjust 'ma_nhom' to your actual foreign key field
+            ->orderBy('ma_nhom')
+            ->get();
+
+        return view('admin.tham-du.thamdu', compact('thamdu', 'ma_lich', 'thanhviens_nhom', 'thanhviens_khac', 'user'));
     }
+
+
+
 
     /**
      * Show the form for creating a new resource.

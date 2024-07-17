@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
+use App\Jobs\SendNotificationEmail;
+use App\Jobs\SendEmailJob;
 
 class BaibaocaoController extends Controller
 {
@@ -140,48 +142,48 @@ class BaibaocaoController extends Controller
 
 
     public function update(Request $request, $ma_bai_bao_cao)
-{
-    $baibaocao = BaibaoCao::findOrFail($ma_bai_bao_cao);
+    {
+        $baibaocao = BaibaoCao::findOrFail($ma_bai_bao_cao);
 
-    $validator = Validator::make($request->all(), [
-        'ten_bai_bao_cao' => [
-            'required',
-            'string',
-            'max:255',
-            Rule::unique('bai_bao_cao')->ignore($baibaocao->ma_bai_bao_cao, 'ma_bai_bao_cao'),
-        ],
-        'ngay_bao_cao' => 'required',
-        'link_goc_bai_bao_cao' => 'required',
-        'file_ppt' => 'nullable|file|mimes:ppt,pptx',
-    ]);
+        $validator = Validator::make($request->all(), [
+            'ten_bai_bao_cao' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('bai_bao_cao')->ignore($baibaocao->ma_bai_bao_cao, 'ma_bai_bao_cao'),
+            ],
+            'ngay_bao_cao' => 'required',
+            'link_goc_bai_bao_cao' => 'required',
+            'file_ppt' => 'nullable|file|mimes:ppt,pptx',
+        ]);
 
-    if ($validator->fails()) {
-        return response()->json($validator->errors(), 400);
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        $lich_bao_cao = LichBaoCao::find($request->ngay_bao_cao);
+
+        $baibaocao->ten_bai_bao_cao = $request->ten_bai_bao_cao;
+        $baibaocao->link_goc_bai_bao_cao = $request->link_goc_bai_bao_cao;
+        $baibaocao->ma_lich = $lich_bao_cao->ma_lich;
+
+        if ($request->hasFile('file_ppt')) {
+            $file_extension = $request->file('file_ppt')->getClientOriginalExtension();
+            $file_name = $baibaocao->ma_lich . '_' . Auth::user()->ho_ten . '_' . $request->ten_bai_bao_cao . '.' . $file_extension;
+            $file_name = str_replace(' ', '', $file_name);
+            $baibaocao->file_ppt = $request->file('file_ppt')->storeAs('ppt', $file_name, 'public');
+        }
+
+        // Ghi logs
+        Log::create([
+            'user_id' => Auth::id(),
+            'activity' => 'Cập nhật bài báo cáo có mã = ' . $baibaocao->ma_bai_bao_cao,
+        ]);
+
+        $baibaocao->save();
+
+        return response()->json('success', 200);
     }
-
-    $lich_bao_cao = LichBaoCao::find($request->ngay_bao_cao);
-
-    $baibaocao->ten_bai_bao_cao = $request->ten_bai_bao_cao;
-    $baibaocao->link_goc_bai_bao_cao = $request->link_goc_bai_bao_cao;
-    $baibaocao->ma_lich = $lich_bao_cao->ma_lich;
-
-    if ($request->hasFile('file_ppt')) {
-        $file_extension = $request->file('file_ppt')->getClientOriginalExtension();
-        $file_name = $baibaocao->ma_lich . '_' . Auth::user()->ho_ten . '_' . $request->ten_bai_bao_cao . '.' . $file_extension;
-        $file_name = str_replace(' ', '', $file_name);
-        $baibaocao->file_ppt = $request->file('file_ppt')->storeAs('ppt', $file_name, 'public');
-    }
-
-    // Ghi logs
-    Log::create([
-        'user_id' => Auth::id(),
-        'activity' => 'Cập nhật bài báo cáo có mã = ' . $baibaocao->ma_bai_bao_cao,
-    ]);
-
-    $baibaocao->save();
-
-    return response()->json('success', 200);
-}
 
 
 
@@ -211,6 +213,8 @@ class BaibaocaoController extends Controller
         $lichBaoCao = Lichbaocao::find($ma_lich);
         return response()->json($lichBaoCao);
     }
+
+
 
     public function storedk(Request $request)
     {
@@ -269,14 +273,18 @@ class BaibaocaoController extends Controller
             });
         }
 
-        // Ghi logs
-        Log::create([
-            'user_id' => Auth::id(),
-            'activity' => 'Đăng ký bài báo cáo có mã = ' . $baibaocao->ma_bai_bao_cao,
-        ]);
-
         return response()->json('success', 200);
     }
+
+    // OK NÈ
+
+
+
+
+
+
+
+
 
 
     // public function storedk(Request $request)

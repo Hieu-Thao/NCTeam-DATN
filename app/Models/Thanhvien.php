@@ -78,5 +78,7 @@ class Thanhvien extends Model implements AuthenticatableContract
         return $this->congTrinhs()->count();
     }
 
+
+
 }
 

@@ -83,8 +83,8 @@
                                 <tr>
                                     <td>{{ $tv->ho_ten }}</td>
                                     <td>{{ $tv->bai_bao_cao_count }}</td>
-                                    <td><button class="btn btn-primary view-details" data-id="{{ $tv->ma_thanh_vien }}">Xem
-                                            Chi Tiết</button></td> <!-- Thêm nút Xem Chi Tiết -->
+                                    <td><button class="btn btn-warning btn-sm view-details" data-id="{{ $tv->ma_thanh_vien }}"><img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png"
+                                        width="15px" height="15px"></button></td> <!-- Thêm nút Xem Chi Tiết -->
                                 </tr>
                             @endforeach
                         </tbody>

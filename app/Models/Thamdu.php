@@ -31,6 +31,8 @@ class Thamdu extends Model
         return $this->belongsTo('App\Models\ThanhVien', 'ma_thanh_vien', 'ma_thanh_vien');
     }
 
+    
+
 
 
 }
