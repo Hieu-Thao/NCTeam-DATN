@@ -166,7 +166,7 @@
                         "sortAscending": ": sắp xếp tăng dần",
                         "sortDescending": ": sắp xếp giảm dần"
                     },
-                    "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
+                    "searchPlaceholder": "Tìm kiếm ... !"
                 },
                 "pageLength": 10,
                 //"searching":false

@@ -31,7 +31,7 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $thanhvien->ho_ten }}</td>
                                     <td>{{ $thanhvien->so_luong_y_tuong_moi }}</td>
-                                   
+
                                 </tr>
                             @endforeach
                         </tbody>
@@ -71,7 +71,7 @@
                             "sortAscending": ": sắp xếp tăng dần",
                             "sortDescending": ": sắp xếp giảm dần"
                         },
-                        "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
+                        "searchPlaceholder": "Tìm kiếm ... !"
                     },
                     "pageLength": 10,
                     //"searching":false
