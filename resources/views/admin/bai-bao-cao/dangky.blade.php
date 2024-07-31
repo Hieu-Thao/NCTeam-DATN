@@ -210,23 +210,23 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <label class="fw6">Mã báo cáo:</label>
+                        <label class="fw6">{{ __('ma_bai_bao_cao') }}:</label>
                         <p id="existingMaBaiBaoCao"></p>
                     </div>
                     <div class="col-md-12">
-                        <label class="fw6">Tên báo cáo:</label>
+                        <label class="fw6">{{ __('ten_bai_bao_cao') }}:</label>
                         <p id="existingTenBaiBaoCao"></p>
                     </div>
                     <div class="col-md-12">
-                        <label class="fw6">Họ tên thành viên:</label>
+                        <label class="fw6">{{ __('ho_ten') }}:</label>
                         <p id="existingHoTen"></p>
                     </div>
                     <div class="col-md-12">
-                        <label class="fw6">Ngày báo cáo:</label>
+                        <label class="fw6">{{ __('ngay_bao_cao') }}:</label>
                         <p id="existingNgayBaoCao"></p>
                     </div>
                     <div class="col-md-12">
-                        <label class="fw6">Link gốc báo cáo:</label>
+                        <label class="fw6">{{ __('link_goc_bai_bao_cao') }}:</label>
                         <p><a id="existingLinkGoc" href="#" target="_blank"></a></p>
                     </div>
                 </div>

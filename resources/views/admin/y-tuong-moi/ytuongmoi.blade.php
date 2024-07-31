@@ -1,10 +1,10 @@
 @extends('layouts.master')
-@section('title', 'Danh sách thành viên')
+@section('title', 'Danh sách ý tưởng')
 @section('parent')
-    <a href="/thanhvien">Ý tưởng mới</a>
+    <a href="/thanhvien">{{ __('y_tuong_moi') }}</a>
 @endsection
 @section('child')
-    <a href="/thanhvien"> Danh sách ý tưởng mới</a>
+    <a href="/thanhvien"> {{ __('danh_sach_y_tuong_moi') }}</a>
 @endsection
 @section('content')
 
@@ -32,14 +32,14 @@
 
     <div class="container">
         <div class="card-title">
-            <h4>Danh sách ý tưởng mới</h4>
+            <h4>{{ __('danh_sach_y_tuong_moi') }}</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
             <a href="/ytuongmoi/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
-                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> Thêm</button></a>
+                        src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px"> {{ __('them') }}</button></a>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
             <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
-                <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
+                <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> {{ __('xoa') }}
             </button>
         </div>
         <div class="tb">
@@ -50,11 +50,12 @@
                             <th width="5%">
                                 <div><input type="checkbox" id="check-all"></div>
                             </th>
-                            <th>STT</th>
-                            <th>Tên bài báo cáo</th>
-                            <th>Nội dung</th>
-                            <th>Hình ảnh</th>
-                            <th>Trạng thái</th>
+                            <th>{{ __('stt') }}</th>
+                            <th>{{ __('ho_ten') }}</th>
+                            <th>{{ __('ten_bai_bao_cao') }}</th>
+                            <th>{{ __('noi_dung') }}</th>
+                            <th>{{ __('hinh_anh') }}</th>
+                            <th>{{ __('trang_thai') }}</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -65,6 +66,7 @@
                                         class="edit-checkbox"></td>
                                 {{-- <td>{{ $ytm->ma_y_tuong_moi }}</td> --}}
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ $ytm->ThanhVien->ho_ten}}</td>
                                 <td>{{ Str::limit($ytm->BaiBaoCao->ten_bai_bao_cao, 30, '...') }}</td>
                                 <td>{{ Str::limit($ytm->noi_dung, 50, '...') }}</td>
                                 {{-- <td>{{ $ytm->hinh_anh }}</td> --}}
@@ -110,40 +112,41 @@
 
 @endsection
 @push('scripts')
+
     <script>
         $(document).ready(function() {
             $('#ytuongmoi').DataTable({
                 language: {
                     "decimal": "",
-                    "emptyTable": "Không có dữ liệu",
-                    "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                    "infoEmpty": "Đang hiển thị 0 đến 0 của 0 mục",
-                    "infoFiltered": "(đã lọc từ tổng số _MAX_ mục)",
+                    "emptyTable": "{{ __('khong_co_du_lieu') }}",
+                    "info": "{{ __('dang_hien_thi') }} _START_ {{ __('den') }} _END_ {{ __('cua') }} _TOTAL_ {{ __('muc') }}",
+                    "infoEmpty": "{{ __('dang_hien_thi') }} 0 {{ __('den') }} 0 {{ __('cua') }} 0 {{ __('muc') }}",
+                    "infoFiltered": "({{ __('da_loc_tu_tong_so') }} _MAX_ {{ __('muc') }})",
                     "infoPostFix": "",
                     "thousands": ",",
-                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "lengthMenu": "{{ __('hien_thi') }} _MENU_ {{ __('muc') }}",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
                     "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
-                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
+                    "zeroRecords": "{{ __('khong_tim_thay_ket_qua_phu_hop') }}",
                     "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Tiếp",
-                        "previous": "Trước"
+                        "first": "{{ __('dau') }}",
+                        "last": "{{ __('cuoi') }}",
+                        "next": "{{ __('tiep') }}",
+                        "previous": "{{ __('truoc') }}"
                     },
                     "aria": {
                         "sortAscending": ": sắp xếp tăng dần",
                         "sortDescending": ": sắp xếp giảm dần"
                     },
-                    "searchPlaceholder": "Tìm kiếm ... !"
+                    "searchPlaceholder": "{{ __('tim_kiem_o_day_ne') }} ...!"
                 },
                 "pageLength": 10,
                 //"searching":false
                 "columnDefs": [{
                         "orderable": false,
                         "targets": 0
-                    }, // Disable sorting on the first column (checkbox column)
+                    },
                 ]
             });
         });
@@ -182,13 +185,13 @@
         // Hàm xóa ý tưởng mới
         function deleteYTM(ma_y_tuong_moi) {
             Swal.fire({
-                title: 'Bạn có chắc chắn muốn xóa không?',
+                title: '{{ __('ban_co_chac_chan_muon_xoa') }}',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#d33',
                 cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Xóa',
-                cancelButtonText: 'Hủy'
+                confirmButtonText: '{{ __('xoa') }}',
+                cancelButtonText: '{{ __('huy') }}'
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
@@ -198,13 +201,13 @@
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
                         success: function(response) {
-                            callAlert('Xóa ý tưởng mới thành công', 'success', '1500', '');
+                            callAlert('{{ __('xoa_y_tuong_moi_thanh_cong') }}', 'success', '1500', '');
                             setTimeout(() => {
                                 window.location.reload();
                             }, 1500);
                         },
                         error: function(xhr, status, error) {
-                            callAlert('Xóa ý tưởng mới không thành công!', 'error', '1500', '');
+                            callAlert('xoa_y_tuong_moi_khong_thanh_cong', 'error', '1500', '');
                         }
                     });
                 }
@@ -212,7 +215,7 @@
         }
 
 
-        // Hàm xóa nhiều ý tưởng
+        // Hàm xóa nhiều
         function deleteSelectedMembers() {
             var selected = [];
             $('input[name="checkbox[]"]:checked').each(function() {
@@ -221,13 +224,13 @@
 
             if (selected.length > 0) {
                 Swal.fire({
-                    title: 'Bạn có chắc chắn muốn xóa các công trình đã chọn?',
+                    title: '{{ __('ban_co_chac_chan_muon_xoa_cac_y_tuong_da_chon') }}',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Xóa',
-                    cancelButtonText: 'Hủy'
+                    confirmButtonText: '{{ __('xoa') }}',
+                    cancelButtonText: '{{ __('huy') }}'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
@@ -240,20 +243,20 @@
                                 ma_y_tuong_moi: selected
                             },
                             success: function(response) {
-                                callAlert('Xóa ý tưởng mới thành công', 'success', '1500', '');
+                                callAlert('{{ __('xoa_y_tuong_moi_thanh_cong') }}', 'success', '1500', '');
                                 setTimeout(() => {
                                     window.location.reload();
                                 }, 1500);
                             },
                             error: function(xhr, status, error) {
-                                callAlert('Xóa ý tưởng mới không thành công!', 'error', '1500', '');
+                                callAlert('{{ __('xoa_y_tuong_moi_khong_thanh_cong') }}!', 'error', '1500', '');
                             }
                         });
                     }
                 });
             } else {
                 Swal.fire({
-                    title: 'Vui lòng chọn ít nhất một công trình để xóa!',
+                    title: '{{ __('vui_long_chon_it_nhat_mot_y_tuong_de_xoa') }}',
                     icon: 'warning',
                     timer: 1500,
                     showConfirmButton: false
@@ -271,21 +274,21 @@
 
                     var memberInfoHtml = `
                 <div class="member-info">
-                <p><strong>Mã ý tưởng:</strong> ${response.ma_y_tuong_moi}</p>
-                <p><strong>Tên bài báo cáo:</strong> ${response.baibaocao.ten_bai_bao_cao}</p>
-                <p style='text-align:justify;'><strong>Nội dung:</strong> ${noidung}</p>
-                <p><strong>Hình ảnh:</strong>
+                <p><strong>{{ __('ma_y_tuong') }}:</strong> ${response.ma_y_tuong_moi}</p>
+                <p><strong>{{ __('ten_bai_bao_cao') }}:</strong> ${response.baibaocao.ten_bai_bao_cao}</p>
+                <p style='text-align:justify;'><strong>{{ __('noi_dung') }}:</strong> ${noidung}</p>
+                <p><strong>{{ __('hinh_anh') }}:</strong>
                     <a href="/storage/${response.hinh_anh}" target="_blank">${response.hinh_anh}</a>
                 </p>
-                <p><strong>Tệp Word:</strong>
-                    ${response.file_word ? `<a href="/storage/${response.file_word}" target="_blank">Tải xuống tại đây</a>` : 'Không có'}
+                <p><strong>{{ __('tep_word') }}:</strong>
+                    ${response.file_word ? `<a href="/storage/${response.file_word}" target="_blank">{{ __('tai_xuong_tai_day') }}</a>` : '{{ __('khong_co_file') }}'}
                 </p>
-                <p><strong>Trạng thái:</strong> ${response.trang_thai}</p>
+                <p><strong>{{ __('trang_thai') }}:</strong> ${response.trang_thai}</p>
             </div>
             `;
 
                     Swal.fire({
-                        title: 'Thông tin ý tưởng mới',
+                        title: '{{ __('thong_tin_y_tuong_moi') }}',
                         html: memberInfoHtml,
                         showConfirmButton: false
                     });

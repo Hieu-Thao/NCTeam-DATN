@@ -71,4 +71,10 @@ class Lichbaocao extends Model
             }
         });
     }
+
+
+    public function thamDu()
+    {
+        return $this->hasMany(ThamDu::class, 'ma_lich');
+    }
 }

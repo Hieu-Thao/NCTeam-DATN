@@ -35,32 +35,32 @@
 
         function kiemtra() {
             if (document.forms["edit"]["loai_cong_trinh"].value == "") {
-                callAlert('Vui lòng chọn loại công trình!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_chon_loai_cong_trinh') }}', 'error', '1500', '');
                 document.forms["edit"]["loai_cong_trinh"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["edit"]["ten_cong_trinh"].value == "") {
-                callAlert('Vui lòng nhập tên công trình!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_nhap_ten_cong_trinh') }}', 'error', '1500', '');
                 document.forms["edit"]["ten_cong_trinh"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["edit"]["nam"].value == "") {
-                callAlert('Vui lòng nhập năm!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_nhap_nam') }}', 'error', '1500', '');
                 document.forms["edit"]["nam"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["edit"]["thuoc_tap_chi"].value == "") {
-                callAlert('Vui lòng nhập thuộc tạp chí nào!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_nhap_thuoc_tap_chi_nao') }}', 'error', '1500', '');
                 document.forms["edit"]["thuoc_tap_chi"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["edit"]["tinh_trang"].value == "") {
-                callAlert('Vui lòng chọn tình trạng công trình!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_chon_tinh_trang_cong_trinh') }}', 'error', '1500', '');
                 document.forms["edit"]["tinh_trang"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["edit"]["trang_thai"].value == "") {
-                callAlert('Vui lòng chọn trạng thái công trình!', 'error', '1500', '');
+                callAlert('{{ __('vui_long_chon_trang_thai_cong_trinh') }}', 'error', '1500', '');
                 document.forms["edit"]["trang_thai"].setAttribute('required', 'required');
                 return false;
             }
@@ -81,9 +81,9 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Loại công trình:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('loai_cong_trinh') }}:<span style="color: red"> *</span></label>
                             <select name="loai_cong_trinh" id="loai_cong_trinh">
-                                <option value="" disabled hidden>-- Chọn loại công trình --</option>
+                                <option value="" disabled hidden>-- {{ __('chon_loai_cong_trinh') }} --</option>
                                 @foreach ($loaicongtrinh as $lct)
                                     <option value="{{ $lct->ma_loai }}" @if ($congtrinh->loai_cong_trinh == $lct->ma_loai) selected @endif>
                                         {{ $lct->ten_loai }}
@@ -92,21 +92,21 @@
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input">Năm:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('nam') }}:<span style="color: red"> *</span></label>
                             <input type="number" min="0" name="nam" id="nam" value="{{ $congtrinh->nam }}" />
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tên công trình:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('ten_cong_trinh') }}:<span style="color: red"> *</span></label>
                             <textarea rows="4" type="text" name="ten_cong_trinh" id="ten_cong_trinh">{{ $congtrinh->ten_cong_trinh }}</textarea>
                         </div>
                     </div>
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Thuộc tạp chí:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('thuoc_tap_chi') }}:<span style="color: red"> *</span></label>
                             <input type="text" name="thuoc_tap_chi" id="thuoc_tap_chi"
                                 value="{{ $congtrinh->thuoc_tap_chi }}" />
                         </div>
@@ -114,9 +114,9 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Tình trạng:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('tinh_trang') }}:<span style="color: red"> *</span></label>
                             <select name="tinh_trang" id="tinh_trang">
-                                <option value="" disabled>-- Chọn tình trạng --</option>
+                                <option value="" disabled>-- {{ __('chon_tinh_trang') }} --</option>
                                 <option value="Đã xuất bản" {{ $congtrinh->tinh_trang == 'Đã xuất bản' ? 'selected' : '' }}>
                                     Đã xuất bản</option>
                                 <option value="Chưa xuất bản"
@@ -124,9 +124,9 @@
                             </select>
                         </div>
                         <div class="coll">
-                            <label class="td-input" for="trang_thai">Trạng thái:<span style="color: red"> *</span></label>
+                            <label class="td-input" for="trang_thai">{{ __('trang_thai') }}:<span style="color: red"> *</span></label>
                             <select name="trang_thai" id="trang_thai">
-                                <option value="" disabled>-- Chọn trạng thái --</option>
+                                <option value="" disabled>-- {{ __('chon_trang_thai') }} --</option>
                                 <option value="1" {{ $congtrinh->trang_thai == 1 ? 'selected' : '' }}>Công khai
                                 </option>
                                 <option value="0" {{ $congtrinh->trang_thai == 0 ? 'selected' : '' }}>Không công khai
@@ -137,8 +137,8 @@
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
                         <input class="btn btn-success" style="height: 10%;" type="submit" name="submit"
-                            onclick="return kiemtra();" value="Cập nhật">
-                        <a class="btn btn-secondary" style="height: 10%;" href="/congtrinh">Trở về</a>
+                            onclick="return kiemtra();" value="{{ __('cap_nhat') }}">
+                        <a class="btn btn-secondary" style="height: 10%;" href="/congtrinh">{{ __('tro_ve') }}</a>
                     </div>
                 </div>
             </form>

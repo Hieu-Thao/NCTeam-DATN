@@ -80,7 +80,7 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Loại công trình:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('loai_cong_trinh') }}:<span style="color: red"> *</span></label>
                             <select name="loai_cong_trinh" id="loai_cong_trinh">
                                 <option value="" disabled selected hidden>-- {{ __('chon_loai_cong_trinh') }} --</option>
                                 @foreach ($loaicongtrinh as $lct)

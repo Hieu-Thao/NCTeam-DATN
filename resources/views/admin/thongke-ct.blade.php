@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('title', 'Thống kê công trình')
 @section('parent')
-    <a href="/thanhvien">Thống kê</a>
+    <a href="/thanhvien">{{ __('thong_ke') }}</a>
 @endsection
 @section('child')
-    <a href="/thanhvien">Thống kê công trình</a>
+    <a href="/thanhvien">{{ __('thong_ke_cong_trinh') }}</a>
 @endsection
 @section('content')
     <style>
@@ -23,7 +23,7 @@
     <div style="#">
         <div class="container">
             <div class="card-title">
-                <h4>Thống kê công trình</h4>
+                <h4>{{ __('thong_ke_cong_trinh') }}</h4>
             </div>
 
             <!-- Bảng thống kê -->
@@ -32,9 +32,9 @@
                     <table id="thongkect" class="table table-bordered w-100 text-nowrap table-hover">
                         <thead>
                             <tr>
-                                <th>STT</th>
-                                <th>Thành viên</th>
-                                <th>Số lượng công trình tham gia</th>
+                                <th>{{ __('stt') }}</th>
+                                <th>{{ __('thanh_vien') }}</th>
+                                <th>{{ __('so_luong_ct') }}</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -61,7 +61,7 @@
 
         <div class="container" style="max-width: 80%;margin: 0 auto;">
             <div>
-                <label class="td-chart" style="padding-top: 10px"> thành viên tham gia công trình</label>
+                <label class="td-chart" style="padding-top: 10px">{{ __('tv_tham_gia_ct') }}</label>
                 <canvas id="chart" style="height: 150px;"></canvas>
             </div>
         </div>
@@ -73,7 +73,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="projectDetailsModalLabel">Danh sách công trình</h5>
+                    <h5 class="modal-title" id="projectDetailsModalLabel">{{ __('danh_sach_cong_trinh') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -97,12 +97,12 @@
                             projectList.empty();
                             response.forEach(function(project) {
                                 var listItem = '<li>' +
-                                    '<strong>Tên công trình:</strong> ' + project
+                                    '<strong>{{ __('ten_cong_trinh') }}:</strong> ' + project
                                     .ten_cong_trinh + '<br>' +
-                                    '<strong>Năm:</strong> ' + project.nam + '<br>' +
-                                    '<strong>Thuộc tạp chí:</strong> ' + project
+                                    '<strong>{{ __('nam') }}:</strong> ' + project.nam + '<br>' +
+                                    '<strong>{{ __('thuoc_tap_chi') }}:</strong> ' + project
                                     .thuoc_tap_chi + '<br>' +
-                                    '<strong>Tình trạng:</strong> ' + project.tinh_trang +
+                                    '<strong>{{ __('tinh_trang') }}:</strong> ' + project.tinh_trang +
                                     '<br>' +
                                     '</li>';
                                 projectList.append(listItem);
@@ -123,7 +123,7 @@
                     data: {
                         labels: {!! $thanhVienNames !!},
                         datasets: [{
-                            label: 'Số lượng công trình tham gia',
+                            label: '{{ __('so_luong_ct') }}',
                             data: {!! $congTrinhCounts !!},
                             // backgroundColor: 'rgba(54, 162, 235, 0.2)',
                             backgroundColor: 'rgba(93, 135, 255, 0.85)',

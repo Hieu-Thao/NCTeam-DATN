@@ -55,7 +55,8 @@ class YtuongmoiController extends Controller
     public function create()
     {
         $baibaocao = Baibaocao::all();
-        return view('admin.y-tuong-moi.create', compact('baibaocao'));
+        $thanhvien = Thanhvien::all();
+        return view('admin.y-tuong-moi.create', compact('baibaocao','thanhvien'));
     }
 
     public function getYtuongmoi($id)
@@ -103,8 +104,11 @@ class YtuongmoiController extends Controller
                 $pathWord = $file->store('ytuongmoi', 'public');
             }
 
+            $ma_thanh_vien = Auth::user()->ma_thanh_vien;
+
             $ytuongmoi = new Ytuongmoi([
                 'ma_bai_bao_cao' => $request->bai_bao_cao,
+                'ma_thanh_vien' => $ma_thanh_vien,
                 'noi_dung' => $request->noi_dung,
                 'hinh_anh' => $pathImage,
                 'file_word' => $pathWord,

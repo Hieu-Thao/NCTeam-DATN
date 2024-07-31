@@ -186,8 +186,6 @@ class BaibaocaoController extends Controller
         return response()->json('success', 200);
     }
 
-
-
     public function destroy($id)
     {
         //
@@ -427,6 +425,8 @@ class BaibaocaoController extends Controller
     //         return response()->json(['exists' => false]);
     //     }
     // }
+
+
     public function checkDuplicate(Request $request)
     {
         $ten_bai_bao_cao = $request->input('ten_bai_bao_cao');

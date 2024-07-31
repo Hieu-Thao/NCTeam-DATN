@@ -14,18 +14,14 @@
             <h4>{{ __('danh_sach_cong_trinh') }}</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
+            <a href="/congtrinh/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
+                src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">
+                {{ __('them') }}</button></a>
+
             @if (Auth::user()->ma_quyen == 1 || $vai_tro == 'Trưởng nhóm' || $vai_tro == 'Phó nhóm')
-                <a href="/congtrinh/create"><button type="button" class="btn btn-success btn-sm" id="btnz"><img
-                            src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">
-                        {{ __('them') }}</button></a>
-                {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz">
-                <img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
-                {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz" onclick="deleteSelectedMembers()">
-                <img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px"> Xóa
-            </button> --}}
                 <button type="button" class="btn btn-info btn-sm" id="btnz">
                     <img src="../assets/css/icons/tabler-icons/img/clipboard-list.png" width="15px" height="15px"><a
-                        class="btn-cn" href="/congtrinh/loaicongtrinh">{{ __('loai_cong_trinh') }}</a></button>
+                    class="btn-cn" href="/congtrinh/loaicongtrinh">{{ __('loai_cong_trinh') }}</a></button>
 
                 <button type="button" class="btn btn-danger btn-sm" id="btnz">
                     <img src="../assets/css/icons/tabler-icons/img/device-laptop.png" width="15px" height="15px"><a

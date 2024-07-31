@@ -65,6 +65,10 @@ Route::get('/tttintuc', function () {
     return view('/trangchu/tt-tin-tuc');
 });
 
+Route::get('/sodo', function () {
+    return view('/admin/sodo');
+});
+
 Route::get('/viewtintuc', [TintucController::class, 'viewtt']);
 Route::get('/viewtintuc/{ma_tin_tuc}', [TinTucController::class, 'showview'])->name('viewtintuc.showview');
 
@@ -226,7 +230,12 @@ Route::middleware(['auth', 'role:2'])->group(function () {
 
     Route::get('/thongke', [ThongKeController::class, 'thongKeBaoCao'])->name('thongke');
     Route::get('/thongkect', [ThongKeController::class, 'thongKeCongTrinh'])->name('thongkect');
-    Route::get('/thongkeytm', [ThongKeController::class, 'thongKeYtuongmoi'])->name('thongkeytm');
+    Route::get('/thongkeytm', [ThongkeController::class, 'thongKeYTuongMoi']);
+    Route::get('/lay-danh-sach-y-tuong', [ThongkeController::class, 'layDanhSachYTuong']);
+
+
+
+
     Route::get('/thanhvien/{id}/baibaocao', [ThongkeController::class, 'getBaoCaoByThanhVien']);
     Route::get('/fetch-projects/{memberId}', 'ThongkeController@fetchProjects');
     Route::get('/thanhvien/{id}/congtrinh', [ThongkeController::class, 'getCongTrinhByThanhVien']);

@@ -3,11 +3,11 @@
 @section('title', 'Thêm mới tham gia công trình')
 
 @section('parent')
-    <a href="/thamgia">Tham gia công trình</a>
+    <a href="/thamgia">{{ __('tham_gia_cong_trinh') }}</a>
 @endsection
 
 @section('child')
-    <a href="/thamgia/create"> Thêm mới tham gia công trình</a>
+    <a href="/thamgia/create"> {{ __('them_moi_tham_gia_cong_trinh') }}</a>
 @endsection
 
 @section('content')
@@ -34,12 +34,12 @@
 
         function kiemtra() {
             if (document.forms["create"]["cong_trinh"].value == "") {
-                callAlert('Vui lòng chọn công trình!', 'error', 1500, '');
+                callAlert('{{ __('vui_long_chon_cong_trinh') }}', 'error', 1500, '');
                 document.forms["create"]["cong_trinh"].setAttribute('required', 'required');
                 return false;
             }
             if (document.forms["create"]["thanh_vien"].value == "") {
-                callAlert('Vui lòng chọn thành viên!', 'error', 1500, '');
+                callAlert('{{ __('vui_long_chon_thanh_vien') }}', 'error', 1500, '');
                 document.forms["create"]["thanh_vien"].setAttribute('required', 'required');
                 return false;
             }
@@ -49,7 +49,7 @@
 
     <div class="container">
         <div class="card-title">
-            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">Thêm thành viên tham gia công trình</h4>
+            <h4 style="justify-content: center; color: #5d87ff; font-weight: 700;">{{ __('them_thanh_vien_tham_gia_cong_trinh') }}</h4>
         </div>
         <div style="padding-top: 20px;">
             <form name="create" method="post" action="{{ url('/thamgia/create') }}">
@@ -58,9 +58,9 @@
                 <div>
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Công trình:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('cong_trinh') }}:<span style="color: red"> *</span></label>
                             <select name="cong_trinh" id="cong_trinh" required>
-                                <option value="" disabled selected hidden>-- Công trình --</option>
+                                <option value="" disabled selected hidden>-- {{ __('cong_trinh') }} --</option>
                                 @foreach ($congtrinh as $ct)
                                     <option value="{{ $ct->ma_cong_trinh }}">{{ $ct->ten_cong_trinh }}</option>
                                 @endforeach
@@ -70,9 +70,9 @@
 
                     <div class="roww">
                         <div class="coll">
-                            <label class="td-input">Thành viên:<span style="color: red"> *</span></label>
+                            <label class="td-input">{{ __('thanh_vien') }}:<span style="color: red"> *</span></label>
                             <select name="thanh_vien" id="thanh_vien" required>
-                                <option value="" disabled selected hidden>-- Chọn thành viên --</option>
+                                <option value="" disabled selected hidden>-- {{ __('chon_thanh_vien') }} --</option>
                                 @foreach ($thanhvien as $tv)
                                     <option value="{{ $tv->ma_thanh_vien }}">{{ $tv->ho_ten }}</option>
                                 @endforeach
@@ -81,8 +81,8 @@
                     </div>
 
                     <div style="display: flex; justify-content: center; gap: 10px; padding: 20px;">
-                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" value="Lưu">
-                        <a class="btn btn-secondary" style="height: 10%;" href="/congtrinh">Trở về</a>
+                        <input class="btn btn-success" style="height: 10%;" type="submit" name="submit" value="{{ __('luu') }}">
+                        <a class="btn btn-secondary" style="height: 10%;" href="/congtrinh">{{ __('tro_ve') }}</a>
                     </div>
                 </div>
             </form>
@@ -117,7 +117,7 @@
                     data: formData,
                     success: function(response) {
                         if (response === "success") {
-                            callAlert('Thành công!', 'success', 1500, '');
+                            callAlert('{{ __('them_thanh_cong') }}', 'success', 1500, '');
                             setTimeout(() => {
                                 window.location.href = '/congtrinh';
                             }, 1000);
@@ -127,11 +127,11 @@
                         console.error('Error:', xhr);
                         var response = JSON.parse(xhr.responseText);
                         if (response.error) {
-                            callAlert('Lỗi máy chủ!', 'error', 1500, '');
+                            callAlert('{{ __('loi_may_chu') }}', 'error', 1500, '');
                         } else if (response.ten_cong_trinh) {
-                            callAlert('Tên công trình đã tồn tại!', 'error', 1500, '');
+                            callAlert('{{ __('ten_cong_trinh_da_ton_tai') }}', 'error', 1500, '');
                         } else {
-                            callAlert('Bạn chưa nhập đủ thông tin cần thiết!', 'error', 1500,
+                            callAlert('{{ __('ban_chua_nhap_du_thong_tin_can_thiet') }}', 'error', 1500,
                                 '');
                         }
                     }

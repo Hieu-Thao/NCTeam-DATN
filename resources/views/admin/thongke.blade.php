@@ -1,10 +1,10 @@
 @extends('layouts.master')
 @section('title', 'Thống kê bài báo cá')
 @section('parent')
-    <a href="/thanhvien">Thống kê</a>
+    <a href="/thanhvien">{{ __('thong_ke') }}</a>
 @endsection
 @section('child')
-    <a href="/thanhvien">Thống kê bài báo cáo</a>
+    <a href="/thanhvien">{{ __('thong_ke_bai_bao_cao') }}</a>
 @endsection
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
@@ -65,7 +65,7 @@
     <div style="display: flex;flex-direction: row;">
         <div class="container">
             <div class="card-title">
-                <h4>Thống kê bài báo cáo</h4>
+                <h4>{{ __('thong_ke_bai_bao_cao') }}</h4>
             </div>
 
             <div class="tb">
@@ -73,9 +73,9 @@
                     <table id="thongke" class="table table-bordered w-100 text-nowrap table-hover">
                         <thead>
                             <tr>
-                                <th>Tên thành viên</th>
-                                <th>Số lượng bài báo cáo</th>
-                                <th>Chi tiết</th> <!-- Thêm cột Chi tiết -->
+                                <th>{{ __('ho_ten') }}</th>
+                                <th>{{ __('so_luong_bbc') }}</th>
+                                <th>{{ __('chi_tiet') }}</th> <!-- Thêm cột Chi tiết -->
                             </tr>
                         </thead>
                         <tbody>
@@ -83,8 +83,10 @@
                                 <tr>
                                     <td>{{ $tv->ho_ten }}</td>
                                     <td>{{ $tv->bai_bao_cao_count }}</td>
-                                    <td><button class="btn btn-warning btn-sm view-details" data-id="{{ $tv->ma_thanh_vien }}"><img src="../assets/css/icons/tabler-icons/img/info-square-rounded.png"
-                                        width="15px" height="15px"></button></td> <!-- Thêm nút Xem Chi Tiết -->
+                                    <td><button class="btn btn-warning btn-sm view-details"
+                                            data-id="{{ $tv->ma_thanh_vien }}"><img
+                                                src="../assets/css/icons/tabler-icons/img/info-square-rounded.png"
+                                                width="15px" height="15px"></button></td> <!-- Thêm nút Xem Chi Tiết -->
                                 </tr>
                             @endforeach
                         </tbody>
@@ -97,7 +99,7 @@
                 <div class="sl-tkbbc">
                     <!-- Form chọn năm -->
                     <form action="{{ route('thongke') }}" method="GET">
-                        <label for="year">Chọn năm:</label>
+                        <label for="year">{{ __('chon_nam') }}:</label>
                         <select class="btnsl-tkbbc" name="year" id="year" onchange="this.form.submit()">
                             @foreach ($years as $year)
                                 <option value="{{ $year }}" {{ $selectedYear == $year ? 'selected' : '' }}>
@@ -107,7 +109,7 @@
                     </form>
                 </div>
                 <!-- Biểu đồ tròn hiển thị top 10 thành viên có nhiều bài báo cáo nhất -->
-                <label class="td-chart">Top 10 Thành Viên Có Nhiều Bài Báo Cáo Nhất</label>
+                <label class="td-chart">{{ __('top_10_tv') }}</label>
                 <div id="piechart_3d" style="width: 600px; height: 400px;"></div>
             </div>
         </div>
@@ -123,7 +125,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reportDetailsModalLabel">Danh sách bài báo cáo của <span
+                    <h5 class="modal-title" id="reportDetailsModalLabel">{{ __('danh_sach_bai_bao_cao_cua') }} <span
                             id="member-name-modal"></span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -145,35 +147,35 @@
             $('#thongke').DataTable({
                 language: {
                     "decimal": "",
-                    "emptyTable": "Không có dữ liệu",
-                    "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                    "infoEmpty": "Đang hiển thị 0 đến 0 của 0 mục",
-                    "infoFiltered": "(đã lọc từ tổng số _MAX_ mục)",
+                    "emptyTable": "{{ __('khong_co_du_lieu') }}",
+                    "info": "{{ __('dang_hien_thi') }} _START_ {{ __('den') }} _END_ {{ __('cua') }} _TOTAL_ {{ __('muc') }}",
+                    "infoEmpty": "{{ __('dang_hien_thi') }} 0 {{ __('den') }} 0 {{ __('cua') }} 0 {{ __('muc') }}",
+                    "infoFiltered": "({{ __('da_loc_tu_tong_so') }} _MAX_ {{ __('muc') }})",
                     "infoPostFix": "",
                     "thousands": ",",
-                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "lengthMenu": "{{ __('hien_thi') }} _MENU_ {{ __('muc') }}",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
                     "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
-                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
+                    "zeroRecords": "{{ __('khong_tim_thay_ket_qua_phu_hop') }}",
                     "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Tiếp",
-                        "previous": "Trước"
+                        "first": "{{ __('dau') }}",
+                        "last": "{{ __('cuoi') }}",
+                        "next": "{{ __('tiep') }}",
+                        "previous": "{{ __('truoc') }}"
                     },
                     "aria": {
                         "sortAscending": ": sắp xếp tăng dần",
                         "sortDescending": ": sắp xếp giảm dần"
                     },
-                    "searchPlaceholder": "Tìm kiếm ... !"
+                    "searchPlaceholder": "{{ __('tim_kiem_o_day_ne') }} ...!"
                 },
                 "pageLength": 10,
                 //"searching":false
                 "columnDefs": [{
                         "orderable": false,
                         "targets": 0
-                    }, // Disable sorting on the first column (checkbox column)
+                    },
                 ]
             });
 
@@ -198,8 +200,8 @@
                     <div class="card mb-3">
                         <div class="card-header">${report.ten_bai_bao_cao}</div>
                         <div class="card-body">
-                            <p class="card-text"><strong>Ngày báo cáo:</strong> ${formattedDate}</p>
-                            <p class="card-text"><strong>Link gốc bài báo cáo:</strong> <a href="${report.link_goc_bai_bao_cao}" target="_blank">${report.link_goc_bai_bao_cao}</a></p>
+                            <p class="card-text"><strong>{{ __('ngay_bao_cao') }}:</strong> ${formattedDate}</p>
+                            <p class="card-text"><strong>{{ __('link_goc_bai_bao_cao') }}:</strong> <a href="${report.link_goc_bai_bao_cao}" target="_blank">${report.link_goc_bai_bao_cao}</a></p>
                             ${report.file_ppt ? `<p class="card-text"><strong>Link file PPT:</strong> <a href="/storage/${report.file_ppt}" download>Tải xuống</a></p>` : ''}
                         </div>
                     </div>

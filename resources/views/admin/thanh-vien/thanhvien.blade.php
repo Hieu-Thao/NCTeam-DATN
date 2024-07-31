@@ -15,6 +15,33 @@
             /* font-size: 18px; */
             padding-top: 20px;
         }
+
+        .truong-nhom {
+            font-weight: 500;
+            color: white;
+            background: #eb0b57;
+            font-size: 11px;
+            padding: 3px 5px;
+            border-radius: 4px;
+        }
+
+        .thanh-vien {
+            font-weight: 500;
+            color: white;
+            background: #4caf50;
+            font-size: 11px;
+            padding: 3px 5px;
+            border-radius: 4px;
+        }
+
+        .pho-nhom {
+            font-weight: 500;
+            color: white;
+            background: #5d87ff;
+            font-size: 11px;
+            padding: 3px 5px;
+            border-radius: 4px;
+        }
     </style>
 
     <div class="container">
@@ -55,13 +82,10 @@
                                 </th>
                             @endif
                             <th>{{ __('STT') }}</th>
-                            {{-- <th>{{ __('ma_tv') }}</th> --}}
                             <th>{{ __('ho_ten') }}</th>
                             <th>{{ __('nhom') }}</th>
                             <th>{{ __('so_dien_thoai') }}</th>
-                            {{-- <th>Học hàm, học vị</th> --}}
-                            {{-- <th>Nơi công tác</th> --}}
-                            <th>{{ __('vai_tro') }}</th>
+                            {{-- <th>{{ __('vai_tro') }}</th> --}}
                             <th>Email</th>
                             <th>{{ __('tuy_chon') }}</th>
                         </tr>
@@ -76,16 +100,24 @@
                                     </td>
                                 @endif
                                 <td>{{ $loop->iteration }}</td>
-                                {{-- <td>{{ $tv->ma_thanh_vien }}</td> --}}
-                                <td>{{ $tv->ho_ten }}</td>
-                                <td>{{ $tv->nhom->ten_nhom }}</td> <!-- Sử dụng nhom thay vì Nhom -->
-                                {{-- <td>{{ $tv->ma_nhom }}</td> --}}
-                                <td>{{ $tv->so_dien_thoai }}</td>
-                                {{-- <td>{{ $tv->hoc_ham_hoc_vi }}</td> --}}
-                                {{-- <td>{{ $tv->noi_cong_tac }}</td> --}}
-                                <td @if ($tv->vai_tro == 'Trưởng nhóm') style="font-weight: 600" @endif>
-                                    {{ $tv->vai_tro }}
+                                <td style="text-align: left !important;">
+                                    {{ $tv->ho_ten }}
+                                    @if ($tv->vai_tro == 'Trưởng nhóm')
+                                        <span class="truong-nhom">{{ $tv->vai_tro }}</span>
+                                    @elseif ($tv->vai_tro == 'Phó nhóm')
+                                        <span class="pho-nhom">{{ $tv->vai_tro }}</span>
+                                    @elseif ($tv->vai_tro == 'Thành viên')
+                                        <span class="thanh-vien">{{ $tv->vai_tro }}</span>
+                                    @else
+                                        {{ $tv->vai_tro }}
+                                    @endif
                                 </td>
+
+                                <td>{{ $tv->nhom->ten_nhom }}</td> <!-- Sử dụng nhom thay vì Nhom -->
+                                <td>{{ $tv->so_dien_thoai }}</td>
+                                {{-- <td @if ($tv->vai_tro == 'Trưởng nhóm') style="font-weight: 600" @endif>
+                                    {{ $tv->vai_tro }}
+                                </td> --}}
                                 <td>{{ $tv->email }}</td>
 
                                 <td style="display: flex; gap: 5px; border: none; justify-content: center;">

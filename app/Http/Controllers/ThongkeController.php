@@ -97,34 +97,94 @@ class ThongkeController extends Controller
     }
 
 
-    public function thongKeYtuongmoi()
+    // public function thongKeYtuongmoi()
+    // {
+    //     // Lấy thông tin người dùng hiện tại
+    //     $currentUser = Auth::user();
+    //     $userRole = $currentUser->vai_tro;
+    //     $userGroup = $currentUser->ma_nhom;
+
+    //     // Tạo query để lấy tất cả các thành viên và số lượng ý tưởng mới của họ
+    //     $thanhVienQuery = DB::table('thanh_vien')
+    //         ->leftJoin('bai_bao_cao', 'thanh_vien.ma_thanh_vien', '=', 'bai_bao_cao.ma_thanh_vien')
+    //         ->leftJoin('y_tuong_moi', 'bai_bao_cao.ma_bai_bao_cao', '=', 'y_tuong_moi.ma_bai_bao_cao')
+    //         ->select('thanh_vien.ho_ten', DB::raw('COUNT(y_tuong_moi.ma_y_tuong_moi) as so_luong_y_tuong_moi'))
+    //         ->groupBy('thanh_vien.ho_ten')
+    //         ->orderBy('so_luong_y_tuong_moi', 'DESC');
+
+    //     // Nếu người dùng là admin, lấy tất cả các thành viên
+    //     if ($currentUser->ma_quyen == 1) {
+    //         $thanhVienQuery->get();
+    //     } elseif ($userRole == 'Trưởng nhóm' || $userRole == 'Phó nhóm') {
+    //         // Nếu người dùng là Trưởng nhóm hoặc Phó nhóm, chỉ lấy thành viên trong cùng nhóm
+    //         $thanhVienQuery->where('thanh_vien.ma_nhom', $userGroup)->get();
+    //     }
+
+    //     // Thực hiện query để lấy kết quả
+    //     $thongKe = $thanhVienQuery->get();
+
+    //     return view('admin.thongke-ytm', compact('thongKe'));
+    // }
+
+    public function thongKeYTuongMoi()
     {
-        // Lấy thông tin người dùng hiện tại
-        $currentUser = Auth::user();
-        $userRole = $currentUser->vai_tro;
-        $userGroup = $currentUser->ma_nhom;
-
-        // Tạo query để lấy tất cả các thành viên và số lượng ý tưởng mới của họ
-        $thanhVienQuery = DB::table('thanh_vien')
-            ->leftJoin('bai_bao_cao', 'thanh_vien.ma_thanh_vien', '=', 'bai_bao_cao.ma_thanh_vien')
-            ->leftJoin('y_tuong_moi', 'bai_bao_cao.ma_bai_bao_cao', '=', 'y_tuong_moi.ma_bai_bao_cao')
-            ->select('thanh_vien.ho_ten', DB::raw('COUNT(y_tuong_moi.ma_y_tuong_moi) as so_luong_y_tuong_moi'))
+        $thongKe = DB::table('thanh_vien')
+            ->select(
+                'thanh_vien.ho_ten',
+                DB::raw('SUM(CASE WHEN y_tuong_moi.trang_thai = "Đã hoàn thành" THEN 1 ELSE 0 END) as so_luong_da_hoan_thanh'),
+                DB::raw('SUM(CASE WHEN y_tuong_moi.trang_thai = "Chưa hoàn thành" THEN 1 ELSE 0 END) as so_luong_chua_hoan_thanh')
+            )
+            ->leftJoin('y_tuong_moi', 'thanh_vien.ma_thanh_vien', '=', 'y_tuong_moi.ma_thanh_vien')
             ->groupBy('thanh_vien.ho_ten')
-            ->orderBy('so_luong_y_tuong_moi', 'DESC');
-
-        // Nếu người dùng là admin, lấy tất cả các thành viên
-        if ($currentUser->ma_quyen == 1) {
-            $thanhVienQuery->get();
-        } elseif ($userRole == 'Trưởng nhóm' || $userRole == 'Phó nhóm') {
-            // Nếu người dùng là Trưởng nhóm hoặc Phó nhóm, chỉ lấy thành viên trong cùng nhóm
-            $thanhVienQuery->where('thanh_vien.ma_nhom', $userGroup)->get();
-        }
-
-        // Thực hiện query để lấy kết quả
-        $thongKe = $thanhVienQuery->get();
+            ->get();
 
         return view('admin.thongke-ytm', compact('thongKe'));
     }
+
+    // public function layDanhSachYTuong(Request $request)
+    // {
+    //     $hoTen = $request->input('ho_ten');
+    //     $trangThai = $request->input('trang_thai');
+
+    //     $yTuong = Ytuongmoi::whereHas('ThanhVien', function ($query) use ($hoTen) {
+    //         $query->where('ho_ten', $hoTen);
+    //     })->where('trang_thai', $trangThai)
+    //         ->get(['ma_bai_bao_cao','noi_dung', 'hinh_anh', 'trang_thai', 'file_word']);
+
+    //     return response()->json($yTuong);
+    // }
+
+    public function layDanhSachYTuong(Request $request)
+    {
+        $hoTen = $request->input('ho_ten');
+        $trangThai = $request->input('trang_thai');
+
+        $yTuong = Ytuongmoi::with('BaiBaoCao')
+            ->whereHas('ThanhVien', function ($query) use ($hoTen) {
+                $query->where('ho_ten', $hoTen);
+            })
+            ->where('trang_thai', $trangThai)
+            ->get(['ma_bai_bao_cao', 'noi_dung', 'hinh_anh', 'trang_thai', 'file_word']);
+
+        // Trả về JSON bao gồm cả tên bài báo cáo
+        $yTuong = $yTuong->map(function ($item) {
+            return [
+                'ma_bai_bao_cao' => $item->ma_bai_bao_cao,
+                'ten_bai_bao_cao' => $item->BaiBaoCao->ten_bai_bao_cao,
+                'noi_dung' => $item->noi_dung,
+                'hinh_anh' => $item->hinh_anh,
+                'trang_thai' => $item->trang_thai,
+                'file_word' => $item->file_word
+            ];
+        });
+
+        return response()->json($yTuong);
+    }
+
+
+
+
+
 
     public function getBaoCaoByThanhVien($id)
     {

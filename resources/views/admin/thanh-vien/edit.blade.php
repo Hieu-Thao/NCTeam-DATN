@@ -107,7 +107,7 @@
                         </div>
                         <div class="coll">
                             <label class="td-input">{{ __('so_dien_thoai') }}<span style="color: red"> *</span></label>
-                            <input type="text" name="so_dien_thoai" id="so_dien_thoai"
+                            <input type="number" name="so_dien_thoai" id="so_dien_thoai"
                                 value="{{ $thanhvien->so_dien_thoai }}" />
                         </div>
                     </div>

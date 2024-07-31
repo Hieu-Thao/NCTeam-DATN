@@ -116,7 +116,7 @@
                                 @csrf
                                 <input type="hidden" name="ma_lich" id="ma_lich" value="{{ $ma_lich }}">
 
-                                <h5>{{ __('Thành viên từ nhóm của bạn') }}</h5>
+                                <h5>{{ __('thanh_vien_tu_nhom_cua_ban') }}</h5>
                                 <div class="table-responsive">
                                     <table class="table table-bordered w-100 text-nowrap table-hover">
                                         <thead>
@@ -161,7 +161,7 @@
                                 </div>
                                 <br>
                                 <!-- Form section for members from other groups -->
-                                <h5>{{ __('Thành viên từ các nhóm khác') }}</h5>
+                                <h5>{{ __('thanh_vien_tu_cac_nhom_khac') }}</h5>
                                 <div class="table-responsive">
                                     <table class="table table-bordered w-100 text-nowrap table-hover">
                                         <thead>

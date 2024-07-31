@@ -17,6 +17,7 @@ class Ytuongmoi extends Model
 
     protected $fillable = [
         'ma_bai_bao_cao',
+        'ma_thanh_vien',
         'noi_dung',
         'hinh_anh',
         'file_word',
@@ -26,5 +27,10 @@ class Ytuongmoi extends Model
     public function BaiBaoCao()
     {
         return $this->belongsTo(Baibaocao::class, 'ma_bai_bao_cao', 'ma_bai_bao_cao');
+    }
+
+    public function ThanhVien()
+    {
+        return $this->belongsTo(Thanhvien::class, 'ma_thanh_vien', 'ma_thanh_vien');
     }
 }

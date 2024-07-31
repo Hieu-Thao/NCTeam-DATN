@@ -1,26 +1,26 @@
 @extends('layouts.master')
 @section('title', 'Danh sách thành viên')
 @section('parent')
-    <a href="/thanhvien">Loại công trình</a>
+    <a href="/thanhvien">{{ __('loai_cong_trinh') }}</a>
 @endsection
 @section('child')
-    <a href="/thanhvien"> Danh sách loại công trình</a>
+    <a href="/thanhvien"> {{ __('danh_sach_loai_cong_trinh') }}</a>
 @endsection
 @section('content')
     <div class="container">
         <div class="card-title">
-            <h4>Danh sách loại công trình</h4>
+            <h4>{{ __('danh_sach_loai_cong_trinh') }}</h4>
         </div>
         <div class="card-btn btn-btnn" style="#">
             <button type="button" class="btn btn-success btn-sm" id="btnz" data-bs-toggle="modal"
                 data-bs-target="#addGroupModal">
-                <img src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">Thêm
+                <img src="../assets/css/icons/tabler-icons/img/plus.png" width="15px" height="15px">{{ __('them') }}
             </button>
             {{-- <button type="button" class="btn btn-primary btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/pencil.png" width="15px" height="15px"> Sửa</button> --}}
             {{-- <button type="button" class="btn btn-danger btn-sm" id="btnz"><img src="../assets/css/icons/tabler-icons/img/trash.png" width="15px" height="15px">Xóa</button> --}}
             <button type="button" class="btn btn-secondary btn-sm" id="btnz">
                 <img src="../assets/css/icons/tabler-icons/img/arrow-narrow-left.png" width="15px" height="15px"><a
-                    class="btn-cn" href="/congtrinh">Trở về</a></button>
+                    class="btn-cn" href="/congtrinh">{{ __('tro_ve') }}</a></button>
         </div>
         <div class="tb">
             <div class="table-responsive">
@@ -30,8 +30,8 @@
                             {{-- <th width="5%">
                                 <div style="margin-left: 16px;"><input type="checkbox" id="check-all"></div>
                             </th> --}}
-                            <th width="20%">Mã loại</th>
-                            <th>Tên loại</th>
+                            <th width="20%">{{ __('ma_loai') }}</th>
+                            <th>{{ __('ten_loai') }}</th>
                             <th width="10%"></th>
                         </tr>
                     </thead>
@@ -63,7 +63,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="addGroupModalLabel">Thêm loại công trình mới</h5>
+                    <h5 class="modal-title" id="addGroupModalLabel">{{ __('them_loai_cong_trinh_moi') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -74,10 +74,10 @@
                             <input type="text" class="form-control" id="ma_nhom" name="ma_nhom" readonly>
                         </div> --}}
                         <div class="mb-3">
-                            <label for="ten_loai" class="form-label">Tên loại công trình:<span style="color: red"> *</span></label>
+                            <label for="ten_loai" class="form-label">{{ __('ten_loai') }}:<span style="color: red"> *</span></label>
                             <input type="text" class="form-control" id="ten_loai" name="ten_loai" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="submit" class="btn btn-primary">{{ __('luu') }}</button>
                     </form>
                 </div>
             </div>
@@ -90,21 +90,21 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editGroupModalLabel">Chỉnh sửa tên loại công trình</h5>
+                    <h5 class="modal-title" id="editGroupModalLabel">{{ __('chinh_sua_ten_loai_cong_trinh') }}</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="editGroupForm">
                         @csrf
                         <div class="mb-3">
-                            <label for="ma_loai" class="form-label">Mã loại công trình</label>
+                            <label for="ma_loai" class="form-label">{{ __('ma_loai') }}</label>
                             <input type="text" class="form-control" id="ma_loai" name="ma_loai" readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="ten_loai" class="form-label">Tên loại công trình:<span style="color: red"> *</span></label>
+                            <label for="ten_loai" class="form-label">{{ __('ten_loai') }}:<span style="color: red"> *</span></label>
                             <input type="text" class="form-control" id="ten_loai" name="ten_loai" required>
                         </div>
-                        <button type="submit" class="btn btn-primary">Lưu</button>
+                        <button type="submit" class="btn btn-primary">{{ __('cap_nhat') }}</button>
                     </form>
                 </div>
             </div>
@@ -114,40 +114,39 @@
 @endsection
 @push('scripts')
     <script>
-        $(document).ready(function() {
+       $(document).ready(function() {
             $('#loaicongtrinh').DataTable({
                 language: {
                     "decimal": "",
-                    "emptyTable": "Không có dữ liệu",
-                    "info": "Đang hiển thị _START_ đến _END_ của _TOTAL_ mục",
-                    "infoEmpty": "Đang hiển thị 0 đến 0 của 0 mục",
-                    "infoFiltered": "(đã lọc từ tổng số _MAX_ mục)",
+                    "emptyTable": "{{ __('khong_co_du_lieu') }}",
+                    "info": "{{ __('dang_hien_thi') }} _START_ {{ __('den') }} _END_ {{ __('cua') }} _TOTAL_ {{ __('muc') }}",
+                    "infoEmpty": "{{ __('dang_hien_thi') }} 0 {{ __('den') }} 0 {{ __('cua') }} 0 {{ __('muc') }}",
+                    "infoFiltered": "({{ __('da_loc_tu_tong_so') }} _MAX_ {{ __('muc') }})",
                     "infoPostFix": "",
                     "thousands": ",",
-                    "lengthMenu": "Hiển thị _MENU_ mục",
+                    "lengthMenu": "{{ __('hien_thi') }} _MENU_ {{ __('muc') }}",
                     "loadingRecords": "Đang tải...",
                     "processing": "Đang xử lý...",
                     "search": '<img style="margin: 0 auto; display: block;" src="../assets/css/icons/tabler-icons/img/search-tr.png" width="15px" height="15px">',
-                    "zeroRecords": "Không tìm thấy kết quả phù hợp",
+                    "zeroRecords": "{{ __('khong_tim_thay_ket_qua_phu_hop') }}",
                     "paginate": {
-                        "first": "Đầu",
-                        "last": "Cuối",
-                        "next": "Tiếp",
-                        "previous": "Trước"
+                        "first": "{{ __('dau') }}",
+                        "last": "{{ __('cuoi') }}",
+                        "next": "{{ __('tiep') }}",
+                        "previous": "{{ __('truoc') }}"
                     },
                     "aria": {
                         "sortAscending": ": sắp xếp tăng dần",
                         "sortDescending": ": sắp xếp giảm dần"
                     },
-                    "searchPlaceholder": "Tìm kiếm ở đây nè ... !"
+                    "searchPlaceholder": "{{ __('tim_kiem_o_day_ne') }} ...!"
                 },
                 "pageLength": 10,
                 //"searching":false
                 "columnDefs": [{
-                        "orderable": false,
-                        "targets": 0
-                    }, // Disable sorting on the first column (checkbox column)
-                ]
+                    "orderable": false,
+                    "targets": 0
+                }, ]
             });
         });
 
